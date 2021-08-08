@@ -1,0 +1,9 @@
+# ide
+.vscode
+
+# front
+/front/node_modules
+/front/package-lock.json
+
+# back
+/back/package-lock.json
