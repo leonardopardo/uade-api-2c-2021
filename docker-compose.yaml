@@ -4,14 +4,13 @@ services:
   node:
     image: node:alpine
     container_name: nodejs
-    working_dir: /home/node/app
     environment:
       - NODE_ENV=production
     volumes:
-      - ./back:/home/node/app
-    expose:
-      - "8000"
-    command: bash -c "npm start"
+      - ./back/:/usr/app/
+    ports:
+      - 3000:3000
+    command: npm start
     networks: 
       - api
 
