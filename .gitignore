@@ -7,3 +7,6 @@
 
 # back
 /back/package-lock.json
+
+# general
+.env
