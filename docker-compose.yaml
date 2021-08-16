@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 services:
   node:
@@ -10,8 +10,10 @@ services:
     volumes:
       - ./back:/usr/app
     working_dir: /usr/app
+    expose: 
+     - "4000"
     ports:
-      - 3001:3001
+      - 4000:4000
     command: npm start
     networks: 
       - api
