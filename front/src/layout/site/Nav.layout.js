@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Navbar, Nav } from 'react-bootstrap';
 
-const NavLayout = () => {
+export default function NavLayout() {
     return(
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" className="mb-3">
             <Container>
-                <Navbar.Brand href="/">Nombre de la solución</Navbar.Brand>
+                <Navbar.Brand href="/">Padres al Día</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
@@ -14,12 +14,8 @@ const NavLayout = () => {
                         <Nav.Link href="/contact">Contact</Nav.Link>
                         <Nav.Link href="/login">Login</Nav.Link>
                     </Nav>
-                    <Nav>
-                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
     )
 }
-
-export default NavLayout;
