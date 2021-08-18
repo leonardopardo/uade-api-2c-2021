@@ -1,51 +1,43 @@
+// Imports
 import React from 'react';
 import './App';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import Container from '@material-ui/core/Container';
+// UI
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container } from 'react-bootstrap';
 
-import HomePage from './pages/public/Home.page';
+// Pages
+import HomePage from './pages/public/home/Home.page';
 import AboutPage from './pages/public/About.page';
 import ContactPage from './pages/public/Contact.page';
 import LoginPage from './pages/public/Login.page';
+import NavLayout from './layout/Nav.layout';
 
 export default function App() {
 	return (
-		<Container>
-			<Router>
-				<div>
-					<nav>
-						<ul>
-						<li>
-							<Link to="/">Home</Link>
-						</li>
-						<li>
-							<Link to="/about">About</Link>
-						</li>
-						<li>
-							<Link to="/contact">Contact</Link>
-						</li>
-						<li>
-							<Link to="/users">Login</Link>
-						</li>
-						</ul>
-					</nav>
-					<Switch>
-						<Route path="/about">
-						<AboutPage />
-						</Route>
-						<Route path="/contact">
-							<ContactPage />
-						</Route>
-						<Route path="/users">
-						<LoginPage />
-						</Route>
-						<Route path="/">
-						<HomePage />
-						</Route>
-					</Switch>
-				</div>
-			</Router>
-		</Container>
+		<Router>
+			<div>
+				<NavLayout />
+				<Container>
+					<main>	
+						<Switch>
+							<Route path="/about">
+								<AboutPage />
+							</Route>
+							<Route path="/contact">
+								<ContactPage />
+							</Route>
+							<Route path="/login">
+								<LoginPage />
+							</Route>
+							<Route path="/">
+								<HomePage />
+							</Route>
+						</Switch>
+					</main>
+				</Container>
+			</div>
+		</Router>
 	);
   }
