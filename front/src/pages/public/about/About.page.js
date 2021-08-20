@@ -7,7 +7,7 @@ export default function AboutPage() {
     return(
         <>
             <NavLayout />
-            <Container>
+            <Container className="pt-4">
                 <h1>About Page</h1>
             </Container>
             <FooterLayout />

@@ -7,7 +7,7 @@ export default function ContactPage() {
     return(
         <>
             <NavLayout />
-            <Container>
+            <Container className="pt-4">
                 <h1>Contact Page</h1>
             </Container>
             <FooterLayout />

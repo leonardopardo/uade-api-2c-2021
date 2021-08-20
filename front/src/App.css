@@ -1,3 +1,15 @@
-.my-bg-login{
-  background: url("http://localhost:3000/public/assets/img/free-blue-background.jpg") center center;
+.bg-light-25{
+  background-color: rgba(249,248,249, .25);
+}
+
+.bg-light-50{
+  background-color: rgba(249,248,249, .5);
+}
+
+.bg-light-75{
+  background-color: rgba(249,248,249, .75);
+}
+
+.height-100{
+  min-height: 100% !important;
 }
