@@ -1,6 +1,16 @@
 # UADE - Aplicaciones Intercativas
 TRABAJO PRACTICO OBLIGATORIO
 
+## INSTALACION
+
+El siguiente comando instalara las dependencias de front y back, esto puede tardar un tiempo
+`docker-compose -f docker-compose.yaml build`
+
+Una vez construidas las imagenes, podemos correr los contenedores con el comando `up`
+`docker-compose -f docker-compose.yaml up`
+
+En caso de que se quiera terminar su ejecucion, usamos el comando `down`
+`docker-compose -f docker-compose.yaml down`
 
 __APLICACION WEB CONTROLES PEDIATRICOS__
 A continuación, se detallan los requerimientos mínimos que deben cumplir la aplicación web que permitirá gestionar controles pediátricos que deben desarrollarse para aprobar la cursada de la materia Aplicaciones Interactivas – Segundo Cuatrimestre 2021.
