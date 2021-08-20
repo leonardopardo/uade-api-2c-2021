@@ -1,59 +1,80 @@
 version: "3.8"
 
 services:
-  node:
-    image: node:alpine
-    container_name: nodejs
+  node_back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        app_environment: back
+    container_name: nodejs_back
     env_file: .env
     environment:
       - NODE_ENV=${NODE_ENV}
-    volumes:
-      - ./back:/usr/app
-    working_dir: /usr/app
+    working_dir: /app/back
     expose: 
      - "4000"
     ports:
       - 4000:4000
-    command: npm start
+    command: sh -c "npm start"
     networks: 
       - api
-
-  mongo:
-    image: mongo
-    container_name: mongodb
+  
+  node_front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        app_environment: front
+    container_name: nodejs_front
     env_file: .env
-    restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      - NODE_ENV=${NODE_ENV}
+    working_dir: /app/front
+    expose: 
+     - "3000"
+    ports:
+      - 3000:3000
+    command: sh -c "npm start"
     networks: 
       - api
 
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    env_file: .env
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_ADMIN_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_ADMIN_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo:${ME_DEFAULT_PORT}/
-    depends_on:
-      - mongo
-    networks: 
-      - api 
-
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: mailhog
-    env_file: .env
-    ports:
-      - 1025:1025
-      - 8025:8025
-    networks:
-      - api
+  #mongo:
+  #  image: mongo
+  #  container_name: mongodb
+  #  env_file: .env
+  #  restart: always
+  #  environment:
+  #    MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+  #    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+  #  networks: 
+  #    - api
+#
+  #mongo-express:
+  #  image: mongo-express
+  #  container_name: mongo-express
+  #  env_file: .env
+  #  restart: always
+  #  ports:
+  #    - 8081:8081
+  #  environment:
+  #    ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_ADMIN_USERNAME}
+  #    ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_ADMIN_PASSWORD}
+  #    ME_CONFIG_MONGODB_URL: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongo:${ME_DEFAULT_PORT}/
+  #  depends_on:
+  #    - mongo
+  #  networks: 
+  #    - api 
+#
+  #mailhog:
+  #  image: mailhog/mailhog:latest
+  #  container_name: mailhog
+  #  env_file: .env
+  #  ports:
+  #    - 1025:1025
+  #    - 8025:8025
+  #  networks:
+  #    - api
 
 networks: 
   api:
