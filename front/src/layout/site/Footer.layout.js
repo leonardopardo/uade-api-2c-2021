@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 export default function FooterLayout() {
     return(
         <>
-            <footer className="footer bg-light fixed-bottom p-3">
+            <footer className="footer bg-light fixed-bottom p-3 bg-50">
                 <Container>
                     <Row>
                         <Col>
