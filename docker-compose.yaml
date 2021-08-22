@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.3"
 
 services:
   node_back:
@@ -11,12 +11,16 @@ services:
     env_file: .env
     environment:
       - NODE_ENV=${NODE_ENV}
+    volumes:
+     - ./back:/app/back
     working_dir: /app/back
     expose: 
      - "4000"
     ports:
       - 4000:4000
     command: sh -c "npm start"
+    depends_on:
+      - mongo
     networks: 
       - api
   
@@ -30,26 +34,30 @@ services:
     env_file: .env
     environment:
       - NODE_ENV=${NODE_ENV}
+    volumes:
+     - ./front:/app/front
     working_dir: /app/front
     expose: 
      - "3000"
     ports:
       - 3000:3000
     command: sh -c "npm start"
+    depends_on:
+      - mongo
     networks: 
       - api
 
-  #mongo:
-  #  image: mongo
-  #  container_name: mongodb
-  #  env_file: .env
-  #  restart: always
+  mongo:
+    image: mongo
+    container_name: mongodb
+    env_file: .env
+    restart: always
   #  environment:
   #    MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
   #    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-  #  networks: 
-  #    - api
-#
+    networks: 
+      - api
+
   #mongo-express:
   #  image: mongo-express
   #  container_name: mongo-express

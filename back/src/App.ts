@@ -12,12 +12,14 @@ class App {
 
     public userRoutes: UserRoutes =  new UserRoutes();
 
-    public mongoUrl: string = 'mongodb://root:root@localhost:27017/';
+    public mongoUrl: string = 'mongodb://mongo:27017/test';
 
     constructor(){
         this.app = express();
+        this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
         this.routes();
+        this.configureMongo();
     }
 
     private routes() {
