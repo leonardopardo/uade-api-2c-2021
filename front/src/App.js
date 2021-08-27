@@ -29,7 +29,6 @@ export default function App() {
 				<Route path="/confirm-password">
 					<ConfirmPasswordPage />
 				</Route>
-
 				<Route path="/about">
 					<AboutPage />
 				</Route>
@@ -39,7 +38,6 @@ export default function App() {
 				<Route path="/login">
 					<LoginPage />
 				</Route>
-
 				<Route path="/">
 					<HomePage />
 				</Route>

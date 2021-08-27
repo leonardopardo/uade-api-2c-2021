@@ -10,7 +10,7 @@ export default function RegisterPage() {
     return (
         <>
             <NavLayout />
-            <Container>
+            <Container className="pt-4">
                 <Row>
                     <Col md={{ span: 6 }} class="">
                         <h2>
@@ -33,7 +33,7 @@ export default function RegisterPage() {
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label><FiMail /> Email</Form.Label>
-                                <Form.Control type="email" placeholder="Ingresa tu email" />
+                                <Form.Control type="email" placeholder="Ingresa tu email" size="lg" />
                                 <Form.Text className="text-muted">
                                 Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>
@@ -41,12 +41,12 @@ export default function RegisterPage() {
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label><FiLock /> Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" placeholder="Password" size="lg" />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" placeholder="Password" size="lg" />
                             </Form.Group>
 
                             <div className="d-grid gap-2 mb-2">

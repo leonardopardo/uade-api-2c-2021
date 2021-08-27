@@ -9,7 +9,7 @@ export default function RestorePasswordPage(){
     return (
         <>
             <NavLayout />
-            <Container>
+            <Container className="mt-4">
                 <Row>
                     <Col md={{ span: 8 }} className="m-auto mb-4 text-center">
                         <h3 className="text-center">
@@ -23,7 +23,7 @@ export default function RestorePasswordPage(){
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label><FiMail /> Email</Form.Label>
-                                <Form.Control type="email" placeholder="Ingresa tu email" />
+                                <Form.Control type="email" placeholder="Ingresa tu email" size="lg" />
                                 <Form.Text className="text-muted">
                                 Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>
