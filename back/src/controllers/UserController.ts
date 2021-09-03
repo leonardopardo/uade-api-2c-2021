@@ -14,7 +14,6 @@ export class UserController {
         try{
             // We first search if there is an existing user with this email
             const user = await UserModel.findOne({email: req.body['email']});
-            console.log(user)
             res.json("User with email" + user.email + " already exists");
         } catch {
             // We add the email and password to our database
@@ -27,15 +26,43 @@ export class UserController {
         }
     }
 
-    public delete(req: Request, res: Response){
-        res.json('User delete');
+    async delete(req: Request, res: Response){
+        try{
+            // We remove the user with this email
+            const user = await UserModel.deleteOne({email: req.body['email']});
+            res.json("Deleting user with email" + user.email);
+        } catch {
+            // If an exception is raised, it means that there was no user with that email
+            res.json('No user exists with email '+ req.body['email']);
+        }
     }
     
-    public change_email(req: Request, res: Response){
-        res.json('User change email');
+    // TODO: This is prob not right, as for doing this the user must have logged in before
+    async change_email(req: Request, res: Response){
+        try{
+            // We first search if there is an existing user with this email and password
+            const user = await UserModel.findOne({email: req.body['email'], password: req.body['password']});
+            // We then update the email
+            user.email = req.body['new_email'];
+            await user.save();
+            res.json("User with email" + user.email + " updated to email " + req.body['new_email']);
+        } catch {
+            // If an exception is raised, it means that there was no user with that email
+            res.json('No user exists with email '+ req.body['email']);
+        }
     }
 
-    public change_password(req: Request, res: Response){
-        res.json('User change password');
+    async change_password(req: Request, res: Response){
+        try{
+            // We first search if there is an existing user with this email and password
+            const user = await UserModel.findOne({email: req.body['email'], password: req.body['password']});
+            // We then update the password
+            user.password = req.body['new_password'];
+            await user.save();
+            res.json("Password updated for user " + user.email);
+        } catch {
+            // If an exception is raised, it means that there was no user with that email
+            res.json('No user exists with email '+ req.body['email']);
+        }
     }
 }
