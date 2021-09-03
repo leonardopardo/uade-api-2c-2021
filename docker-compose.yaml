@@ -52,9 +52,6 @@ services:
     container_name: mongodb
     env_file: .env
     restart: always
-  #  environment:
-  #    MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-  #    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
     networks: 
       - api
 
