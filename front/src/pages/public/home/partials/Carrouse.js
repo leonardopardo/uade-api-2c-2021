@@ -1,20 +1,34 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
+import slide1 from '../../../../assets/img/slide-01.jpg'
+import slide2 from '../../../../assets/img/slide-02.jpg'
 
 export default function CarrouselPartial() {
-    return(
-        <Carousel className="w-100 mb-4">
-            <Carousel.Item>
+    
+    return (
+        <Carousel>
+            <Carousel.Item interval={1000}>
                 <img
                 className="d-block w-100"
-                src="https://dummyimage.com/2600x600/e8e8e8/616161"
+                src={slide1}
+                alt="First slide"
+                />
+                <Carousel.Caption>
+                <h3>First slide label</h3>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item interval={500}>
+                <img
+                className="d-block w-100"
+                src={slide2}
                 alt="Second slide"
                 />
                 <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>Second slide label</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 </Carousel.Caption>
             </Carousel.Item>
         </Carousel>
-    )
+    );
 }

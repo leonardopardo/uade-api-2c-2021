@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 import NavLayout from './../../../layout/site/Nav.layout';
 import FooterLayout from '../../../layout/site/Footer.layout';
 import CarrouselPartial from './partials/Carrouse';
-import LastPosts from './partials/LastPosts';
+import HomeContent from './partials/Content';
 
 export default function HomePage () {
     return(
@@ -13,7 +13,7 @@ export default function HomePage () {
             <NavLayout />
             <Container className="p-0" fluid>
                 <CarrouselPartial />
-                <LastPosts />
+                <HomeContent />
             </Container>
             <FooterLayout />
         </>

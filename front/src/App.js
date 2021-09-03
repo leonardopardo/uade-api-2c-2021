@@ -3,8 +3,9 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // UI
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+// import './assets/css/bootstrap.pulse.min.css'
+import './App.css'
 
 // Pages
 import HomePage from './pages/public/home/Home.page';
@@ -12,8 +13,8 @@ import AboutPage from './pages/public/about/About.page';
 import ContactPage from './pages/public/contact/Contact.page';
 import LoginPage from './pages/public/users/Login.page';
 
-import RestorePasswordPage from './pages/public/users/RestorePassword.page';
 import RegisterPage from './pages/public/users/Register.page';
+import RestorePasswordPage from './pages/public/users/RestorePassword.page';
 import ConfirmPasswordPage from './pages/public/users/ConfirmPassword.page';
 
 export default function App() {
@@ -39,7 +40,7 @@ export default function App() {
 					<LoginPage />
 				</Route>
 				<Route path="/">
-					<HomePage />
+					<HomePage className="bg-light" />
 				</Route>
 			</Switch>
 		</Router>
