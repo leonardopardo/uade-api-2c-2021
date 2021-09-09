@@ -1,18 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { FiLogIn, FiCheck, FiLock, FiMail } from "react-icons/fi"; 
+
 import FooterLayout from '../../../layout/site/Footer.layout';
 import NavLayout from '../../../layout/site/Nav.layout';
 
+// validations
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { RegisterSchema } from './validations/Register.validation'
 
-export default function RegisterPage() {
+
+const RegisterPage = () => {
+
+    const {register, handleSubmit, formState:{errors}} = useForm({
+        resolver: yupResolver(RegisterSchema)
+    })
+
+    const registerFormSubmit = (data) => {
+        console.log(data)
+    }
+
+    const isValid = (value) => {
+        return value ? 'is-invalid' : ''
+    }
+
     return (
         <>
             <NavLayout />
-            <Container>
-                <Row>
-                    <Col md={{ span: 6 }} class="">
+            <Container xl={{ span: 10 }} xxl={{ span: 8 }} className="px-4 py-5">
+                <Row className="align-items-center g-lg-5 py-5">
+                    <Col lg={{ span: 8 }} className="text-center text-lg-start">
                         <h2>
                             El registro del crecimiento de tus hijos <br /> 
                             al alcance de tu mano.
@@ -29,24 +49,48 @@ export default function RegisterPage() {
                             </ul>
                         </h6>
                     </Col>
-                    <Col md={{ span: 4, offset: 2 }} className="bg-light p-4">
-                        <Form>
+                    <Col md={{ span: 10 }} lg={{ span: 4 }} className="bg-light p-4 shadow rounded">
+                        <Form onSubmit={handleSubmit(registerFormSubmit)}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label><FiMail /> Email</Form.Label>
-                                <Form.Control type="email" placeholder="Ingresa tu email" />
+                                <Form.Control 
+                                    {...register("username")} 
+                                    type="email" 
+                                    placeholder="Ingresa tu email" 
+                                    size="lg" 
+                                    className={isValid(errors.username)} />
+                                <p className="text-danger small">
+                                    {errors.username && errors.username.message}
+                                </p>
                                 <Form.Text className="text-muted">
-                                Te enviaremos un mail, por favor revisalo.
+                                    Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label><FiLock /> Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control 
+                                    {...register("password")} 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    size="lg" 
+                                    className={isValid(errors.password)} />
+                                <p className="text-danger small">
+                                    {errors.password && errors.password.message}
+                                </p>
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control 
+                                    {...register("confirmPassword")} 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    size="lg" 
+                                    className={isValid(errors.confirmPassword)} />
+                                <p className="text-danger small">
+                                    {errors.confirmPassword && errors.confirmPassword.message}
+                                </p>
                             </Form.Group>
 
                             <div className="d-grid gap-2 mb-2">
@@ -62,7 +106,10 @@ export default function RegisterPage() {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }
+
+
+export default RegisterPage
