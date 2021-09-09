@@ -1,10 +1,16 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-export default function FooterLayout() {
+
+const FooterLayout = ({fixed}) => {
+
+    const footerClasses = () => {       
+         return `footer bg-light pt-3 pb-3 ${!undefined === fixed ? "fixed-bottom" : ""}`
+    }
+
     return(
         <>
-            <footer className="footer bg-light pt-3 pb-3">
+            <footer className={ footerClasses() }>
                 <Container>
                     <Row>
                         <Col>
@@ -21,3 +27,5 @@ export default function FooterLayout() {
         </>
     )
 }
+
+export default FooterLayout

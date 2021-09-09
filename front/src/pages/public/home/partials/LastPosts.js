@@ -34,7 +34,7 @@ const posts = [
     }
 ];
 
-export default function LastPosts() {
+const LastPosts = () => {
     
     const postList = posts.map( post => {
         return (
@@ -54,3 +54,5 @@ export default function LastPosts() {
         </>
     )
 }
+
+export default LastPosts

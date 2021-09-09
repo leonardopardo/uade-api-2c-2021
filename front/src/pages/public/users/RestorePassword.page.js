@@ -1,11 +1,37 @@
+// react5
 import React from 'react';
+
+// router
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import FooterLayout from '../../../layout/site/Footer.layout';
-import NavLayout from '../../../layout/site/Nav.layout';
+
+// layout design components
+import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
 
-export default function RestorePasswordPage(){
+// layout self component
+import FooterLayout from '../../../layout/site/Footer.layout';
+import NavLayout from '../../../layout/site/Nav.layout';
+
+
+// validation form
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { RestorePasswordSchema } from './validations/Restore.validation';
+
+const RestorePasswordPage = () => {
+
+    const {register, handleSubmit, formState:{errors}} = useForm({
+        resolver: yupResolver(RestorePasswordSchema)
+    })
+
+    const restorePasswordSubmit = (data) => {
+        console.log(data)
+    }
+
+    const isValid = (value) => {
+        return value ? 'is-invalid' : ''
+    }
+
     return (
         <>
             <NavLayout />
@@ -19,11 +45,20 @@ export default function RestorePasswordPage(){
                             Revisá tu correo y seguí los pasos para recuperar tu contraseña
                         </p>
                     </Col>
-                    <Col md={{ span: 6}} className="m-auto bg-light p-4">
-                        <Form>
+                    <Col md={{ span: 6}} className="m-auto bg-light p-4 shadow rounded">
+                        <Form onSubmit={handleSubmit(restorePasswordSubmit)}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label><FiMail /> Email</Form.Label>
-                                <Form.Control type="email" placeholder="Ingresa tu email" size="lg" />
+                                <Form.Label><FiMail /> Email con el que te suscribiste.</Form.Label>
+                                <FloatingLabel label="Email">
+                                    <Form.Control 
+                                        {...register("email")} 
+                                        type="email" 
+                                        placeholder="Ingresa tu email" 
+                                        size="lg" className={isValid(errors.email)} />
+                                </FloatingLabel>
+                                <p className="text-danger small">
+                                    {errors.email && errors.email.message}
+                                </p>
                                 <Form.Text className="text-muted">
                                 Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>
@@ -43,7 +78,9 @@ export default function RestorePasswordPage(){
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }
+
+export default RestorePasswordPage;

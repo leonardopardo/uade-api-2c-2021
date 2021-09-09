@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 
-export default function Content(){
+const Content = () => {
     return(
         <>
             <Container className="mb-4">
@@ -39,3 +39,5 @@ export default function Content(){
         </>
     )
 }
+
+export default Content

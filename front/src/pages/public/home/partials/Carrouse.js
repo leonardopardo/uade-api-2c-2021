@@ -1,9 +1,9 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import slide1 from '../../../../assets/img/slide-01.jpg'
-import slide2 from '../../../../assets/img/slide-02.jpg'
+import slide1 from '../../../../assets/site/img/slide-01.jpg'
+import slide2 from '../../../../assets/site/img/slide-02.jpg'
 
-export default function CarrouselPartial() {
+const CarrouselPartial = () => {
     
     return (
         <Carousel>
@@ -32,3 +32,5 @@ export default function CarrouselPartial() {
         </Carousel>
     );
 }
+
+export default CarrouselPartial

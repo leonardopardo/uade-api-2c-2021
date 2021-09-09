@@ -1,17 +1,42 @@
+// React
 import React from 'react';
+
+// Router
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import FooterLayout from '../../../layout/site/Footer.layout';
-import NavLayout from '../../../layout/site/Nav.layout';
+
+// layout design components
+import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiLock, FiRefreshCw, FiAlertOctagon } from 'react-icons/fi';
 
-export default function ConfirmPasswordPage() {
+// layout self components
+import FooterLayout from '../../../layout/site/Footer.layout';
+import NavLayout from '../../../layout/site/Nav.layout';
+
+// validations
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { ConfirmPasswordSchema } from './validations/ConfirmPassword.validation';
+
+const ConfirmPasswordPage = () => {
+
+    const {register, handleSubmit, formState: {errors} } = useForm({
+        resolver: yupResolver(ConfirmPasswordSchema)
+    })
+
+    const confirmPasswordSubmit = (data) => {
+        console.log(data)
+    }
+
+    const isValid = (value) => {
+        return value ? 'is-invalid' : ''
+    }
+
     return(
         <>
             <NavLayout />
             <Container>
                 <Row>
-                    <Col md={{ span: 8 }} className="m-auto mb-4 text-center">
+                    <Col md={{ span: 8 }} className="m-auto mt-4 mb-4 text-center">
                         <h3 className="text-center">
                             <FiCheck /> Ingresá tus nuevas credenciales
                         </h3>
@@ -19,24 +44,46 @@ export default function ConfirmPasswordPage() {
                             <FiAlertOctagon /> Serás redirigido de forma automática al login.
                         </p>
                     </Col>
-                    <Col md={{ span: 6 }} className="m-auto bg-light p-4">
-                        <Form>
+                    <Col md={{ span: 6 }} className="m-auto bg-light p-4 shadow rounded">
+                        <Form onSubmit={ handleSubmit(confirmPasswordSubmit) }>
+                            
+                            {/* username */}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label><FiMail /> Email</Form.Label>
-                                <Form.Control type="email" placeholder="nombre@mail.com" disabled />
+                                    <div className="form-control form-control-lg">mail@mail.com</div>
                                 <Form.Text className="text-muted">
-                                Te enviaremos un mail, por favor revisalo.
+                                    Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>
                             </Form.Group>
 
+                            {/* password */}
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label><FiLock /> Nueva Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <FloatingLabel label="Ingresar nueva contraseña">
+                                    <Form.Control 
+                                    {...register("password")} 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    className={isValid(errors.password)} />
+                                </FloatingLabel>
+                                <p className="text-danger small">
+                                    { errors.password && errors.password.message }
+                                </p>
                             </Form.Group>
 
+                            {/* confirm password */}
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <FloatingLabel label="Escriba nuevamente la contraseña">
+                                    <Form.Control 
+                                        {...register("confirmPassword")} 
+                                        type="password" 
+                                        placeholder="Password" 
+                                        className={isValid(errors.confirmPassword)} />
+                                </FloatingLabel>
+                                <p className="text-danger small">
+                                    { errors.confirmPassword && errors.confirmPassword.message }
+                                </p>
                             </Form.Group>
 
                             <div className="d-grid gap-2 mb-2">
@@ -52,7 +99,10 @@ export default function ConfirmPasswordPage() {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }
+
+
+export default ConfirmPasswordPage
