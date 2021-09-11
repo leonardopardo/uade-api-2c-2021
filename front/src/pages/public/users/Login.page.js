@@ -10,7 +10,6 @@ import { FiUserCheck, FiUnlock, FiUserPlus, FiLogIn } from "react-icons/fi"
 
 // images
 
-
 // layout Self Components
 import FooterLayout from './../../../layout/site/Footer.layout'
 import NavLayout  from './../../../layout/site/Nav.layout'

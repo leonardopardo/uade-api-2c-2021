@@ -42,10 +42,10 @@ const RegisterPage = () => {
                             registrada, actualizada y siempre disponible la información sobre el crecimiento
                             de tus hijos.
                             Con nuestra herramienta podrás: 
-                            <ul>
-                                <li>Consultá el calendario de Vacunas y registrá la fecha de aplicación</li>
-                                <li>Controlá los percentiles de la talla y el peso</li>
-                                <li>Registrar los eventos importantes en la vida de tus hijos.</li>
+                            <ul className="list-unstyled">
+                                <li><FiCheck /> Consultá el calendario de Vacunas y registrá la fecha de aplicación</li>
+                                <li><FiCheck /> Controlá los percentiles de la talla y el peso</li>
+                                <li><FiCheck /> Registrar los eventos importantes en la vida de tus hijos.</li>
                             </ul>
                         </h6>
                     </Col>

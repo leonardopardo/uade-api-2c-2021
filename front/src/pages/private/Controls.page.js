@@ -1,11 +1,11 @@
 import React from 'react'
 import SideBar from '../../layout/app/SideBar.layout'
 
-const Events = () => {
+const Controls = () => {
     <>
         <SideBar />
-        <h1>Events</h1>
+        <h1>Controles</h1>
     </>
 }
 
-export default Events
+export default Controls

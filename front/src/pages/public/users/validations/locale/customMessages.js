@@ -1,5 +1,6 @@
 const customMessages = {
     username: {
+        // eslint-disable-next-line
         required: 'El campo Usuario es requerido.'
     },
     password: {

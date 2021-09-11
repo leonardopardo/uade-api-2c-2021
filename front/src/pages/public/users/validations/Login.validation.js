@@ -2,7 +2,9 @@ import * as yup from "yup"
 import customMessages from "./locale/customMessages"
 
 export const LoginSchema = yup.object().shape({
-    username: yup.string().required(customMessages.username.required),
+    username: yup
+        .string()
+        .required(customMessages.username.required),
     password: yup
         .string()
         .min(4, customMessages.password.min)

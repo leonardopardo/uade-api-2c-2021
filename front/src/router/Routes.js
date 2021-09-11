@@ -13,18 +13,29 @@ import RestorePasswordPage from '../pages/public/users/RestorePassword.page';
 import ConfirmPasswordPage from '../pages/public/users/ConfirmPassword.page';
 
 // Private Pages
-import Profile from '../pages/private/Profile.page';
+import AppLayout from './../layout/app/App.layout'
+import Profile from './../pages/private/Profile.page';
+import Calendar from './../pages/private/Calendar.page';
 
 const Routes = () => {
     return (
 		<>
 			<Router>			
 				<Switch>
+					
 					{/* Private App Pages */}
 					<Route path="/app/profile">
 						<Profile />
 					</Route>
-				
+					
+					<Route path="/app/calendar">
+						<Calendar />
+					</Route>
+					
+					<Route path="/app">
+						<AppLayout />
+					</Route>
+							
 					{/* Public Site Pages */}
 					<Route path="/about">
 						<AboutPage />
