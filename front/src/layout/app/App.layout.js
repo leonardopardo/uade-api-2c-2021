@@ -1,10 +1,12 @@
-import React from 'react';
+import React from 'react'
+
+import SideBar from './SideBar.layout'
 
 const AppLayout = () => {
-    return(
-        <main className="main">
-            <h1>Titulo</h1>
-        </main>
+    return (
+        <>
+            <SideBar />
+        </>
     )
 }
 
