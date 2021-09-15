@@ -29,7 +29,7 @@ const SideBar= () => {
                         <Nav.Link variant="dark" active={setActivePage("/app")} href="/app" className=""><FiHome /> Home</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link variant="dark" active={setActivePage("/app/child")} href="/app/child" className=""><FiSmile /> Niñ@</Nav.Link>
+                        <Nav.Link variant="dark" active={setActivePage("/app/children")} href="/app/children" className=""><FiSmile /> Niñ@</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link variant="dark" active={setActivePage("/app/calendar")} href="/app/calendar" className=""><FiCalendar /> Calendario</Nav.Link>

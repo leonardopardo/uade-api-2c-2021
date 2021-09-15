@@ -16,6 +16,7 @@ import ConfirmPasswordPage from '../pages/public/users/ConfirmPassword.page';
 import AppLayout from './../layout/app/App.layout'
 import Profile from './../pages/private/Profile.page';
 import Calendar from './../pages/private/Calendar.page';
+import Children from './../pages/private/Children.page';
 
 const Routes = () => {
     return (
@@ -30,6 +31,10 @@ const Routes = () => {
 					
 					<Route path="/app/calendar">
 						<Calendar />
+					</Route>
+
+					<Route path="/app/children">
+						<Children />
 					</Route>
 					
 					<Route path="/app">

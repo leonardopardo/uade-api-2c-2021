@@ -4,11 +4,10 @@ import { Col, Container, Row, Card, Nav, Form, Button} from 'react-bootstrap'
 import { FiBell, FiPrinter, FiSend, FiShare2 } from 'react-icons/fi'
 
 import SideBar from './../../layout/app/SideBar.layout'
+import FooterLayout from './../../layout/site/Footer.layout';
 
 
 const Profile = () => {
-
-    console.log('cargó el componente de profile')
     
     return(
         <>
@@ -17,8 +16,8 @@ const Profile = () => {
                 <Row className="h-100 align-items-center">
                     <Col md={2}> Col 1 of 2</Col>
                     <Col md={3}>
-                        <Card border="primary" style={{ width: '180', height: '100' }} className="text-center">
-                            <Card.Img variant="top" src="https://thispersondoesnotexist.com/image" />
+                        <Card border="primary" className="text-center">
+                            <Card.Img variant="top" width="180" height="280" src="https://thispersondoesnotexist.com/image" />
                             
                             <Card.Body>
                                 <Card.Title>Ariel Pérez</Card.Title>
@@ -80,12 +79,13 @@ const Profile = () => {
                                 <Form.Control type="text" placeholder="Aca va un buen mensaje"/>
                             </Form.Group>
 
-                                <Button variant="primary" type="submit" size="sm"> Actualizar</Button>
+                            <Button variant="primary" type="submit" size="sm"> Actualizar</Button>
 
                         </Form>
                     </Col>
                 </Row>
             </Container>
+            <FooterLayout fixed />
         </>
     )
 }
