@@ -12,3 +12,5 @@
 
 # general
 .env
+/docker-compose.yaml
+/Dockerfile
