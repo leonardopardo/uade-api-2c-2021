@@ -104,7 +104,7 @@ const LoginPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
+            <FooterLayout />
         </>
     )
 }

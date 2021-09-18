@@ -17,6 +17,7 @@ import FooterLayout from './../site/Footer.layout';
 // import '../../assets/site/css/bootstrap.pulse.min.css'
 // import '../../assets/site/css/bootstrap.quarz.min.css'
 // import '../../assets/site/css/bootstrap.superhero.min.css'
+import '../../assets/app/css/pixel.css'
 
 const AppLayout = () => {
     

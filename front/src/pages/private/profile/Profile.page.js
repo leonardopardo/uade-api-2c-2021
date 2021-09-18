@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Col, Row, Form, Button, FloatingLabel, Card } from 'react-bootstrap'
+import { Col, Row, Form, Button, Card } from 'react-bootstrap'
 import { FiCheck, FiMail, FiLock, FiCalendar, FiPhone, FiSave, FiInfo } from 'react-icons/fi';
 
 import { useForm } from 'react-hook-form'
@@ -173,7 +173,7 @@ const Profile = ({user}) => {
                                 </Row>
 
                                 <div className="d-grid gap-2">
-                                <Button block variant="primary" type="submit" size="md" className="my-4"><FiSave /> Actualizar Información</Button>
+                                <Button variant="outline-primary" type="submit" size="md" className="my-4"><FiSave /> Actualizar Información</Button>
                                 </div>
                             </Form>
                         </Card.Body>

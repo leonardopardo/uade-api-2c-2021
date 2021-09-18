@@ -33,8 +33,8 @@ const RestorePasswordPage = () => {
 
     return (
         <>
-            <Container className="mt-4">
-                <Row className="py-4">
+            <Container fluid className="px-4 py-5">
+                <Row className="align-items-center g-lg-5 py-5">
                     <Col md={{ span: 8 }} className="m-auto mb-4 text-center">
                         <h3 className="text-center">
                             <FiCheck /> Ingresá el email con el que te registraste
@@ -83,7 +83,7 @@ const RestorePasswordPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
+            <FooterLayout />
         </>
     )
 }

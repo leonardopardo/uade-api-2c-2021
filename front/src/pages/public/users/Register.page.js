@@ -30,7 +30,7 @@ const RegisterPage = () => {
         <>
             <Container xl={{ span: 10 }} xxl={{ span: 8 }} className="px-4 py-5">
                 <Row className="align-items-center g-lg-5 py-5">
-                    <Col lg={{ span: 8 }} className="text-center text-lg-start">
+                    <Col lg={{ span: 7 }} className="text-center text-lg-start">
                         <h2>
                             El registro del crecimiento de tus hijos <br /> 
                             al alcance de tu mano.
@@ -47,7 +47,7 @@ const RegisterPage = () => {
                             </ul>
                         </h6>
                     </Col>
-                    <Col md={{ span: 10 }} lg={{ span: 4 }} >
+                    <Col md={{ span: 10 }} lg={{ span: 5 }} >
                         <Row>
                             <Col className="bg-light my-4 p-4 shadow rounded">
                                 <Form onSubmit={handleSubmit(registerFormSubmit)}>
@@ -58,7 +58,7 @@ const RegisterPage = () => {
                                             {...register("firstName")} 
                                             type="text" 
                                             placeholder="Ingresa tu nombre" 
-                                            size="lg" 
+                                            size="md" 
                                             className={isValid(errors.firstName)} />
                                         <p className="text-danger small">
                                             {errors.firstName && errors.firstName.message}
@@ -71,7 +71,7 @@ const RegisterPage = () => {
                                             {...register("lastName")} 
                                             type="text" 
                                             placeholder="Ingresa tu Apellido" 
-                                            size="lg" 
+                                            size="md" 
                                             className={isValid(errors.lastName)} />
                                         <p className="text-danger small">
                                             {errors.lastName && errors.lastName.message}
@@ -85,7 +85,7 @@ const RegisterPage = () => {
                                             {...register("username")} 
                                             type="email" 
                                             placeholder="Ingresa tu email" 
-                                            size="lg" 
+                                            size="md" 
                                             className={isValid(errors.username)} />
                                         <p className="text-danger small">
                                             {errors.username && errors.username.message}
@@ -101,7 +101,7 @@ const RegisterPage = () => {
                                             {...register("password")} 
                                             type="password" 
                                             placeholder="Password" 
-                                            size="lg" 
+                                            size="md" 
                                             className={isValid(errors.password)} />
                                         <p className="text-danger small">
                                             {errors.password && errors.password.message}
@@ -114,7 +114,7 @@ const RegisterPage = () => {
                                             {...register("confirmPassword")} 
                                             type="password" 
                                             placeholder="Password" 
-                                            size="lg" 
+                                            size="md" 
                                             className={isValid(errors.confirmPassword)} />
                                         <p className="text-danger small">
                                             {errors.confirmPassword && errors.confirmPassword.message}
@@ -122,7 +122,7 @@ const RegisterPage = () => {
                                     </Form.Group>
 
                                     <div className="d-grid gap-2 mb-2">
-                                        <Button variant="primary" type="submit" size="lg">
+                                        <Button variant="primary" type="submit" size="md">
                                             Registrarme
                                         </Button>
                                     </div>
@@ -143,7 +143,7 @@ const RegisterPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
+            <FooterLayout />
         </>
     )
 }
