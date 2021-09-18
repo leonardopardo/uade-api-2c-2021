@@ -1,5 +1,5 @@
 import * as yup from "yup"
-import customMessages from "./locale/customMessages"
+import customMessages from './../../../../locale/es/customMessages';
 
 export const LoginSchema = yup.object().shape({
     username: yup

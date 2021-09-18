@@ -12,6 +12,21 @@ const customMessages = {
     email: {
         required: 'El campo Email es requerido.',
         email: 'El campo debe ser un email válido'
+    },
+    age: {
+        required: 'El campo Fecha de Nacimiento es requerido'
+    },
+    firstName: {
+        required: 'El campo Nombre es requerido'
+    },
+    lastName: {
+        required: 'El campo Apellido es requerido'
+    },
+    identity:{
+        required: 'El campo Documento es requerido'
+    },
+    phone:{
+        required: 'El campo Teléfono es requerido'
     }
 }
 

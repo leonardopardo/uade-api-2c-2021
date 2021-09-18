@@ -1,22 +1,30 @@
 import * as yup from "yup"
+import customMessages from "../../../../locale/es/customMessages"
+
 
 export const ProfileSchema = yup.object().shape({
     firstName: yup
         .string()
-        .required("El campo es requerido"),
+        .required(customMessages.firstName.required),
     lastName: yup
         .string()
-        .required("El campo es requerido"),
+        .required(customMessages.lastName.required),
     email: yup
         .string()
         .email()
-        .required(),
-    password: yup
+        .required(customMessages.email.required),
+    phone: yup
         .string()
-        .min(4)
-        .max(10)
-        .required(),
+        .required(customMessages.phone.required),
+    identity: yup
+        .string()
+        .required(customMessages.identity.required),
+    age: yup
+        .string()
+        .required(customMessages.age.required),
+    password: yup
+        .string(),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref("password"), null])
+        .oneOf([yup.ref("password"), null], customMessages.password.oneOf)
 })

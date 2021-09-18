@@ -7,9 +7,16 @@ import Avatar from 'react-avatar'
 
 import faker from 'faker'
 
-import Sonnet from '../../componentes/Sonnet'
 import Profile from './../../pages/private/profile/Profile.page';
 import FooterLayout from './../site/Footer.layout';
+
+// import '../../assets/site/css/bootstrap.cosmo.min.css'
+// import '../../assets/site/css/bootstrap.litera.min.css'
+// import '../../assets/site/css/bootstrap.materia.min.css'
+// import '../../assets/site/css/bootstrap.morph.min.css'
+// import '../../assets/site/css/bootstrap.pulse.min.css'
+// import '../../assets/site/css/bootstrap.quarz.min.css'
+// import '../../assets/site/css/bootstrap.superhero.min.css'
 
 const AppLayout = () => {
     
@@ -25,14 +32,14 @@ const AppLayout = () => {
             return `${this.firstName}@${this.lastName}.com`.toLocaleLowerCase()
         },
         phone: faker.phone.phoneNumber('(##) ####-####'),
-        dni: faker.phone.phoneNumber("##.###.###"),
-        edad: '1995-06-01'
+        identity: faker.phone.phoneNumber("##.###.###"),
+        age: '1995-06-01'
     }
 
     return (
         <>
             <Container>
-                <Row style={{ marginTop:'5rem' }}>
+                <Row style={{ marginTop:'3rem' }}>
                     <h6>
                         <FcApproval /> Hola {user.firstName.toUpperCase()}
                     </h6>
@@ -60,17 +67,17 @@ const AppLayout = () => {
                             <Tab eventKey="profile" title="Mi Perfil">  
                                 <Profile user={user} />
                             </Tab>
-                            <Tab eventKey="home" title="Home">
-                                <Sonnet />
+                            <Tab eventKey="home" title="Controles Pediátricos">
+                                
                             </Tab>
                             <Tab eventKey="contact" title="Contact">
-                                <Sonnet />
+                                
                             </Tab>
                         </Tabs>
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
+            <FooterLayout />
         </>
     )
 }
