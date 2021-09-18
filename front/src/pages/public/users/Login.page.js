@@ -12,7 +12,6 @@ import { FiUserCheck, FiUnlock, FiUserPlus, FiLogIn } from "react-icons/fi"
 
 // layout Self Components
 import FooterLayout from './../../../layout/site/Footer.layout'
-import NavLayout  from './../../../layout/site/Nav.layout'
 
 // validations
 import { useForm } from 'react-hook-form'
@@ -35,7 +34,6 @@ const LoginPage = () => {
 
     return(
         <>
-            <NavLayout />
             <Container fluid className="px-4 py-5">
                 <Row className="align-items-center g-lg-5 py-5">
                     <Col className="col-md-10 mx-auto col-lg-3 bg-light light p-4 shadow rounded">
@@ -96,6 +94,13 @@ const LoginPage = () => {
                                 </Form>
                             </Col>
                         </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="col-md-10 col-lg-3 mx-auto">
+                        <p className="text-center">
+                            <Link to="/">Ir al Home</Link>
+                        </p>
                     </Col>
                 </Row>
             </Container>

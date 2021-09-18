@@ -10,7 +10,6 @@ import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
 
 // layout self component
 import FooterLayout from '../../../layout/site/Footer.layout';
-import NavLayout from '../../../layout/site/Nav.layout';
 
 
 // validation form
@@ -34,9 +33,8 @@ const RestorePasswordPage = () => {
 
     return (
         <>
-            <NavLayout />
             <Container className="mt-4">
-                <Row>
+                <Row className="py-4">
                     <Col md={{ span: 8 }} className="m-auto mb-4 text-center">
                         <h3 className="text-center">
                             <FiCheck /> Ingresá el email con el que te registraste
@@ -75,6 +73,13 @@ const RestorePasswordPage = () => {
                                 <Link to="/login"><FiLogIn /> Ir a Login</Link>
                             </small>
                         </Form>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="col-md-10 col-lg-3 mx-auto">
+                        <p className="text-center">
+                            <Link to="/">Ir al Home</Link>
+                        </p>
                     </Col>
                 </Row>
             </Container>

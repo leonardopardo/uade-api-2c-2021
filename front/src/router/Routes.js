@@ -14,7 +14,7 @@ import ConfirmPasswordPage from '../pages/public/users/ConfirmPassword.page';
 
 // Private Pages
 import AppLayout from './../layout/app/App.layout'
-import Profile from './../pages/private/Profile.page';
+// import Profile from './../pages/private/Profile.page';
 import Calendar from './../pages/private/Calendar.page';
 import Children from './../pages/private/Children.page';
 
@@ -24,11 +24,7 @@ const Routes = () => {
 			<Router>			
 				<Switch>
 					
-					{/* Private App Pages */}
-					<Route path="/app/profile">
-						<Profile />
-					</Route>
-					
+					{/* Private App Pages */}				
 					<Route path="/app/calendar">
 						<Calendar />
 					</Route>

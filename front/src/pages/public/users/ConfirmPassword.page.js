@@ -10,7 +10,6 @@ import { FiCheck, FiMail, FiLogIn, FiLock, FiRefreshCw, FiAlertOctagon } from 'r
 
 // layout self components
 import FooterLayout from '../../../layout/site/Footer.layout';
-import NavLayout from '../../../layout/site/Nav.layout';
 
 // validations
 import { useForm } from 'react-hook-form'
@@ -33,7 +32,6 @@ const ConfirmPasswordPage = () => {
 
     return(
         <>
-            <NavLayout />
             <Container>
                 <Row>
                     <Col md={{ span: 8 }} className="m-auto mt-4 mb-4 text-center">

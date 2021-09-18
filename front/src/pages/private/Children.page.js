@@ -1,17 +1,13 @@
 import React from 'react'
 
-import { Col, Container, Row, Card, Nav, Form, Button, CardGroup} from 'react-bootstrap'
+import { Col, Container, Row, Card, Nav} from 'react-bootstrap'
 import { FiBell, FiPrinter, FiSend, FiShare2 } from 'react-icons/fi'
-
-import SideBar from './../../layout/app/SideBar.layout'
-import FooterLayout from './../../layout/site/Footer.layout';
 
 
 const Children = () => {
     
     return(
         <>
-            <SideBar />
             <Container className="bg-light vh-100">
                 <Row className="h-100 align-items-center">
                     <Col md={2}> Col 1 of 2</Col>
@@ -121,7 +117,6 @@ const Children = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
         </>
     )
 }
