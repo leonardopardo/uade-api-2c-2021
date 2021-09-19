@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { FiLogIn, FiCheck, FiLock, FiMail, FiUserCheck } from "react-icons/fi"; 
 
-import FooterLayout from '../../../layout/site/Footer.layout';
-
 // validations
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -143,7 +141,6 @@ const RegisterPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
         </>
     )
 }

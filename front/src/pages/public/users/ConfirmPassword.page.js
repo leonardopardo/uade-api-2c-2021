@@ -9,7 +9,7 @@ import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstra
 import { FiCheck, FiMail, FiLogIn, FiLock, FiRefreshCw, FiAlertOctagon } from 'react-icons/fi';
 
 // layout self components
-import FooterLayout from '../../../layout/site/Footer.layout';
+
 
 // validations
 import { useForm } from 'react-hook-form'
@@ -97,7 +97,6 @@ const ConfirmPasswordPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
         </>
     )
 }

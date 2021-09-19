@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Form, Button, Container } from 'react-bootstrap';
+import FooterFullLayout from '../../../layout/site/Footer.full.layout';
 import FooterLayout from '../../../layout/site/Footer.layout';
 import NavLayout from '../../../layout/site/Nav.layout';
 
@@ -39,7 +40,7 @@ const ContactPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
+            <FooterFullLayout />           
         </>
     )
 }

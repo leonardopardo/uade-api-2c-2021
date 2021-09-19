@@ -1,16 +1,24 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
-import FooterLayout from '../../../layout/site/Footer.layout';
-import NavLayout from '../../../layout/site/Nav.layout';
+
+import { Container, Row } from 'react-bootstrap';
+
+import FooterFullLayout from '../../../layout/site/Footer.full.layout';
+import NavLayout from './../../../layout/site/Nav.layout';
 
 const AboutPage = () => {
     return(
         <>
             <NavLayout />
-            <Container className="pt-4">
-                <h1>About Page</h1>
-            </Container>
-            <FooterLayout fixed />
+            <main>
+                <section className="section-header">
+                    <Container className="pt-4">
+                        <Row className="justify-content-center">
+                            <h1 className="display-2"> AboutPage </h1>
+                        </Row>
+                    </Container>
+                </section>
+            </main>
+            <FooterFullLayout />
         </>
     )
 }

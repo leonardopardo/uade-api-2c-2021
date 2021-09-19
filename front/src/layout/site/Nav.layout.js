@@ -14,7 +14,7 @@ export default function NavLayout(props) {
     return(
         <>
             <header>
-                <Navbar bg="light" variant="light" expand="lg" className="fixed-top">
+                <Navbar bg="dark" variant="dark" expand="lg" className="">
                     <Container>
                     <Navbar.Brand href="/">Site</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -9,8 +9,6 @@ import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstra
 import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
 
 // layout self component
-import FooterLayout from '../../../layout/site/Footer.layout';
-
 
 // validation form
 import { useForm } from 'react-hook-form';
@@ -83,7 +81,6 @@ const RestorePasswordPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
         </>
     )
 }
