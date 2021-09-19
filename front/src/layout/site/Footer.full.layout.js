@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
-import { FiFacebook, FiInstagram, FiTwitter } from 'react-icons/fi'
+import { Container, Row, Col, Form } from 'react-bootstrap'
+import { FiFacebook, FiInfo, FiInstagram, FiTwitter, FiHome, FiMessageCircle } from 'react-icons/fi'
 
 const FooterFullLayout = () => {
     return (
@@ -10,7 +10,7 @@ const FooterFullLayout = () => {
                 <Container>
                     <Row>
                         <div className="col-md-4">
-                            <h4>Padres al Día</h4>
+                            <h5 className="broder border-bottom border-primary pb-2">Padres al Día</h5>
                             <p>
                                 Es un sitio con información relevante sobre los 
                                 controles pediátricos de los niños en su primer etapa y cuenta con una herramienta
@@ -22,14 +22,16 @@ const FooterFullLayout = () => {
                                 <li><Link to="#"><FiInstagram size={30} /></Link></li>
                             </ul>
                         </div>
-                        <div className="col-6 col-md-2 mb-5 mb-lg-0"><span className="h5">Sitio</span>
+                        <div className="col-6 col-md-2 mb-5 mb-lg-0">
+                            <h5 className="broder border-bottom border-primary pb-2">Sitio</h5>
                             <ul className="footer-links mt-2">
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/About">About Us</Link></li>
-                                <li><Link to="/Contact">Contact Us</Link></li>
+                                <li><Link to="/"><FiHome /> Home</Link></li>
+                                <li><Link to="/About"><FiInfo /> Nosoros</Link></li>
+                                <li><Link to="/Contact"><FiMessageCircle /> Contacto</Link></li>
                             </ul>
                         </div>
-                        <div className="col-6 col-md-2 mb-5 mb-lg-0"><span className="h5">Other</span>
+                        <div className="col-6 col-md-2 mb-5 mb-lg-0">
+                            <h5 className="broder border-bottom border-primary pb-2">Links</h5>
                             <ul className="footer-links mt-2">
                                 <li><Link to="#">Información</Link></li>
                                 <li><Link to="#">Políticas</Link></li>
@@ -37,10 +39,12 @@ const FooterFullLayout = () => {
                                 <li><Link to="#">Soporte</Link></li>
                             </ul>
                         </div>
-                        <div className="col-12 col-md-4 mb-5 mb-lg-0"><span className="h5">Suscribase</span>
-                            <p className="text-muted font-small mt-2">Suscribase si desea recibir información de interés.
+                        <div className="col-12 col-md-4 mb-5 mb-lg-0">
+                            <h5 className="broder border-bottom border-primary pb-2">Suscribase</h5>
+                            <p className="text-muted font-small mt-2">
+                                Suscribase si desea recibir información de interés.
                             </p>
-                            <form action="#">
+                            <Form>
                                 <Row className="form-row mb-2">
                                     <Col md={12} >
                                         <label className="h6 fw-normal text-muted d-none" for="exampleInputEmail3">Dejanos tu Email</label> 
@@ -59,9 +63,9 @@ const FooterFullLayout = () => {
                                         </button>
                                     </Col>
                                 </Row>
-                            </form>
-                            <p className="text-muted font-small m-0">Núnca compartiremos tu email. Mirá nuestras 
-                                <a className="text-white" href="#">Políticas de Privacidad</a>
+                            </Form>
+                            <p className="text-muted font-small m-0">Núnca compartiremos tu email. Mirá nuestras <br />
+                                <Link className="text-white" to="#">Políticas de Privacidad</Link>
                             </p>
                         </div>
                     </Row>

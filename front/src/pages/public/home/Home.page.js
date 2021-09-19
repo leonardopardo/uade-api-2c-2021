@@ -7,6 +7,7 @@ import CarrouselPartial from './partials/Carrouse';
 import Features from './partials/Features';
 // import FooterLayout from '../../../layout/site/Footer.layout';
 import FooterFullLayout from './../../../layout/site/Footer.full.layout';
+import Content from './partials/Content';
 
 const HomePage = () => {
     return(
@@ -15,6 +16,7 @@ const HomePage = () => {
             <Container className="p-0" fluid>
                 <CarrouselPartial />
                 <Features />
+                <Content />
             </Container>
             <FooterFullLayout />
         </>

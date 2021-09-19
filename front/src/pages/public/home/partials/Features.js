@@ -1,11 +1,11 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { FiBarChart2, FiBox, FiCalendar, FiGrid, FiCheckCircle } from 'react-icons/fi'
+import { FiBarChart2, FiBox, FiCalendar, FiGrid, FiCheckCircle, FiCommand } from 'react-icons/fi'
 
 const Features = () => {
     return(
         <Container className="px-4 py-5" id="icon-grid">
-            <h2 className="pb-2 border-bottom">Características</h2>
+            <h2 className="pb-2 border-bottom">Características de Nuestra Aplicación <FiCommand /></h2>
             <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
                 <Col className="col d-flex align-items-start">
                     <FiBox className="flex-shrink-0 me-3" size={50} />
