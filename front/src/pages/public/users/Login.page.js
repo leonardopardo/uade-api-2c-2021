@@ -36,7 +36,7 @@ const LoginPage = () => {
         <>
             <Container fluid className="px-4 py-5">
                 <Row className="align-items-center g-lg-5 py-5">
-                    <Col className="col-md-10 mx-auto col-lg-3 bg-light light p-4 shadow rounded">
+                    <Col className="col-md-10 mx-auto col-lg-3 p-4 shadow rounded">
                         <Row>
                             <Col>
                                 <Form onSubmit={handleSubmit(loginSubmit)}>
@@ -104,7 +104,7 @@ const LoginPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }

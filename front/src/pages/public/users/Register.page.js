@@ -143,7 +143,7 @@ const RegisterPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }

@@ -1,11 +1,14 @@
 import React from 'react'
 
 import { Col, Row, Form, Button, Card } from 'react-bootstrap'
-import { FiCheck, FiMail, FiLock, FiCalendar, FiPhone, FiSave, FiInfo } from 'react-icons/fi';
+import { FiCheck, FiMail, FiLock, FiCalendar, FiPhone, FiSave, FiInfo } from 'react-icons/fi'
+import Avatar from 'react-avatar'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ProfileSchema } from './validations/Profile.validation';
+import { ProfileSchema } from './validations/Profile.validation'
+
+
 
 const Profile = ({user}) => {
 
@@ -24,8 +27,25 @@ const Profile = ({user}) => {
     return(
         <>
             <Row>
-                <Col lg={6}> 
-                    <Card className="bg-ligth my-4 p-4 rounded">
+                <Col lg={4}>
+                    <Card className="shadow">
+
+                    
+                        <Avatar size="100%" src={`/upload/${user.img}`} name={user.fullName()} className="card-img-top rounded-top"/>
+                        {/* <img src={`/upload/${user.img}`} className="card-img-top rounded-top" alt="Themesberg office" /> */}
+                        <Card.Body>
+                            <span className="h6 icon-tertiary small">
+                                <span className="fas fa-medal me-2"></span>Awards
+                            </span>
+                            <h3 className="h5 card-title mt-3">We partnered up with Google</h3>
+                            <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            
+                        </Card.Body>
+                    
+                    </Card>
+                </Col>
+                <Col lg={8}> 
+                    <Card>
                         <Card.Body>
                             <Form onSubmit={handleSubmit(profileSubmit)}>
 
@@ -35,13 +55,13 @@ const Profile = ({user}) => {
                                     <Col md>
                                         <Form.Group>
                                             <Form.Label>Nombre</Form.Label>
-                                            <Form.Control 
-                                                {...register("firstName")}
-                                                className={isValid(errors.firstName)}
-                                                defaultValue={user.firstName}
-                                                type="text" 
-                                                size="sm" 
-                                                placeholder="Nombre"/>
+                                                <Form.Control 
+                                                    {...register("firstName")}
+                                                    className={isValid(errors.firstName)}
+                                                    defaultValue={user.firstName}
+                                                    type="text" 
+                                                    size="sm" 
+                                                    placeholder="Nombre"/>
                                             <p className="text-danger small">
                                                 { errors?.firstName?.message }
                                             </p>

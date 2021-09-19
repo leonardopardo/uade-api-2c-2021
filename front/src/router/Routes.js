@@ -23,7 +23,6 @@ const Routes = () => {
 		<>
 			<Router>			
 				<Switch>
-					
 					{/* Private App Pages */}				
 					<Route path="/app/calendar">
 						<Calendar />
@@ -67,7 +66,6 @@ const Routes = () => {
 					<Route path="/">
 						<HomePage />
 					</Route>
-
 				</Switch>
 			</Router>
 		</>

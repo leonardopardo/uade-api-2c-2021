@@ -33,7 +33,7 @@ const RestorePasswordPage = () => {
 
     return (
         <>
-            <Container fluid className="px-4 py-5">
+            <Container className="px-4 py-5">
                 <Row className="align-items-center g-lg-5 py-5">
                     <Col md={{ span: 8 }} className="m-auto mb-4 text-center">
                         <h3 className="text-center">
@@ -83,7 +83,7 @@ const RestorePasswordPage = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }

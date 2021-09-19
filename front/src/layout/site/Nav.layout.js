@@ -13,20 +13,22 @@ export default function NavLayout(props) {
 
     return(
         <>
-            <Navbar bg="light" variant="light" expand="lg">
-                <Container>
-                <Navbar.Brand href="/">Site</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-                    <Nav>
-                        <Nav.Link active={setActivePage("/")} href="/"><FiHome /> Home</Nav.Link>
-                        <Nav.Link active={setActivePage("/about")} href="/about"><FiInfo /> Nosotros</Nav.Link>
-                        <Nav.Link active={setActivePage("/contact")} href="/contact"><FiMessageCircle /> Contact</Nav.Link>
-                        <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Ingresar</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-                </Container>
-            </Navbar>
+            <header>
+                <Navbar bg="light" variant="light" expand="lg" className="fixed-top">
+                    <Container>
+                    <Navbar.Brand href="/">Site</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+                        <Nav>
+                            <Nav.Link active={setActivePage("/")} href="/"><FiHome /> Home</Nav.Link>
+                            <Nav.Link active={setActivePage("/about")} href="/about"><FiInfo /> Nosotros</Nav.Link>
+                            <Nav.Link active={setActivePage("/contact")} href="/contact"><FiMessageCircle /> Contact</Nav.Link>
+                            <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Ingresar</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+            </header>
         </>
     )
 }

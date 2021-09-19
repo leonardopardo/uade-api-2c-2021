@@ -1,23 +1,15 @@
 import React from 'react'
 import { Container, Row, Col, Card, Tabs, Tab } from 'react-bootstrap'
 
-import {FcApproval} from 'react-icons/fc'
+import { FcAbout } from 'react-icons/fc'
 
 import Avatar from 'react-avatar'
 
 import faker from 'faker'
 
 import Profile from './../../pages/private/profile/Profile.page';
-import FooterLayout from './../site/Footer.layout';
 
-// import '../../assets/site/css/bootstrap.cosmo.min.css'
-// import '../../assets/site/css/bootstrap.litera.min.css'
-// import '../../assets/site/css/bootstrap.materia.min.css'
-// import '../../assets/site/css/bootstrap.morph.min.css'
-// import '../../assets/site/css/bootstrap.pulse.min.css'
-// import '../../assets/site/css/bootstrap.quarz.min.css'
-// import '../../assets/site/css/bootstrap.superhero.min.css'
-import '../../assets/app/css/pixel.css'
+import FooterLayout from './../site/Footer.layout';
 
 const AppLayout = () => {
     
@@ -34,7 +26,8 @@ const AppLayout = () => {
         },
         phone: faker.phone.phoneNumber('(##) ####-####'),
         identity: faker.phone.phoneNumber("##.###.###"),
-        age: '1995-06-01'
+        age: '1995-06-01',
+        img: 'marie.jpg'
     }
 
     return (
@@ -42,7 +35,7 @@ const AppLayout = () => {
             <Container>
                 <Row style={{ marginTop:'3rem' }}>
                     <h6>
-                        <FcApproval /> Hola {user.firstName.toUpperCase()}
+                        <FcAbout /> Hola {user.firstName.toUpperCase()}
                     </h6>
                 </Row>
                 <Row className="mb-4">
@@ -51,7 +44,7 @@ const AppLayout = () => {
                             <Card.Body>
                                 <Row>
                                     <Col lg={2} md={4} sm={12} className="text-center" >
-                                        <Avatar name={user.fullName()} round={true} />
+                                        <Avatar src={`upload/${user.img}`} name={user.fullName()} round={true} />
                                     </Col>
                                     <Col lg={10} md={8} sm={12} className="text-center text-md-start">
                                         <h4>{user.fullName(true)}</h4>
@@ -64,7 +57,7 @@ const AppLayout = () => {
                 </Row>
                 <Row className="my-4">
                     <Col>
-                        <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
+                        <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 rounded">
                             <Tab eventKey="profile" title="Mi Perfil">  
                                 <Profile user={user} />
                             </Tab>
@@ -78,7 +71,7 @@ const AppLayout = () => {
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }

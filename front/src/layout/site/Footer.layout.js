@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 const FooterLayout = ({fixed}) => {
 
     const footerClasses = () => {       
-         return `footer bg-light pt-3 pb-3 ${!undefined === fixed ? "fixed-bottom" : ""}`
+         return `footer mt-auto bg-dark text-white pt-3 pb-3` //${!undefined === fixed ? "fixed-bottom" : ""}`
     }
 
     return(

@@ -14,7 +14,7 @@ const HomePage = () => {
                 <CarrouselPartial />
                 {/* <HomeContent /> */}
             </Container>
-            <FooterLayout />
+            <FooterLayout fixed />
         </>
     )
 }
