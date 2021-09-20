@@ -1,15 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Container, Row, Col, Card, Tabs, Tab } from 'react-bootstrap'
-
 import { FcAbout } from 'react-icons/fc'
-
-import Avatar from 'react-avatar'
-
+import { FiLogOut } from 'react-icons/fi'
+import FooterLayout from './../app/Footer.layout'
+import Profile from './../../pages/private/profile/Profile.page'
+import Childrens from '../../pages/private/childrens/Childrens.page'
 import faker from 'faker'
 
-import Profile from './../../pages/private/profile/Profile.page';
-
-import FooterLayout from './../site/Footer.layout';
 
 const AppLayout = () => {
     
@@ -34,21 +32,22 @@ const AppLayout = () => {
         <>
             <Container>
                 <Row style={{ marginTop:'3rem' }}>
-                    <h6>
-                        <FcAbout /> Hola {user.firstName.toUpperCase()}
-                    </h6>
+                    <Col>
+                        <h6>
+                            <FcAbout /> Hola {user.firstName.toUpperCase()}
+                        </h6>
+                    </Col>
+                    <Col className="text-end">
+                        <Link to="/"><FiLogOut /> Salir</Link>
+                    </Col>
                 </Row>
                 <Row className="mb-4">
                     <Col>
                         <Card className="rounded">
                             <Card.Body>
                                 <Row>
-                                    <Col lg={2} md={4} sm={12} className="text-center" >
-                                        <Avatar src={`upload/${user.img}`} name={user.fullName()} round={true} />
-                                    </Col>
-                                    <Col lg={10} md={8} sm={12} className="text-center text-md-start">
-                                        <h4>{user.fullName(true)}</h4>
-                                        {user.email()}
+                                    <Col lg={12} md={8} sm={12} className="text-center text-md-start">
+                                        <h4>Indicadores</h4>
                                     </Col>
                                 </Row>
                             </Card.Body>
@@ -57,21 +56,24 @@ const AppLayout = () => {
                 </Row>
                 <Row className="my-4">
                     <Col>
-                        <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 rounded">
-                            <Tab eventKey="profile" title="Mi Perfil">  
+                        <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
+                            <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
                                 <Profile user={user} />
                             </Tab>
-                            <Tab eventKey="home" title="Controles Pediátricos">
+                            <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
+                               <Childrens />
+                            </Tab>
+                            <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
                                 
                             </Tab>
-                            <Tab eventKey="contact" title="Contact">
+                            <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
                                 
                             </Tab>
                         </Tabs>
                     </Col>
                 </Row>
             </Container>
-            <FooterLayout fixed />
+            <FooterLayout />
         </>
     )
 }

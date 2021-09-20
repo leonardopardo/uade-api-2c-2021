@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap'
 
-import FooterFullLayout from '../../../layout/site/Footer.full.layout';
-import NavLayout from './../../../layout/site/Nav.layout';
+import NavLayout from './../../../layout/site/Nav.layout'
+import FooterLayout from '../../../layout/site/Footer.layout'
 
 const AboutPage = () => {
     return(
@@ -18,7 +18,7 @@ const AboutPage = () => {
                     </Container>
                 </section>
             </main>
-            <FooterFullLayout />
+            <FooterLayout />
         </>
     )
 }

@@ -73,7 +73,7 @@ const LoginPage = () => {
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                        <Form.Check type="checkbox" label="Recordarme" />
+                                        <Form.Check type="switch" label="Recordarme" />
                                     </Form.Group>
                                     
                                     <small className="d-block mb-3">

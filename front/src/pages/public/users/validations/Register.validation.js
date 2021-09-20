@@ -2,6 +2,12 @@ import * as yup from "yup"
 import customMessages from './../../../../locale/es/customMessages';
 
 export const RegisterSchema = yup.object().shape({
+    firstName: yup
+        .string()
+        .required(customMessages.firstName.required),
+    lastName: yup
+        .string()
+        .required(customMessages.lastName.required),
     username: yup
         .string()
         .email(customMessages.email.email)
