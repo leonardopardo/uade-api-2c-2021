@@ -8,6 +8,7 @@ import Avatar from 'react-avatar'
 import faker from 'faker'
 
 import Profile from './../../pages/private/profile/Profile.page';
+import Calendar from './../../pages/private/calendar/Calendar.page';
 
 import FooterLayout from './../site/Footer.layout';
 
@@ -64,8 +65,8 @@ const AppLayout = () => {
                             <Tab eventKey="home" title="Controles Pediátricos">
                                 
                             </Tab>
-                            <Tab eventKey="contact" title="Contact">
-                                
+                            <Tab eventKey="calendar" title="Calendario Vacunación">
+                                <Calendar />
                             </Tab>
                         </Tabs>
                     </Col>
