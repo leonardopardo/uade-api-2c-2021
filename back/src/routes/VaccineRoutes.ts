@@ -3,7 +3,7 @@ import { Router } from "express";
 
 export class VaccineRoutes {
     public vaccineController: VaccineController = new VaccineController();
-    public path: string = '/parents';
+    public path: string = '/vaccines';
 
     public routes(router: Router): void {
         router
