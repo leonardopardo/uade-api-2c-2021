@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap';
-import { FiLogIn, FiHome, FiInfo, FiMessageCircle } from 'react-icons/fi';
 import { useLocation } from 'react-router';
+
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import { FiHome, FiMessageCircle, FiUserPlus, FiLogIn } from 'react-icons/fi';
 
 export default function NavLayout(props) {
 
@@ -21,9 +22,9 @@ export default function NavLayout(props) {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav>
                             <Nav.Link active={setActivePage("/")} href="/"><FiHome /> Home</Nav.Link>
-                            <Nav.Link active={setActivePage("/about")} href="/about"><FiInfo /> Nosotros</Nav.Link>
                             <Nav.Link active={setActivePage("/contact")} href="/contact"><FiMessageCircle /> Contacto</Nav.Link>
-                            <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Ingresar</Nav.Link>
+                            <Nav.Link active={setActivePage("/register")} href="/register"><FiUserPlus /> Registro</Nav.Link>
+                            <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Login</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                     </Container>

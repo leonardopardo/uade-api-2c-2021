@@ -1,7 +1,6 @@
 import * as yup from "yup"
 import customMessages from "../../../../locale/es/customMessages"
 
-
 export const ProfileSchema = yup.object().shape({
     firstName: yup
         .string()

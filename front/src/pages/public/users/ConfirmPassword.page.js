@@ -32,8 +32,8 @@ const ConfirmPasswordPage = () => {
 
     return(
         <>
-            <Container>
-                <Row>
+            <Container className="px-4 py-5">
+                <Row className="align-items-center g-lg-5 py-5">
                     <Col md={{ span: 8 }} className="m-auto mt-4 mb-4 text-center">
                         <h3 className="text-center">
                             <FiCheck /> Ingresá tus nuevas credenciales
@@ -94,6 +94,13 @@ const ConfirmPasswordPage = () => {
                                 Ya tengo una cuenta. <Link to="/login"><FiLogIn /> Ir al login</Link>
                             </small>
                         </Form>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className="col-md-10 col-lg-3 mx-auto">
+                        <p className="text-center">
+                            <Link to="/">Ir al Home</Link>
+                        </p>
                     </Col>
                 </Row>
             </Container>
