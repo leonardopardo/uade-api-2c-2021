@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Table, Container} from 'react-bootstrap'
+import { Row, Table, Container, Button, Col} from 'react-bootstrap'
 
 import CalendarButton from './Calendar.button'
 
@@ -8,9 +8,18 @@ import CalendarButton from './Calendar.button'
 
 const Calendar = () => {
 
+    const childrens = ["Juana", "Pablo", "Pedro"];
+
     return(
         <>
             <Container className="justify-content-center">
+                <Row className="my-4">
+                    <Col>
+                        {
+                            childrens.map((item) => <Button variant="outline-dark">{item}</Button>)
+                        }
+                    </Col>
+                </Row>
                 <Table bordered>
                     <tbody>
                         <tr>
@@ -19,24 +28,24 @@ const Calendar = () => {
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>HEPATITIS B</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>PENTAVALENTE</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>ROTAVIRUS</p></th>
-                            <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>CUÁDRUPLE O PENTAVALENTE</p></th>
+                            <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}><span>PENTAVALENTE</span><span className="d-block">CUÁDRUPLE O</span></p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>SALK</p></th>
-                            <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>NEUMOCOCO CONJUGADA</p></th>
+                            <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}><span>CONJUGADA</span><span className="d-block">NEUMOCOCO</span></p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>GRIPE</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>MENINGOCOCO</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>TRIPLE VIRAL</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>HEPATITIS A</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>VARICELA</p></th>
-                            <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>TRIPLE BACTERIANA CELULAR</p></th>
+                            <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}><span>CELULAR</span><span className="d-block">TRIPLE BACTERIANA</span></p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>HPV</p></th>
                             <th><p style={{writingMode: "vertical-lr", fontSize: "12px"}}>DOBLE BACTERIANA</p></th>
                         </tr>
                         <tr>
                             <th style={{fontSize: "12px"}}>RECIÉN NACIDO</th>
                             {/*BCG*/}
-                            <th><CalendarButton color="darkblue"/></th>
+                            <th><CalendarButton color="darkblue" nombreVacuna="BCG"/></th>
                             {/*HEPATITIS B*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="HEPATITIS B"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -56,14 +65,14 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*PENTAVALENTE*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="PENTAVALENTE"/></th>
                             {/*ROTAVIRUS*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="ROTAVIRUS"/></th>
                             <th></th>
                             {/*SALK*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="SALK"/></th>
                             {/*NEUMOCOCO CONJUGADA*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -84,7 +93,7 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*MENINGOCOCO*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="MENINGOCOCO"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -97,14 +106,14 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*PENTAVALENTE*/}
-                            <th><CalendarButton color="hotpink"/></th>
+                            <th><CalendarButton color="hotpink" nombreVacuna="PENTAVALENTE"/></th>
                             {/*ROTAVIRUS*/}
-                            <th><CalendarButton color="hotpink"/></th>
+                            <th><CalendarButton color="hotpink" nombreVacuna="ROTAVIRUS"/></th>
                             <th></th>
                             {/*SALK*/}
-                            <th><CalendarButton color="hotpink"/></th>
+                            <th><CalendarButton color="hotpink" nombreVacuna="SALK"/></th>
                             {/*NEUMOCOCO CONJUGADA*/}
-                            <th><CalendarButton color="hotpink"/></th>
+                            <th><CalendarButton color="hotpink" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -125,7 +134,7 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*MENINGOCOCO*/}
-                            <th><CalendarButton color="hotpink"/></th>
+                            <th><CalendarButton color="hotpink" nombreVacuna="MENINGOCOCO"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -138,14 +147,14 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*PENTAVALENTE*/}
-                            <th><CalendarButton color='limegreen'/></th>
+                            <th><CalendarButton color='limegreen' nombreVacuna="PENTAVALENTE"/></th>
                             <th></th>
                             <th></th>
                             {/*SALK*/}
-                            <th><CalendarButton color='limegreen'/></th>
+                            <th><CalendarButton color='limegreen' nombreVacuna="SALK"/></th>
                             <th></th>
                             {/*GRIPE*/}
-                            <th><CalendarButton color="pink"/></th>
+                            <th><CalendarButton color="pink" nombreVacuna="GRIPE"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -163,14 +172,14 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*NEUMOCOCO CONJUGADA*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
                             {/*GRIPE*/}
-                            <th><CalendarButton color="pink"/></th>
+                            <th><CalendarButton color="pink" nombreVacuna="GRIPE"/></th>
                             <th></th>
                             {/*TRIPLE VIRAL*/}
-                            <th><CalendarButton color="deepskyblue"/></th>
+                            <th><CalendarButton color="deepskyblue" nombreVacuna="TRIPLE VIRAL"/></th>
                             {/*HEPATITIS A*/}
-                            <th><CalendarButton color="darkblue"/></th>
+                            <th><CalendarButton color="darkblue" nombreVacuna="HEPATITIS A"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -186,13 +195,13 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*GRIPE*/}
-                            <th><CalendarButton color="pink"/></th>
+                            <th><CalendarButton color="pink"  nombreVacuna="GRIPE"/></th>
                             {/*MENINGOCOCO*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue"  nombreVacuna="MENINGOCOCO"/></th>
                             <th></th>
                             <th></th>
                             {/*VARICELA*/}
-                            <th><CalendarButton color="darkblue"/></th>
+                            <th><CalendarButton color="darkblue"  nombreVacuna="VARICELA"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -204,11 +213,11 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*CUÁDRUPLE O PENTAVALENTE*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue" nombreVacuna="CUADRUPLE O PENTAVALENTE"/></th>
                             <th></th>
                             <th></th>
                             {/*GRIPE*/}
-                            <th><CalendarButton color="pink"/></th>
+                            <th><CalendarButton color="pink" nombreVacuna="GRIPE"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -227,7 +236,7 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*GRIPE*/}
-                            <th><CalendarButton color="pink"/></th>
+                            <th><CalendarButton color="pink" nombreVacuna="GRIPE"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -244,16 +253,16 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*SALK*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue" nombreVacuna="SALK"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
                             {/*TRIPLE VIRAL*/}
-                            <th><CalendarButton color="hotpink"/></th>
+                            <th><CalendarButton color="hotpink" nombreVacuna="TRIPLE VIRAL"/></th>
                             <th></th>
                             <th></th>
                             {/*TRIPLE BACTERIANA CELULAR*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue" nombreVacuna="TRIPLE BACTERIANA CELULAR"/></th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -261,7 +270,7 @@ const Calendar = () => {
                             <th style={{fontSize: "12px"}}>11 AÑOS</th>
                             <th></th>
                             {/*HEPATITIS B*/}
-                            <th><CalendarButton /></th>
+                            <th><CalendarButton color="mediumorchid" nombreVacuna="HEPATITIS B"/></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -269,15 +278,15 @@ const Calendar = () => {
                             <th></th>
                             <th></th>
                             {/*MENINGOCOCO*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue" nombreVacuna="MENINGOCOCO"/></th>
                             {/*TRIPLE VIRAL*/}
-                            <th><CalendarButton /></th>
+                            <th><CalendarButton color="mediumorchid" nombreVacuna="TRIPLE VIRAL"/></th>
                             <th></th>
                             <th></th>
                             {/*TRIPLE BACTERIANA CELULAR*/}
-                            <th><CalendarButton color="cornflowerblue"/></th>
+                            <th><CalendarButton color="cornflowerblue" nombreVacuna="TRIPLE BACTERIANA CELULAR"/></th>
                             {/*HPV*/}
-                            <th><CalendarButton /></th>
+                            <th><CalendarButton color="mediumorchid" nombreVacuna="HPV"/></th>
                             <th></th>
                         </tr>
                     </tbody>

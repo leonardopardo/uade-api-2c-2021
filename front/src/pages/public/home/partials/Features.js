@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { FiBarChart2, FiBox, FiCalendar, FiGrid, FiCheckCircle, FiCommand } from 'react-icons/fi'
+import { FiBarChart2, FiBox, FiCalendar, FiGrid, FiCheckCircle, FiCommand, FiBookmark } from 'react-icons/fi'
 
 const Features = () => {
     return(
@@ -43,10 +43,10 @@ const Features = () => {
                     </div>
                 </Col>
                 <Col className="col d-flex align-items-start">
-                    <FiCheckCircle className="flex-shrink-0 me-3" size={50} />
+                    <FiBookmark className="flex-shrink-0 me-3" size={50} />
                     <div>
-                        <h4 className="fw-bold mb-0">Featured title</h4>
-                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                        <h4 className="fw-bold mb-0">Blog</h4>
+                        <p>Lea las ultimas noticias relacionadas a pediatria de Argentina y el mundo</p>
                     </div>
                 </Col>
                 <Col className="col d-flex align-items-start">
