@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
-import { FiPlus, FiX, FiSave } from 'react-icons/fi'
+import { FiPlus, FiX, FiSave, FiImage } from 'react-icons/fi'
 
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
@@ -13,6 +13,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 const ModalChildreAdd = () => {
 
     const [show, setShow] = useState(false);
+
+    const [selectedOption, setSelectedOption] = useState(null);
 
     const handleClose = () => setShow(false);
     
@@ -143,11 +145,12 @@ const ModalChildreAdd = () => {
                                     <Form.Label>Alergias</Form.Label>
                                     <Select
                                         {...register("allergi")}
+                                        isMulti
+                                        defaultValue={selectedOption}
+                                        onChange={setSelectedOption}
                                         closeMenuOnSelect={false}
                                         components={animatedComponents}
-                                        isMulti
-                                        options={allergi}
-                                        />
+                                        options={allergi} />
                                     <p className="text-danger small">
                                         {errors?.allergi?.message}
                                     </p>
@@ -160,10 +163,31 @@ const ModalChildreAdd = () => {
                                     <Form.Label>Enfermedades Crónicas</Form.Label>
                                     <Select 
                                         {...register("chronic")} 
-                                        options={chronic}
-                                        className={isValid(errors.chronic)} />
+                                        isMulti
+                                        defaultValue={selectedOption}
+                                        onChange={setSelectedOption}
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        options={chronic} />
                                     <p className="text-danger small">
                                         {errors?.chronic?.message}
+                                    </p>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Label><FiImage /> Avatar</Form.Label>
+                                    
+                                    <Form.Control 
+                                            {...register("avatar")} 
+                                            type="file" 
+                                            size="md"
+                                            className={isValid(errors.avatar)} />
+                                    
+                                    <p className="text-danger small">
+                                        { errors?.avatar?.message }
                                     </p>
                                 </Form.Group>
                             </Col>
@@ -176,7 +200,7 @@ const ModalChildreAdd = () => {
                                         {...register("information")} 
                                         as="textarea" 
                                         type="text" 
-                                        rows={5}
+                                        rows={4}
                                         className={isValid(errors.age)} />
                                     <p className="text-danger small">
                                         {errors?.age?.message}
