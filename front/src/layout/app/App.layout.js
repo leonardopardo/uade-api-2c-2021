@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap'
+import { Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap'
 import { FcAbout } from 'react-icons/fc'
 import { FiLogOut } from 'react-icons/fi'
 import FooterLayout from './../app/Footer.layout'
@@ -59,23 +59,27 @@ const AppLayout = () => {
                 </Row> */}
                 <Row className="my-4">
                     <Col>
-                        <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
-                            <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
-                                <Profile user={user} />
-                            </Tab>
-                            <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
-                               <Childrens />
-                            </Tab>
-                            <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
-                                <Controls />
-                            </Tab>
-                            <Tab eventKey="percentiles" title="Percentiles" className="mb-sm-3 mb-md-0">
-                                <Percentiles />
-                            </Tab>
-                            <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
-                                <Calendar />
-                            </Tab>
-                        </Tabs>
+                        <Card>
+                            <Card.Body>
+                                <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
+                                    <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
+                                        <Profile user={user} />
+                                    </Tab>
+                                    <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
+                                    <Childrens />
+                                    </Tab>
+                                    <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
+                                        <Controls />
+                                    </Tab>
+                                    <Tab eventKey="percentiles" title="Percentiles" className="mb-sm-3 mb-md-0">
+                                        <Percentiles />
+                                    </Tab>
+                                    <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
+                                        <Calendar />
+                                    </Tab>
+                                </Tabs>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
             </Container>
