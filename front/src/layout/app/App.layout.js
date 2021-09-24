@@ -44,7 +44,7 @@ const AppLayout = () => {
                         <Link to="/"><FiLogOut /> Salir</Link>
                     </Col>
                 </Row>
-                <Row className="mb-4">
+                {/* <Row className="mb-4">
                     <Col>
                         <Card className="rounded">
                             <Card.Body>
@@ -56,7 +56,7 @@ const AppLayout = () => {
                             </Card.Body>
                         </Card>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row className="my-4">
                     <Col>
                         <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
