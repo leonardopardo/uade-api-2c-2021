@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 
-const ModalControlAdd = () => {
+const ModalControlAdd = ({children}) => {
 
     const [showMed, setShowMed] = useState(false);
     const handleMedChange = () => {
@@ -65,9 +65,9 @@ const ModalControlAdd = () => {
                                         type="text" 
                                         size="md" 
                                         className={isValid(errors.age)}>
-                                            <option value="juana">Juana</option>
-                                            <option value="pedro">Pedro</option>
-                                            <option value="pablo">Pablo</option>
+                                            {
+                                                children.map((item) => <option value={item}>{item}</option>)
+                                            }
                                     </Form.Select>
                                 </Form.Group>
                             </Col>

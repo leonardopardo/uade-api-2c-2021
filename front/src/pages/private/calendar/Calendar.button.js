@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiCheck, FiMinus } from 'react-icons/fi';
 
 // Buen link para sacar mas ifo, a futuro https://www.argentina.gob.ar/salud/vacunas
@@ -79,12 +79,24 @@ const CalendarButton = ({color, nombreVacuna}) => {
                             calendarInfo.map((item) =>{if(item.key === color){return <p key={item.key}>{item.value}</p>}})
                         }
                     </p>
-                    <Form.Group className="mb-4">
-                        <Form.Label>Fecha de aplicación</Form.Label>
-                        <Form.Control 
-                            size="md"
-                            type="date" />
-                    </Form.Group>
+                    <Row>
+                        <Col>
+                            <Form.Group className="mb-4">
+                                <Form.Label>Fecha de aplicación</Form.Label>
+                                <Form.Control 
+                                    size="md"
+                                    type="date" />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group className="mb-4">
+                                <Form.Label>Lugar de aplicación</Form.Label>
+                                <Form.Control 
+                                    size="md"
+                                    type="text" />
+                            </Form.Group>
+                        </Col>
+                    </Row>
                     <Button variant="outline-primary" onClick={marcarCompletada}> Marcar como completada </Button>
                 </Modal.Body>
             </Modal>

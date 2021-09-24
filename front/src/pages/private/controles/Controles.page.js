@@ -1,11 +1,13 @@
 import React from 'react'
-import { Col, Row, Card } from 'react-bootstrap'
+import { Col, Row, Card, Button } from 'react-bootstrap'
 import ModalControlAdd from './modals/Modal.add';
 
 
 const Controls = () => {
 
     const controls = [];
+
+    const childrens = ["Juana", "Pablo", "Pedro"];
 
     const getControls = () => {
 
@@ -23,7 +25,7 @@ const Controls = () => {
             <section>
                     <Row className="my-2">
                         <Col>
-                            <ModalControlAdd />
+                            <ModalControlAdd children={childrens} />
                         </Col>
                     </Row>
                     <Row className="my-2">
@@ -35,6 +37,13 @@ const Controls = () => {
                             </Card>
                         </Col>
                     </Row>
+                    <hr></hr>
+                    <Row className="my-4">
+                        {
+                            childrens.map((item) => <Col md="1"><Button variant="outline-dark">{item}</Button></Col>)
+                        }
+                    </Row>
+                    <hr></hr>
             </section>
         </>
     )
