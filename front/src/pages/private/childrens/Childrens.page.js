@@ -12,7 +12,7 @@ const Childrens = () => {
             lastName: 'Pardo',
             age: '2011-10-04',
             bloodType: '0+',
-            img: 'fd38ca051d52a34a959de8e02ae05ce6.jpg',
+            img: '254f508508f16ac32cd23083c53caaf2.jpg',
             fullName(){
                 return `${this.firstName} ${this.lastName}`.toUpperCase()
             }
@@ -23,7 +23,7 @@ const Childrens = () => {
 
         let listChildrens = childrens.map( child => {
             return(
-                <Col lg={4}>
+                <Col lg={3}>
                     <Card className="shadow">
                         <Avatar size="100%" src={`/images/${child.img}`} name={child.fullName()} className="card-img-top rounded-top"/>
                         <Card.Body>
