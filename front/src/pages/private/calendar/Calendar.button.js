@@ -45,9 +45,30 @@ const CalendarButton = ({color, nombreVacuna}) => {
 
     const setIcon = (status) => {
         return status 
-            ? <FiCheck className = "text-white"/>
-            : <FiMinus className = "text-white"/>
+            ? <FiCheck className="text-white"/>
+            : <FiMinus className="text-white"/>
     }
+
+    const vaccineInfoView = vaccineInfo.map(item => {
+        if(item.key === nombreVacuna) {
+            return(
+                <p key={ item.key }>{ item.value }</p>
+            )
+        }
+        
+        return ''
+    })
+
+
+    const calendarInfoView = calendarInfo.map( item => { 
+        if(item.key === color){
+            return ( 
+                <p key={ item.key }>{ item.value }</p>
+            )
+        }
+        
+        return ''
+    })
 
     const [show, setShow] = useState(false);
 
@@ -70,14 +91,10 @@ const CalendarButton = ({color, nombreVacuna}) => {
                     <Modal.Title>Informacion sobre vacuna {nombreVacuna}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                            vaccineInfo.map((item) =>{if(item.key === nombreVacuna){return <p key={item.key}>{item.value}</p>}})
-                    }
+                    { vaccineInfoView }
                     <hr></hr>
                     <p className = "text-muted"><b>Tipo de dosis:</b>
-                        {
-                            calendarInfo.map((item) =>{if(item.key === color){return <p key={item.key}>{item.value}</p>}})
-                        }
+                    { calendarInfoView }
                     </p>
                     <Row>
                         <Col>

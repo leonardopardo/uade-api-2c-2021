@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiPlus, FiX, FiSave } from 'react-icons/fi'
 
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated'
-
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
