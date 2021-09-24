@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Row, Table, Container, Card } from 'react-bootstrap'
+import { Row, Table, Container} from 'react-bootstrap'
 
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'

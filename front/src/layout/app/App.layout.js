@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col, Card, Tabs, Tab } from 'react-bootstrap'
+import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap'
 import { FcAbout } from 'react-icons/fc'
 import { FiLogOut } from 'react-icons/fi'
 import FooterLayout from './../app/Footer.layout'

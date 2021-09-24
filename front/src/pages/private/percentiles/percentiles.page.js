@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Col, Row, Card, Button } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import WeightChart from './graphs/weight.page';
