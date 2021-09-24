@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Col, Row, Table, Form } from 'react-bootstrap'
+import { Col, Row, Table, Form, Pagination } from 'react-bootstrap'
 import { FiEye } from 'react-icons/fi';
 
 import ModalControlAdd from './modals/Modal.add';
@@ -71,6 +71,22 @@ const Controls = () => {
             ? <h4 className="text-center text-muted fw-light">Todavía no agregaste información</h4>
             : listControls
     }
+
+    let active = 2;
+    let items = [];
+    for (let number = 1; number <= 5; number++) {
+        items.push(
+            <Pagination.Item key={number} active={number === active}>
+            {number}
+            </Pagination.Item>,
+        );
+    }
+
+    const paginationBasic = (
+        <div>
+            <Pagination size="sm">{items}</Pagination>
+        </div>
+    );
     
     return(
         <>
@@ -103,6 +119,7 @@ const Controls = () => {
                             {getControls()}
                         </tbody>
                     </Table>
+                    {paginationBasic}
             </section>
         </>
     )
