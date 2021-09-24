@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Card, Button, Container } from 'react-bootstrap'
+import { Col, Row, Card, Button } from 'react-bootstrap'
 import ModalControlAdd from './modals/Modal.add';
 import WeightChart from './graphs/weight.page';
 import HeightChart from './graphs/height.page';
