@@ -1,21 +1,70 @@
-import React from 'react'
-import { Col, Row, Card, Button } from 'react-bootstrap'
+import React, {useState} from 'react'
+import { Col, Row, Table, Form } from 'react-bootstrap'
+import { FiEye } from 'react-icons/fi';
+
 import ModalControlAdd from './modals/Modal.add';
-import WeightChart from './graphs/weight.page';
-import HeightChart from './graphs/height.page';
-import HeadCircumferenceChart from './graphs/headCircumference.page';
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
 
 
 const Controls = () => {
 
-    const controls = [];
+    const controls = [
+        {
+            fecha: "24/09/21",
+            peso: "14kg",
+            altura: "89cm",
+            diametro: "40cm",
+            medicamento: true
+        },
+        {
+            fecha: "23/08/21",
+            peso: "13kg",
+            altura: "85cm",
+            diametro: "40cm",
+            medicamento: false
+        },
+        {
+            fecha: "22/07/21",
+            peso: "12kg",
+            altura: "80cm",
+            diametro: "40cm",
+            medicamento: true
+        }
+    ];
 
-    const childrens = ["Juana", "Pablo", "Pedro"];
+    const getCheckbox = (checked) => {
+        if (checked){
+            return <Form.Check disabled type="checkbox" checked/>
+        }
+        return <Form.Check disabled type="checkbox"/>
+    }
+
+    const childrens = [
+        {value: '1', label:'Nicolás'}
+    ];
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const animatedComponents = makeAnimated();
+
 
     const getControls = () => {
 
         let listControls = controls.map( element => {
-            return <li>{element}</li>
+            return( 
+                <tr>
+                    <th> {element.fecha} </th>
+                    <th> {element.peso} </th>
+                    <th> {element.altura} </th>
+                    <th> {element.diametro} </th>
+                    <th> <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                            {getCheckbox(element.medicamento)}
+                        </Form.Group>     
+                    </th>
+                    <th> <FiEye/> </th>
+                </tr>
+            )
         })
 
         return controls.length === 0
@@ -31,27 +80,29 @@ const Controls = () => {
                             <ModalControlAdd children={childrens} />
                         </Col>
                     </Row>
-                    <Row className="my-2">
-                        <Col>
-                            <Card>
-                                <Card.Body>
-                                    {getControls()}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                    <hr></hr>
                     <Row className="my-4">
-                        {
-                            childrens.map((item) => <Col md="1"><Button variant="outline-dark">{item}</Button></Col>)
-                        }
+                        <Select
+                        defaultValue={selectedOption}
+                        onChange={setSelectedOption}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        options={childrens} />
                     </Row>
-                    <hr></hr>
-                    <WeightChart />
-                    <hr></hr>
-                    <HeightChart />
-                    <hr></hr>
-                    <HeadCircumferenceChart />
+                    <Table responsive>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Peso</th>
+                                <th>Altura</th>
+                                <th>Diámetro Craneal</th>
+                                <th>Medicamentos</th>
+                                <th>Más Información</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getControls()}
+                        </tbody>
+                    </Table>
             </section>
         </>
     )
