@@ -6,7 +6,7 @@ const Features = () => {
     return(
         <Container className="px-4 py-5" id="icon-grid">
             <h2 className="pb-2 border-bottom">Características de Nuestra Aplicación <FiCommand /></h2>
-            <Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+            <Row className="justify-content-md-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
                 <Col className="col d-flex align-items-start">
                     <FiBox className="flex-shrink-0 me-3" size={50} />
                     <div>
@@ -47,20 +47,6 @@ const Features = () => {
                     <div>
                         <h4 className="fw-bold mb-0">Blog</h4>
                         <p>Lea las ultimas noticias relacionadas a pediatria de Argentina y el mundo</p>
-                    </div>
-                </Col>
-                <Col className="col d-flex align-items-start">
-                    <FiCheckCircle className="flex-shrink-0 me-3" size={50} />
-                    <div>
-                        <h4 className="fw-bold mb-0">Featured title</h4>
-                        <p>Paragraph of text beneath the heading to explain the heading.</p>
-                    </div>
-                </Col>
-                <Col className="col d-flex align-items-start">
-                    <FiCheckCircle className="flex-shrink-0 me-3" size={50} />
-                    <div>
-                        <h4 className="fw-bold mb-0">Featured title</h4>
-                        <p>Paragraph of text beneath the heading to explain the heading.</p>
                     </div>
                 </Col>
             </Row>
