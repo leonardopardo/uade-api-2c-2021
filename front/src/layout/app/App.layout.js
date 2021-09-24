@@ -8,6 +8,7 @@ import Profile from './../../pages/private/profile/Profile.page'
 import Childrens from '../../pages/private/childrens/Childrens.page'
 import Calendar from './../../pages/private/calendar/Calendar.page'
 import Controls from '../../pages/private/controles/Controles.page'
+import Percentiles from '../../pages/private/percentiles/percentiles.page'
 import faker from 'faker'
 
 
@@ -67,6 +68,9 @@ const AppLayout = () => {
                             </Tab>
                             <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
                                 <Controls />
+                            </Tab>
+                            <Tab eventKey="percentiles" title="Percentiles" className="mb-sm-3 mb-md-0">
+                                <Percentiles />
                             </Tab>
                             <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
                                 <Calendar />

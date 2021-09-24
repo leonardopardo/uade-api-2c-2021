@@ -1,21 +1,26 @@
 import React from 'react'
-import { Col, Row, Card, Button } from 'react-bootstrap'
+import { Col, Row, Table, Card, Button, Form } from 'react-bootstrap'
 import ModalControlAdd from './modals/Modal.add';
-import WeightChart from './graphs/weight.page';
-import HeightChart from './graphs/height.page';
-import HeadCircumferenceChart from './graphs/headCircumference.page';
 
 
 const Controls = () => {
 
-    const controls = [];
+    const controls = ["1", "2", "3"];
 
     const childrens = ["Juana", "Pablo", "Pedro"];
 
     const getControls = () => {
 
         let listControls = controls.map( element => {
-            return <li>{element}</li>
+            return( 
+                <tr>
+                    <th> Hijo </th>
+                    <th> Fecha </th>
+                    <th> Peso </th>
+                    <th> Altura </th>
+                    <th> Diametro </th>
+                </tr>
+            )
         })
 
         return controls.length === 0
@@ -31,27 +36,20 @@ const Controls = () => {
                             <ModalControlAdd children={childrens} />
                         </Col>
                     </Row>
-                    <Row className="my-2">
-                        <Col>
-                            <Card>
-                                <Card.Body>
-                                    {getControls()}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                    <hr></hr>
-                    <Row className="my-4">
-                        {
-                            childrens.map((item) => <Col md="1"><Button variant="outline-dark">{item}</Button></Col>)
-                        }
-                    </Row>
-                    <hr></hr>
-                    <WeightChart />
-                    <hr></hr>
-                    <HeightChart />
-                    <hr></hr>
-                    <HeadCircumferenceChart />
+                    <Table responsive>
+                        <thead>
+                            <tr>
+                                <th>Hijo</th>
+                                <th>Fecha</th>
+                                <th>Peso</th>
+                                <th>Altura</th>
+                                <th>Diámetro Craneal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {getControls()}
+                        </tbody>
+                    </Table>
             </section>
         </>
     )
