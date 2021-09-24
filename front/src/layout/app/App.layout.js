@@ -43,7 +43,7 @@ const AppLayout = () => {
                         <Link to="/"><FiLogOut /> Salir</Link>
                     </Col>
                 </Row>
-                <Row className="mb-4">
+                {/* <Row className="mb-4">
                     <Col>
                         <Card className="rounded">
                             <Card.Body>
@@ -55,23 +55,27 @@ const AppLayout = () => {
                             </Card.Body>
                         </Card>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row className="my-4">
                     <Col>
-                        <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
-                            <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
-                                <Profile user={user} />
-                            </Tab>
-                            <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
-                               <Childrens />
-                            </Tab>
-                            <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
-                                <Controls />
-                            </Tab>
-                            <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
-                                <Calendar />
-                            </Tab>
-                        </Tabs>
+                        <Card>
+                            <Card.Body>
+                                <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
+                                    <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
+                                        <Profile user={user} />
+                                    </Tab>
+                                    <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
+                                    <Childrens />
+                                    </Tab>
+                                    <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
+                                        <Controls />
+                                    </Tab>
+                                    <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
+                                        <Calendar />
+                                    </Tab>
+                                </Tabs>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
             </Container>
