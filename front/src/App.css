@@ -29,3 +29,7 @@
 main > .container {
   padding: 60px 15px 0;
 }
+
+body {
+  background: url('http://localhost:3000/images/dust_scratches.png');
+}

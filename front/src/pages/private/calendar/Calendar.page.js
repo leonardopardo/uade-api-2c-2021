@@ -1,24 +1,33 @@
-import React from 'react'
-import { Row, Table, Container, Button, Col} from 'react-bootstrap'
+import React, {useState} from 'react'
+import { Row, Table, Container, Card } from 'react-bootstrap'
+
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
 
 import CalendarButton from './Calendar.button'
 
-// <th><p style={{transform: "rotate(270deg)", alignContent: "center"}}>TRIPLE BACTERIANA CELULAR</p></th>
-
-
 const Calendar = () => {
 
-    const childrens = ["Juana", "Pablo", "Pedro"];
+    const childrens = [
+        {value: '1', label:'Nicolás'}
+    ];
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const animatedComponents = makeAnimated();
 
     return(
         <>
             <Container className="justify-content-center">
                 <Row className="my-4">
-                        {
-                            childrens.map((item) => <Col md="1"><Button variant="outline-dark">{item}</Button></Col>)
-                        }
+                <Select
+                    defaultValue={selectedOption}
+                    onChange={setSelectedOption}
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    options={childrens} />
                 </Row>
-                <Table bordered>
+                <Table bordered className="m-auto table-sm">
                     <tbody>
                         <tr>
                             <th></th>
