@@ -13,9 +13,9 @@ const CarrouselPartial = () => {
                 src={slide1}
                 alt="First slide"
                 />
-                <Carousel.Caption>
-                <h3>First slide label</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <Carousel.Caption className="bg-dark-25">
+                <h3>Informate sobre el cuidado de tus hijos</h3>
+                <p>Información sobre controles pediátricos y temas relevantes para padres primerizos.</p>
                 </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item interval={3000}>
@@ -24,9 +24,9 @@ const CarrouselPartial = () => {
                 src={slide2}
                 alt="Second slide"
                 />
-                <Carousel.Caption>
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <Carousel.Caption className="bg-light-25">
+                <h3>Seguimiento de los Controles Pediátricos</h3>
+                <p>Registrate en nuestro sitio y accedé a nuestra herramientas para registrar los controles</p>
                 </Carousel.Caption>
             </Carousel.Item>
         </Carousel>
