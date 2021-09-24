@@ -63,7 +63,7 @@ const ModalControlAdd = ({children}) => {
                                         size="md" 
                                         className={isValid(errors.age)}>
                                             {
-                                                children.map((item) => <option value={item}>{item}</option>)
+                                                children.map((item) => <option value={item}>{item.label}</option>)
                                             }
                                     </Form.Select>
                                 </Form.Group>

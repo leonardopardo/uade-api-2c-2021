@@ -1,5 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Col, Row, Card, Button } from 'react-bootstrap'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
 import WeightChart from './graphs/weight.page';
 import HeightChart from './graphs/height.page';
 import HeadCircumferenceChart from './graphs/headCircumference.page';
@@ -7,15 +9,25 @@ import HeadCircumferenceChart from './graphs/headCircumference.page';
 
 const Percentiles = () => {
 
-    const childrens = ["Juana", "Pablo", "Pedro"];
-    
+    const childrens = [
+        {value: '1', label:'Nicolás'}
+    ];
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const animatedComponents = makeAnimated();
+
+
     return(
         <>
             <section>
                     <Row className="my-4">
-                        {
-                            childrens.map((item) => <Col md="1"><Button variant="outline-dark">{item}</Button></Col>)
-                        }
+                        <Select
+                            defaultValue={selectedOption}
+                            onChange={setSelectedOption}
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            options={childrens} />
                     </Row>
                     <hr></hr>
                     <WeightChart />
