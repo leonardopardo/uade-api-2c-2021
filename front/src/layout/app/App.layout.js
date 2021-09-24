@@ -6,7 +6,8 @@ import { FiLogOut } from 'react-icons/fi'
 import FooterLayout from './../app/Footer.layout'
 import Profile from './../../pages/private/profile/Profile.page'
 import Childrens from '../../pages/private/childrens/Childrens.page'
-import Calendar from './../../pages/private/calendar/Calendar.page';
+import Calendar from './../../pages/private/calendar/Calendar.page'
+import Controls from '../../pages/private/controles/Controles.page'
 import faker from 'faker'
 
 
@@ -65,7 +66,7 @@ const AppLayout = () => {
                                <Childrens />
                             </Tab>
                             <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
-                                
+                                <Controls />
                             </Tab>
                             <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
                                 <Calendar />

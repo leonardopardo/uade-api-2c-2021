@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row, Card } from 'react-bootstrap'
-import ModalChildreAdd from './modals/Modal.add';
+import ModalChildreAdd from './modals/Modal.add'
 
 const Childrens = () => {
 

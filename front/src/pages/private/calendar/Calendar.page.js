@@ -14,11 +14,9 @@ const Calendar = () => {
         <>
             <Container className="justify-content-center">
                 <Row className="my-4">
-                    <Col>
                         {
-                            childrens.map((item) => <Button variant="outline-dark">{item}</Button>)
+                            childrens.map((item) => <Col md="1"><Button variant="outline-dark">{item}</Button></Col>)
                         }
-                    </Col>
                 </Row>
                 <Table bordered>
                     <tbody>
