@@ -3,18 +3,18 @@ import { UserModel } from "../models/User";
 
 export class UserController {
     public index(req: Request, res: Response){
-        res.json('User controller index');
+        res.status(200).json("User controller index");
     }
 
     public store(req: Request, res: Response){
-        res.json('User controller store');
+        res.status(200).json("User controller store");
     }
 
     async create(req: Request, res: Response){
         try{
             // We first search if there is an existing user with this email
             const user = await UserModel.findOne({email: req.body['email']});
-            res.json("User with email" + user.email + " already exists");
+            res.status(400).json("User with email" + user.email + " already exists");
         } catch {
             // We add the email and password to our database
             const new_user = new UserModel({
@@ -22,18 +22,18 @@ export class UserController {
                 password: req.body['password']
             });
             await new_user.save();
-            res.json('Successfully created user with email '+ req.body['email']);
+            res.status(200).json('Successfully created user with email '+ req.body['email']);
         }
     }
 
     async delete(req: Request, res: Response){
         try{
             // We remove the user with this email
-            const user = await UserModel.deleteOne({email: req.body['email']});
-            res.json("Deleting user with email" + user.email);
+            const user = await UserModel.findOneAndDelete({email: req.body['email']});
+            res.status(200).json("Deleting user with email" + user.email);
         } catch {
             // If an exception is raised, it means that there was no user with that email
-            res.json('No user exists with email '+ req.body['email']);
+            res.status(400).json('No user exists with email '+ req.body['email']);
         }
     }
     
@@ -45,10 +45,10 @@ export class UserController {
             // We then update the email
             user.email = req.body['new_email'];
             await user.save();
-            res.json("User with email" + user.email + " updated to email " + req.body['new_email']);
+            res.status(200).json("User with email" + req.body['email'] + " updated to email " + req.body['new_email']);
         } catch {
             // If an exception is raised, it means that there was no user with that email
-            res.json('No user exists with email '+ req.body['email']);
+            res.status(400).json('No user exists with email '+ req.body['email']);
         }
     }
 
@@ -59,10 +59,10 @@ export class UserController {
             // We then update the password
             user.password = req.body['new_password'];
             await user.save();
-            res.json("Password updated for user " + user.email);
+            res.status(200).json("Password updated for user " + user.email);
         } catch {
             // If an exception is raised, it means that there was no user with that email
-            res.json('No user exists with email '+ req.body['email']);
+            res.status(400).json('No user exists with email '+ req.body['email']);
         }
     }
 }
