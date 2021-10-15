@@ -1,1 +1,241 @@
-{"client":"Thunder Client","collectionName":"uade-api","dateExported":"2021-08-22T14:24:57.708Z","version":"1.1","folders":[{"containerId":"","sortNum":10000,"name":"users","_id":"cdefadc3-1f38-4e60-a09c-281085e0d0a8","created":"2021-08-22T13:46:48.064Z"}],"requests":[{"containerId":"cdefadc3-1f38-4e60-a09c-281085e0d0a8","sortNum":10000,"headers":[{"name":"Accept","value":"*/*"},{"name":"User-Agent","value":"Thunder Client (https://www.thunderclient.io)"}],"colId":"3759e09a-9aa2-4c9a-880b-85bbf63a2509","name":"create","url":"http://192.168.147.135:4000/users/create","method":"POST","modified":"2021-08-22T14:19:12.552Z","created":"2021-08-22T13:46:55.541Z","_id":"b47ea526-7c71-400e-91a5-35df59683b7a","params":[],"body":{"type":"json","raw":"{\n    \"email\": \"example3@example.com\",\n    \"password\": \"ThisIsADifficultPassword\"\n}","form":[]},"tests":[]}]}
+{
+	"info": {
+		"_postman_id": "3500c96e-9f69-4667-8c2f-f7209495e3ae",
+		"name": "UADE-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Store",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example@example.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/delete",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example@example.com\",\r\n    \"password\": \"password\",\r\n    \"new_email\": \"otherExample@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/change_email",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"change_email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example@example.com\",\r\n    \"password\": \"password\",\r\n    \"new_password\": \"password2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/change_password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"change_password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vaccines",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vaccine_id\": \"1\",\r\n    \"child_dni\": \"60498276\",\r\n    \"date\": \"09-10-2021\",\r\n    \"location\": \"Hospital Posadas\",\r\n    \"name\": \"BCG\",\r\n    \"description\": \"Descripcion\",\r\n    \"applied\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/vaccines/create",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"vaccines",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vaccine_id\": \"1\",\r\n    \"child_dni\": \"60498276\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/vaccines/apply",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"vaccines",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "127.0.0.1:4000"
+		}
+	]
+}

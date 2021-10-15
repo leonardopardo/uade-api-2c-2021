@@ -19,7 +19,8 @@ class App {
     public userRoutes: UserRoutes =  new UserRoutes();
     public vaccineRoutes: VaccineRoutes =  new VaccineRoutes();
 
-    public mongoUrl: string = 'mongodb://mongo:27017/test';
+    // TODO: Find a way of using environment variables here
+    public mongoUrl: string = '';
 
     constructor(){
         this.app = express();

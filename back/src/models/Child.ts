@@ -6,8 +6,8 @@ const ChildSchema = new Schema({
     name: {type: String, required: true},
     surname: {type: String, required: true},
     birthdate: {type: Date, required: true},
-    allergies: String,
-    diseases: String
+    allergies: [String],
+    diseases: [String]
 });
 
 export const ChildModel = model('Child', ChildSchema);
