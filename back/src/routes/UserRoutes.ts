@@ -13,8 +13,6 @@ export class UserRoutes {
 
     public routes(router: Router): void {
         router
-            .get(this.path, this.userController.index)
-            .post(this.path, this.userController.store)
             .post(this.path+this.create, this.userController.create)
             .post(this.path+this.delete, Authorize, this.userController.delete)
             .post(this.path+this.change_email, Authorize, this.userController.change_email)

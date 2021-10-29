@@ -2,33 +2,41 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 
 import { Request, Response } from "express";
-import { UserModel } from "../models/User";
+import { UserModel, IUser } from '../models/User';
+import { UserService } from '../services/UserService';
 
 export class UserController {
-    public index(req: Request, res: Response){
-        res.status(200).json("User controller index");
-    }
+    
+    public service: UserService;
 
-    public store(req: Request, res: Response){
-        res.status(200).json("User controller store");
+    constructor(){
+        this.service = new UserService();
+        console.log(this.service);
     }
 
     async create(req: Request, res: Response){
         try{
-            // We first search if there is an existing user with this email
-            const user = await UserModel.findOne({email: req.body['email']});
-            res.status(400).json("User with email" + user.email + " already exists");
-        } catch {
-            // We add the email and password to our database
-            // We encrypt the password first
-            var hashedPassword = bcrypt.hashSync(req.body['password'], 8);
 
-            const new_user = new UserModel({
-                email: req.body['email'],
-                password: hashedPassword
-            });
-            await new_user.save();
-            res.status(200).json('Successfully created user with email '+ req.body['email']);
+            if(this.service.findByEmail(req.body["email"]))
+                res.status(400).json("User with email" + req.body["email"] + " already exists");
+                
+            const newUser: IUser = {
+                firstname: req.body["firstname"],
+                lastname: req.body["lastname"],
+                email: req.body["email"],
+                password: req.body["password"]
+            }
+
+            await this.service.create(newUser);
+
+            res
+                .status(201)
+                .json(`The user ${newUser.email} was created correctly`)
+            
+        } catch (e) {
+            res
+            .status(500)
+            .json("An error occurred while saving the user: " + e.message);
         }
     }
 
@@ -78,9 +86,16 @@ export class UserController {
         try{
             // We first search if there is an existing user with this email and password
             const user = await UserModel.findOne({email: req.body['email']});
+            
+            // When the user not exists in database
+            if(user===null) 
+                throw new Error("Invalid username/password");
+
             const passwordIsValid = bcrypt.compareSync(req.body['password'], user.password);
+            
             //Login failed due to invalid password
-            if (!passwordIsValid) throw new Error("Invalid username/password");
+            if (!passwordIsValid) 
+                throw new Error("Invalid username/password");
 
             // If successful, return auth token
             var token = jwt.sign({
@@ -89,10 +104,11 @@ export class UserController {
                 expiresIn: 86400 // expires in 24 hours
             });
 
-            res.status(200).json("Logged in " + user.email + " returned token " + token);
+            return res.status(200).json("Logged in " + user.email + " returned token " + token);
+
         } catch (e){
             // If an exception is raised, it means that there was no user with that email
-            res.status(400).json(e.message);
+            return res.status(400).json(e.message);
         }
     }
 }

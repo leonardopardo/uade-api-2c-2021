@@ -1,11 +1,11 @@
 // React
-import React from 'react'
+import React, { useState } from 'react'
 
 // Router
 import { Link } from 'react-router-dom'
 
 // layout Design Components
-import { Row, Col, Form, Button, Container, FloatingLabel } from 'react-bootstrap'
+import { Row, Col, Form, Button, Container, FloatingLabel, Alert } from 'react-bootstrap'
 import { FiUserCheck, FiUnlock, FiUserPlus, FiLogIn } from "react-icons/fi"
 
 // images
@@ -17,7 +17,14 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema } from './validations/Login.validation'
 
+import axios from 'axios'
+
 const LoginPage = () => {
+
+    const [
+        loginMessage, 
+        setLoginMessage
+    ] = useState("")
 
     const {register, handleSubmit, formState: { errors }} = useForm({
         resolver: yupResolver(LoginSchema)
@@ -27,8 +34,18 @@ const LoginPage = () => {
         return value ? 'is-invalid' : ''
     }
 
+    const apiUrl = "http://localhost:4000/users/login"
+
     const loginSubmit = (data) => {
-        console.log(data)
+        axios
+        .post(apiUrl, data)
+        .then(res => {
+           console.log(res)
+        })
+        .catch(err => {
+            setLoginMessage("Debería haber un mensaje de usuario/contraseña inválido pero . . . " + err.data)
+            console.log(err)
+        })
     }
 
     return(
@@ -95,6 +112,18 @@ const LoginPage = () => {
                         </Row>
                     </Col>
                 </Row>
+                
+                {
+                    loginMessage!=="" &&
+                    <Row>
+                        <Col className="col-md-10 col-lg-3 mx-auto">
+                            <Alert variant="danger">
+                                {loginMessage}
+                            </Alert>
+                        </Col>
+                    </Row>
+                }
+
                 <Row>
                     <Col className="col-md-10 col-lg-3 mx-auto">
                         <p className="text-center">

@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState} from 'react'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { FiLogIn, FiCheck, FiLock, FiMail, FiUserCheck } from "react-icons/fi"; 
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
+import { FiLogIn, FiCheck, FiLock, FiMail, FiUserCheck } from "react-icons/fi"
 
 // validations
 import { useForm } from 'react-hook-form'
@@ -12,12 +13,25 @@ import { RegisterSchema } from './validations/Register.validation'
 
 const RegisterPage = () => {
 
+    const [registerMessage, setRegisterMessage] = useState("")
+
     const {register, handleSubmit, formState:{errors}} = useForm({
         resolver: yupResolver(RegisterSchema)
     })
 
+    const apiUrl = "http://localhost:4000/users/create"
+
     const registerFormSubmit = (data) => {
-        console.log(data)
+        axios
+            .post(apiUrl, data)
+            .then(res => {
+                console.log(res)
+                setRegisterMessage(res.message)
+            })
+            .catch(err => {
+                console.log(err)
+                setRegisterMessage(err)
+            })
     }
 
     const isValid = (value) => {
@@ -131,6 +145,16 @@ const RegisterPage = () => {
                                 </Form>
                             </Col>
                         </Row>
+                        {
+                            registerMessage !== "" &&
+                            <Row>
+                                <Col className="col-md-10 col-lg-3 mx-auto">
+                                    <Alert variant="danger">
+                                        Mensaje de Error
+                                    </Alert>
+                                </Col>
+                            </Row>
+                        }
                         <Row>
                             <Col className="col-md-10 col-lg-3 mx-auto">
                                 <p className="text-center">
