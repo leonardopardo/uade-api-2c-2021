@@ -14,6 +14,8 @@ import { RegisterSchema } from './validations/Register.validation'
 const RegisterPage = () => {
 
     const [registerMessage, setRegisterMessage] = useState("")
+    const [registerError, setRegisterError] = useState("")
+    const [registerVariant, setRegisterVariant] = useState("success")
 
     const {register, handleSubmit, formState:{errors}} = useForm({
         resolver: yupResolver(RegisterSchema)
@@ -25,12 +27,19 @@ const RegisterPage = () => {
         axios
             .post(apiUrl, data)
             .then(res => {
-                console.log(res)
-                setRegisterMessage(res.message)
+                if(res.status === 201){
+                    setRegisterVariant("success")
+                    setRegisterMessage(res.data.message)
+                    setRegisterError("")
+                }else{
+                    setRegisterVariant("danger")
+                    setRegisterMessage(res.data.message)
+                    setRegisterError(res.data.error)
+
+                }
             })
             .catch(err => {
-                console.log(err)
-                setRegisterMessage(err)
+                // code here...
             })
     }
 
@@ -60,11 +69,30 @@ const RegisterPage = () => {
                         </h6>
                     </Col>
                     <Col md={{ span: 10 }} lg={{ span: 5 }} >
+                        {
+                            registerError !== "" ?
+                            <Row>
+                                <Col className="col-md-12 col-lg-12 mx-auto">
+                                    <Alert variant={registerVariant}>
+                                        <Alert.Heading>{registerMessage}</Alert.Heading>
+                                        {registerError}
+                                    </Alert>
+                                </Col>
+                            </Row>
+                            :
+                            <Row>
+                                <Col className="col-md-12 col-lg-12 mx-auto">
+                                    <Alert variant={registerVariant}>
+                                        {registerMessage}
+                                    </Alert>
+                                </Col>
+                            </Row>
+                        }
                         <Row>
                             <Col className="bg-light my-4 p-4 shadow rounded">
                                 <Form onSubmit={handleSubmit(registerFormSubmit)}>
 
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Group className="mb-3">
                                         <Form.Label><FiUserCheck /> Nombre</Form.Label>
                                         <Form.Control 
                                             {...register("firstName")} 
@@ -77,7 +105,7 @@ const RegisterPage = () => {
                                         </p>
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Group className="mb-3" >
                                         <Form.Label>Apellido</Form.Label>
                                         <Form.Control 
                                             {...register("lastName")} 
@@ -91,7 +119,7 @@ const RegisterPage = () => {
                                     </Form.Group>
 
 
-                                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Group className="mb-3">
                                         <Form.Label><FiMail /> Email</Form.Label>
                                         <Form.Control 
                                             {...register("username")} 
@@ -107,7 +135,7 @@ const RegisterPage = () => {
                                         </Form.Text>
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Group className="mb-3">
                                         <Form.Label><FiLock /> Contraseña</Form.Label>
                                         <Form.Control 
                                             {...register("password")} 
@@ -120,7 +148,7 @@ const RegisterPage = () => {
                                         </p>
                                     </Form.Group>
 
-                                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                                    <Form.Group className="mb-3">
                                         <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>
                                         <Form.Control 
                                             {...register("confirmPassword")} 
@@ -145,16 +173,6 @@ const RegisterPage = () => {
                                 </Form>
                             </Col>
                         </Row>
-                        {
-                            registerMessage !== "" &&
-                            <Row>
-                                <Col className="col-md-10 col-lg-3 mx-auto">
-                                    <Alert variant="danger">
-                                        Mensaje de Error
-                                    </Alert>
-                                </Col>
-                            </Row>
-                        }
                         <Row>
                             <Col className="col-md-10 col-lg-3 mx-auto">
                                 <p className="text-center">
