@@ -3,6 +3,10 @@ import { UserModel, IUser } from './../models/User';
 
 export class UserService {
 
+    constructor() {
+        // code here ...
+    }
+
     async findByEmail(email: String){
         try {
             return await UserModel.findOne({"email": email});
@@ -32,9 +36,9 @@ export class UserService {
         try {
 
             const newUser = new UserModel({
-                firstname: user.firstname,
-                lastname: user.lastname,
-                email: user.email,
+                firstname: user.firstName,
+                lastname: user.lastName,
+                email: user.username,
                 password: bcrypt.hashSync(user.password, 8)
             })
             
@@ -48,12 +52,12 @@ export class UserService {
     async update(user: IUser){
         try {
             
-            const u = await this.findByEmail(user.email);
-            u.firstname = user.firstname;
-            u.lastname = user.lastname;
+            const u = await this.findByEmail(user.username);
+            u.firstname = user.firstName;
+            u.lastname = user.lastName;
             u.identity = user.identity;
             u.age = user.age;
-            u.email = user.email;
+            u.email = user.username;
 
             await u.update();
 
@@ -65,7 +69,7 @@ export class UserService {
     async updatePassword(user: IUser){
         try {
             
-            const u = await this.findByEmail(user.email);
+            const u = await this.findByEmail(user.username);
             u.password = user.password;
             
             await u.update();

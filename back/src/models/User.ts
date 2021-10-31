@@ -8,9 +8,9 @@ const UserSchema = new Schema({
 })
 
 export interface IUser {
-    firstname: String,
-    lastname: String,
-    email: String,
+    firstName: String,
+    lastName: String,
+    username: String,
     password: String,
     age?: Date,
     identity?: String,

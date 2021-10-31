@@ -7,36 +7,39 @@ import { UserService } from '../services/UserService';
 
 export class UserController {
     
-    public service: UserService;
-
-    constructor(){
-        this.service = new UserService();
-        console.log(this.service);
-    }
-
     async create(req: Request, res: Response){
         try{
+            
+            const service = new UserService();
 
-            if(this.service.findByEmail(req.body["email"]))
-                res.status(400).json("User with email" + req.body["email"] + " already exists");
+            const userExist = await service.findByEmail(req.body["username"])
+
+            if(userExist !== null)
+                throw new Error("El email " + req.body["username"] + " ya existe, recupere su contraseña o utilice otra cuenta de email.");
                 
             const newUser: IUser = {
-                firstname: req.body["firstname"],
-                lastname: req.body["lastname"],
-                email: req.body["email"],
+                firstName: req.body["firstName"],
+                lastName: req.body["lastName"],
+                username: req.body["username"],
                 password: req.body["password"]
             }
 
-            await this.service.create(newUser);
+            await service.create(newUser);
 
-            res
+            return res
                 .status(201)
-                .json(`The user ${newUser.email} was created correctly`)
+                .json({
+                    data: newUser.username,
+                    message: `El usuario ${newUser.username} ha sido creado correctamente, pude ingresar desde la página de login.`
+                })
             
         } catch (e) {
-            res
-            .status(500)
-            .json("An error occurred while saving the user: " + e.message);
+            return res
+            .status(200)
+            .json({
+                message: "Ocurrió un error al crear el usuario.",
+                error: e.message
+            });
         }
     }
 
