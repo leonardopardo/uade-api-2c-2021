@@ -17,4 +17,21 @@ const ControlSchema = new Schema({
     results: String
 })
 
+export interface IControl {
+    child_dni: String,
+    parent_dni: String,
+    date: Date,
+    weight: Number,
+    height: Number,
+    head_diam: Number,
+    observations: String,
+    meds: {
+        med_name: String,
+        dosage: Number,
+        take_until: Date
+    },
+    studies: String,
+    results: String
+}
+
 export const ControlModel = model('Control', ControlSchema);

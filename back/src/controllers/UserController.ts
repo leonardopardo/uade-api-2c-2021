@@ -54,7 +54,6 @@ export class UserController {
         }
     }
     
-    // TODO: This is prob not right, as for doing this the user must have logged in before
     async change_email(req: Request, res: Response){
         try{
             // We first search if there is an existing user with this email and password

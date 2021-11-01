@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import { ControlModel } from "../models/Control";
+import { ControlService } from "./../services/ControlService";
+import { ControlModel, IControl } from "./../models/Control";
 
 export class ControlController {
-    public index(req: Request, res: Response){
-        res.json('Control controller index');
-    }
 
-    public store(req: Request, res: Response){
-        res.json('Control controller store');
+    service: ControlService
+
+    constructor(){
+        this.service = new ControlService();
     }
 
     async create(req: Request, res: Response){
         try{
             // We dont really care if a control already exists for the creation
-            const new_control = new ControlModel({
+            const newControl: IControl = {
                 child_dni: req.body['child_dni'],
                 parent_dni: req.body['parent_dni'],
                 date: req.body['date'],
@@ -29,27 +29,41 @@ export class ControlController {
                 },
                 studies: req.body['studies'],
                 results: req.body['results']
+            };
+            await this.service.create(newControl)
+
+            return res
+                .status(201)
+                .json({
+                    message: `Se creo un nuevo control para hijo con DNI ${req.body['child_dni']}`
+                })
+        } catch (e){
+            return res
+                .status(200)
+                .json({
+                    message: "Ocurrió un error al crear el control.",
+                    error: e.message
             });
-            await new_control.save();
-            res.status(200).json('Successfully created new control for child with DNI '+ req.body['child_dni']);
-        } catch {
-            // We add the email and password to our database
-            res.status(400).json("Something went wrong");
         }
     }
 
     async delete(req: Request, res: Response){
         try{
-            // We remove the user with this email
-            const control = await ControlModel.findOneAndDelete({
-                child_dni: req.body['child_dni'],
-                parent_dni: req.body['parent_dni'],
-                date: req.body['date']
+            
+            await this.service.deleteBasedOnDate(req.body['parent_dni'], req.body['child_dni'], req.body['date'])
+
+            return res
+                .status(201)
+                .json({
+                    message: `Se ha borrado el control correctamente`
+                })
+        } catch (e){
+            return res
+                .status(200)
+                .json({
+                    message: "Ocurrió un error al borrar el control.",
+                    error: e.message
             });
-            res.status(200).json("Deleting control for child with DNI " + req.body['child_dni'] + " and date " + req.body['date']);
-        } catch {
-            // If an exception is raised, it means that there was no user with that email
-            res.status(400).json('Something went wrong');
         }
     }
 }

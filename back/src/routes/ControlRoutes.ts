@@ -9,8 +9,6 @@ export class ControlRoutes {
 
     public routes(router: Router): void {
         router
-            .get(this.path, this.controlController.index)
-            .post(this.path, this.controlController.store)
             .post(this.path + this.create, this.controlController.create)
             .post(this.path + this.delete, this.controlController.delete);
     }

@@ -4,7 +4,6 @@ import * as cors from 'cors';
 
 import { ChildRoutes } from './routes/ChildRoutes';
 import { ControlRoutes } from './routes/ControlRoutes';
-import { ParentRoutes } from './routes/ParentRoutes';
 import { UserRoutes } from './routes/UserRoutes';
 import { VaccineRoutes } from './routes/VaccineRoutes';
  
@@ -29,7 +28,6 @@ class App {
 
     public childRoutes: ChildRoutes =  new ChildRoutes();
     public controlRoutes: ControlRoutes =  new ControlRoutes();
-    public parentRoutes: ParentRoutes =  new ParentRoutes();
     public userRoutes: UserRoutes =  new UserRoutes();
     public vaccineRoutes: VaccineRoutes =  new VaccineRoutes();
 
@@ -49,7 +47,6 @@ class App {
         this.app.use('/', this.router);
         this.childRoutes.routes(this.router);
         this.controlRoutes.routes(this.router);
-        this.parentRoutes.routes(this.router);
         this.userRoutes.routes(this.router);
         this.vaccineRoutes.routes(this.router);
     }
