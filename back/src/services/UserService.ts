@@ -15,6 +15,15 @@ export class UserService {
         }
     }
 
+    /**
+     * Alias del método findByEmail
+     * @param username 
+     * @returns 
+     */
+    async findByUsername(username: String){
+        return this.findByEmail(username)
+    }
+
     async findById(id: Number){
         try {
             return await UserModel.findById(id);

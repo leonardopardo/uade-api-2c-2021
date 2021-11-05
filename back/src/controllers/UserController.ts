@@ -1,12 +1,13 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import{ SMTPClient, Message } from 'emailjs';
 
 import { Request, Response } from "express";
 import { UserModel, IUser } from '../models/User';
 import { UserService } from '../services/UserService';
 
 export class UserController {
-    
+
     async create(req: Request, res: Response){
         try{
             
@@ -35,7 +36,7 @@ export class UserController {
             
         } catch (e) {
             return res
-            .status(200)
+            .status(400)
             .json({
                 message: "Ocurrió un error al crear el usuario.",
                 error: e.message
@@ -86,18 +87,22 @@ export class UserController {
 
     async login(req: Request, res: Response){
         try{
+
+            const service = new UserService();
+
             // We first search if there is an existing user with this email and password
-            const user = await UserModel.findOne({email: req.body['email']});
-            
+            const user = await service.findByUsername(req.body['username']);
+
+          
             // When the user not exists in database
             if(user===null) 
-                throw new Error("Invalid username/password");
+                throw new Error("Usuario o contraseña Incorrectos");
 
             const passwordIsValid = bcrypt.compareSync(req.body['password'], user.password);
             
             //Login failed due to invalid password
             if (!passwordIsValid) 
-                throw new Error("Invalid username/password");
+                throw new Error("Usuario o contraseña Incorrectos");
 
             // If successful, return auth token
             var token = jwt.sign({
@@ -106,11 +111,53 @@ export class UserController {
                 expiresIn: 86400 // expires in 24 hours
             });
 
-            return res.status(200).json("Logged in " + user.email + " returned token " + token);
+            return res.status(200).json({token});
 
         } catch (e){
             // If an exception is raised, it means that there was no user with that email
-            return res.status(400).json(e.message);
+            return res.status(401).json({
+                message: e.message
+            });
+        }
+    }
+
+    async restorePassword(req: Request, res: Response) {
+
+        try {
+
+            const service: UserService = new UserService();
+            
+            const user = await service.findByEmail(req.body["email"])
+
+            if(user === null)
+                throw new Error("El email ingresado no se encuentra en nustra base de datos.")
+
+            const client = new SMTPClient({
+                host: 'localhost',
+                port: 1025,
+            });
+
+            const message = new Message({
+                from: 'Padres al Día <info@padresaldia.com.ar>',
+                to: user.e,
+                subject: 'testing emailjs',
+                text: 'i hope this works',
+            });
+    
+            await client.sendAsync(message);
+
+            return res
+            .status(200)
+            .json({
+                message: 'Se ha enviado un email a su cuenta de correo para resetear sus credenciales.'
+            })
+
+        } catch (e) {
+            return res
+            .status(400)
+            .json({
+                message: e.message
+            })
         }
     }
 }
