@@ -6,6 +6,8 @@ import { ChildRoutes } from './routes/ChildRoutes';
 import { ControlRoutes } from './routes/ControlRoutes';
 import { UserRoutes } from './routes/UserRoutes';
 import { VaccineRoutes } from './routes/VaccineRoutes';
+
+import { VaccineService } from './services/VaccineService';
  
 class App {
     
@@ -56,6 +58,8 @@ class App {
 
     private configureMongo() {
         mongoose.connect(this.mongoUrl, {useNewUrlParser: true, useUnifiedTopology: true});
+        const service = new VaccineService();
+        service.initializeVaccineDB();
     }
 }
 

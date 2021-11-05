@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ControlService } from "./../services/ControlService";
-import { ControlModel, IControl } from "./../models/Control";
+import { IControl } from "./../models/Control";
 
 export class ControlController {
 

@@ -1,46 +1,39 @@
 import { Request, Response } from "express";
-import { VaccineModel } from "../models/Vaccine";
+import { IVaccineApplication } from "./../models/Vaccine";
+import { VaccineService } from "./../services/VaccineService"
 
 export class VaccineController {
-    public index(req: Request, res: Response){
-        res.status(200).json('Vaccine controller index');
-    }
 
-    public store(req: Request, res: Response){
-        res.status(200).json('Vaccine controller store');
-    }
+    service: VaccineService;
 
-    async create(req: Request, res: Response){
-        try{
-            // We first search if there is an existing vaccine with this id
-            const vaccine = await VaccineModel.findOne({vaccine_id: req.body['vaccine_id'], child_dni: req.body['child_dni']});
-            res.status(400).json("Vaccine with ID " + vaccine.vaccine_id + " already exists");
-        } catch {
-            // We add the vaccine to our database
-            const new_vaccine = new VaccineModel({
-                vaccine_id: req.body['vaccine_id'],
-                child_dni: req.body['child_dni'],
-                date: req.body['date'],
-                location: req.body['location'],
-                name: req.body['name'],
-                description: req.body['description'],
-                applied: req.body['applied']
-            });
-            await new_vaccine.save();
-            res.status(200).json('Successfully created vaccine with id '+ req.body['vaccine_id']);
-        }
+    constructor(){
+        this.service = new VaccineService();
     }
 
     async apply(req: Request, res: Response){
         try{
             // We first search if there is a child with that vaccine id
-            const vaccine = await VaccineModel.findOne({vaccine_id: req.body['vaccine_id'], child_dni: req.body['child_dni']});
-            vaccine.applied = true;
-            vaccine.save();
-            res.status(200).json("Applied vaccine with ID " + req.body['vaccine_id'] + " to child with DNI " + req.body['child_dni']);
-        } catch {
-            // This means there is no child with that DNI or that the vaccine does not exist
-            res.status(400).json("Either the child or the vaccine does not exist");
+            const newApplication: IVaccineApplication = {
+                parent_dni: req.body['parent_dni'],
+                child_dni: req.body['child_dni'],
+                vaccine_id: req.body['vaccine_id'],
+                date: req.body['date'],
+                location: req.body['location']
+            }
+            this.service.applyVaccine(newApplication);
+
+            return res
+                .status(201)
+                .json({
+                    message: `Vacuna aplicada correctamente!`
+                })
+        } catch (e){
+            return res
+                .status(200)
+                .json({
+                    message: `Ocurrio un error al aplicar la vacuna`,
+                    error: e.message
+                })
         }
     }
 }
