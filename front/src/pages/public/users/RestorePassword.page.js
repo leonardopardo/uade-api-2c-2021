@@ -1,11 +1,13 @@
 // react5
-import React from 'react';
+import React, { useState } from 'react';
 
 // router
 import { Link } from 'react-router-dom';
 
+import axios from 'axios';
+
 // layout design components
-import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, FloatingLabel, Alert } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
 
 // layout self component
@@ -17,12 +19,35 @@ import { RestorePasswordSchema } from './validations/Restore.validation';
 
 const RestorePasswordPage = () => {
 
-    const {register, handleSubmit, formState:{errors}} = useForm({
+    const [
+        restoreMessage, 
+        setRestoreMessage
+    ] = useState("");
+
+    const [
+        restoreVariant, 
+        setRestoreVariant
+    ] = useState();
+
+    const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(RestorePasswordSchema)
     })
 
+    const apiUrl = "http://localhost:4000/users/restore-password"
+
     const restorePasswordSubmit = (data) => {
-        console.log(data)
+        axios
+        .post(apiUrl)
+        .then(res => {
+            console.log(res)
+            setRestoreVariant('success')
+            setRestoreMessage(res.data.message)
+            reset()
+        })
+        .catch(err => {
+            setRestoreVariant('danger')
+            setRestoreMessage(err.response.data.message)
+        })
     }
 
     const isValid = (value) => {
@@ -73,6 +98,17 @@ const RestorePasswordPage = () => {
                         </Form>
                     </Col>
                 </Row>
+                {
+                    restoreMessage !== "" &&
+                    <Row>
+                        <Col className="col-md-10 col-lg-6 mx-auto">
+                            <Alert variant={restoreVariant}>
+                                <Alert.Heading>Atención!</Alert.Heading>
+                                {restoreMessage}
+                            </Alert>
+                        </Col>
+                    </Row>
+                }
                 <Row>
                     <Col className="col-md-10 col-lg-3 mx-auto">
                         <p className="text-center">

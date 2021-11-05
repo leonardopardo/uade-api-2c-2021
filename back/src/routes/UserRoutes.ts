@@ -10,6 +10,7 @@ export class UserRoutes {
     public change_email: string = '/change_email';
     public change_password: string = '/change_password';
     public login: string = '/login';
+    public restore_password = '/restore-password'
 
     public routes(router: Router): void {
         router
@@ -17,6 +18,7 @@ export class UserRoutes {
             .post(this.path+this.delete, Authorize, this.userController.delete)
             .post(this.path+this.change_email, Authorize, this.userController.change_email)
             .post(this.path+this.change_password, Authorize, this.userController.change_password)
-            .post(this.path+this.login, this.userController.login);
+            .post(this.path+this.login, this.userController.login)
+            .post(this.path+this.restore_password, this.userController.restorePassword);
     }
 }

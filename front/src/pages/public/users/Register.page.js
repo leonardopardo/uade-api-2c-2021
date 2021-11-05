@@ -14,32 +14,29 @@ import { RegisterSchema } from './validations/Register.validation'
 const RegisterPage = () => {
 
     const [registerMessage, setRegisterMessage] = useState("")
+    const [registerVariant, setRegisterVariant] = useState("")
     const [registerError, setRegisterError] = useState("")
-    const [registerVariant, setRegisterVariant] = useState("success")
 
-    const {register, handleSubmit, formState:{errors}} = useForm({
+    const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(RegisterSchema)
     })
 
     const apiUrl = "http://localhost:4000/users/create"
 
     const registerFormSubmit = (data) => {
+
         axios
             .post(apiUrl, data)
             .then(res => {
-                if(res.status === 201){
-                    setRegisterVariant("success")
-                    setRegisterMessage(res.data.message)
-                    setRegisterError("")
-                }else{
-                    setRegisterVariant("danger")
-                    setRegisterMessage(res.data.message)
-                    setRegisterError(res.data.error)
-
-                }
+                setRegisterVariant("success")
+                setRegisterMessage(res.data.message)
+                setRegisterError("")
+                reset()
             })
             .catch(err => {
-                // code here...
+                setRegisterVariant("danger")
+                setRegisterMessage(err.response.data.message)
+                setRegisterError(err.response.data.error)
             })
     }
 

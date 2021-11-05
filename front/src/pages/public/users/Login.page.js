@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 
 // Router
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 // layout Design Components
 import { Row, Col, Form, Button, Container, FloatingLabel, Alert } from 'react-bootstrap'
@@ -21,12 +21,14 @@ import axios from 'axios'
 
 const LoginPage = () => {
 
+    const history = useHistory();
+    
     const [
         loginMessage, 
         setLoginMessage
     ] = useState("")
 
-    const {register, handleSubmit, formState: { errors }} = useForm({
+    const {register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(LoginSchema)
     })
 
@@ -36,22 +38,22 @@ const LoginPage = () => {
 
     const apiUrl = "http://localhost:4000/users/login"
 
-    const loginSubmit = (data) => {
+    const loginSubmit = (data) => {        
         axios
         .post(apiUrl, data)
         .then(res => {
-           console.log(res)
+            localStorage.setItem('token', res.data.token)
+            history.push("/app")
         })
         .catch(err => {
-            setLoginMessage("Debería haber un mensaje de usuario/contraseña inválido pero . . . " + err.data)
-            console.log(err)
+            setLoginMessage(err.response.data.message)
         })
     }
 
     return(
         <>
             <Container fluid className="px-4 py-5">
-                <Row className="align-items-center g-lg-5 py-5">
+                <Row className="align-items-center g-lg-5 pb-5">
                     <Col className="col-md-10 mx-auto col-lg-3 p-4 shadow bg-light rounded">
                         <Row>
                             <Col>
@@ -112,7 +114,6 @@ const LoginPage = () => {
                         </Row>
                     </Col>
                 </Row>
-                
                 {
                     loginMessage!=="" &&
                     <Row>
@@ -123,7 +124,6 @@ const LoginPage = () => {
                         </Col>
                     </Row>
                 }
-
                 <Row>
                     <Col className="col-md-10 col-lg-3 mx-auto">
                         <p className="text-center">
