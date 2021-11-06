@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap'
 import { FcAbout } from 'react-icons/fc'
 import { FiLogOut } from 'react-icons/fi'
@@ -14,6 +14,17 @@ import faker from 'faker'
 
 const AppLayout = () => {
     
+    const history = useHistory();
+
+    const token = localStorage.getItem('token')
+
+    const tokenInvalida = true;
+
+    const tokenVencida = true;
+
+    if(token === null || tokenInvalida === true || tokenVencida === true )
+        history.push('/login')
+
     const user = {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
@@ -30,6 +41,9 @@ const AppLayout = () => {
         age: '1995-06-01',
         img: 'marie.jpg'
     }
+
+    const chicos = [];
+    const controles = [];
 
     return (
         <>
