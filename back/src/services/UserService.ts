@@ -9,17 +9,33 @@ export class UserService {
 
     async findByEmail(email: String){
         try {
-            return await UserModel.findOne({"email": email});
+
+            console.log("parametro: " + email)
+
+            const u = await UserModel.findOne({"email": email});
+
+            console.log("en el service:" + u);
+            
+            if(u === null)
+                return null;
+
+            const user: IUser = {
+                id: u._id,
+                firstName: u.firstname,
+                lastName: u.lastname,
+                username: u.email,
+                age: u.age,
+                identity: u.identity,
+                avatar:u.avatar
+            }
+
+            return user;
+
         } catch(e) {
             throw new Error(e);
         }
     }
 
-    /**
-     * Alias del método findByEmail
-     * @param username 
-     * @returns 
-     */
     async findByUsername(username: String){
         return this.findByEmail(username)
     }
@@ -60,15 +76,17 @@ export class UserService {
 
     async update(user: IUser){
         try {
-            
-            const u = await this.findByEmail(user.username);
+        
+            const u = await UserModel.findOne({"email": user.username})
+
             u.firstname = user.firstName;
             u.lastname = user.lastName;
             u.identity = user.identity;
             u.age = user.age;
             u.email = user.username;
+            u.restorePasswordToken = user.restorePasswordToken;
 
-            await u.update();
+            await u.updateOne(user);
 
         } catch(e) {
             throw new Error(e)
@@ -78,9 +96,9 @@ export class UserService {
     async updatePassword(user: IUser){
         try {
             
-            const u = await this.findByEmail(user.username);
+            const u = await UserModel.findOne({"email": user.username})
             u.password = user.password;
-            
+
             await u.update();
 
         } catch (e) {

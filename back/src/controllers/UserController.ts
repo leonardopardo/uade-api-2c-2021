@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import{ SMTPClient, Message } from 'emailjs';
+import { encode } from 'js-base64';
 
 import { Request, Response } from "express";
 import { UserModel, IUser } from '../models/User';
@@ -92,7 +93,7 @@ export class UserController {
             const service = new UserService();
 
             // We first search if there is an existing user with this email and password
-            const user = await service.findByUsername(req.body['username']);
+            const user: IUser = await service.findByUsername(req.body['username']);
 
           
             // When the user not exists in database
@@ -107,7 +108,7 @@ export class UserController {
 
             // If successful, return auth token
             var token = jwt.sign({
-                id: user._id
+                id: user.id
             }, "secreto", {
                 expiresIn: 86400 // expires in 24 hours
             });
@@ -127,25 +128,51 @@ export class UserController {
         try {
 
             const service: UserService = new UserService();
-            
-            const user = await service.findByEmail(req.body["email"])
+    
+            const user: IUser = await service.findByEmail(req.body["email"])
 
             if(user === null)
                 throw new Error("El email ingresado no se encuentra en nustra base de datos.")
 
+            // SMTP ====================================
             const client = new SMTPClient({
                 host: 'localhost',
-                port: 1025,
+                port: 1025
             });
+
+            const token = encode((Math.random() + 1).toString(36).substring(7), true)
+
+            const path = `http://localhost:3000/confirm-password?user=${user.username}&token=${token}`
 
             const message = new Message({
                 from: 'Padres al Día <info@padresaldia.com.ar>',
-                to: user.e,
-                subject: 'testing emailjs',
-                text: 'i hope this works',
+                to: user.username,
+                subject: 'Padres al Día - Reseteo de Contraseña',
+                text: 'algún texto',
+                attachment: [
+                    { data: `
+                        <div style="font-family: Arial, Helvetica, Sans Serif;">
+                            <h3>Estimado ${user.firstName}</h3>
+                            <p>
+                                Estás intentando resetear tu contraseña, por favor seguí el link a continuación:<br>
+                                <a href="${path}">${path}</a>
+                            </p>
+                            <p>
+                                Saludos <br>
+                                Padres al Día
+                            </p>
+                        </div>
+                        `, alternative: true 
+                    },
+                ]
             });
+
+            user.restorePasswordToken = token;
+
+            await service.update(user);
     
             await client.sendAsync(message);
+            // SMTP ====================================
 
             return res
             .status(200)
