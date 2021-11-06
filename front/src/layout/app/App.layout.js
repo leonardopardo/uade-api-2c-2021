@@ -1,8 +1,11 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { Container, Row, Col, Tabs, Tab, Card } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
+
+import { useHistory } from 'react-router-dom'
+import { Container, Row, Col, Tabs, Tab, Card, Form, Button } from 'react-bootstrap'
 import { FcAbout } from 'react-icons/fc'
 import { FiLogOut } from 'react-icons/fi'
+
 import FooterLayout from './../app/Footer.layout'
 import Profile from './../../pages/private/profile/Profile.page'
 import Childrens from '../../pages/private/childrens/Childrens.page'
@@ -14,16 +17,18 @@ import faker from 'faker'
 
 const AppLayout = () => {
     
-    const history = useHistory();
+    const history = useHistory()
+
+    const { handleSubmit } = useForm()
 
     const token = localStorage.getItem('token')
-
-    const tokenInvalida = true;
-
-    const tokenVencida = true;
-
-    if(token === null || tokenInvalida === true || tokenVencida === true )
-        history.push('/login')
+    
+    const logout = (e) => {
+        localStorage.setItem("token", null)
+        history.push('/')
+    }
+    
+    if(token === null ) logout()
 
     const user = {
         firstName: faker.name.firstName(),
@@ -42,8 +47,8 @@ const AppLayout = () => {
         img: 'marie.jpg'
     }
 
-    const chicos = [];
-    const controles = [];
+    // const chicos = [];
+    // const controles = [];
 
     return (
         <>
@@ -55,22 +60,13 @@ const AppLayout = () => {
                         </h6>
                     </Col>
                     <Col className="text-end">
-                        <Link to="/"><FiLogOut /> Salir</Link>
+                        <Form onSubmit={handleSubmit(logout)}>
+                            <Button variant="link" type="submit">
+                                <FiLogOut /> Salir
+                            </Button>
+                        </Form>
                     </Col>
                 </Row>
-                {/* <Row className="mb-4">
-                    <Col>
-                        <Card className="rounded">
-                            <Card.Body>
-                                <Row>
-                                    <Col lg={12} md={8} sm={12} className="text-center text-md-start">
-                                        <h4>Indicadores</h4>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row> */}
                 <Row className="my-4">
                     <Col>
                         <Card>

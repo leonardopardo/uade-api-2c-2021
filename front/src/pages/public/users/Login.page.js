@@ -18,11 +18,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema } from './validations/Login.validation'
 
 import axios from 'axios'
+import ButtonSpinner from '../../../componentes/ButtonSpinner'
 
 const LoginPage = () => {
 
     const history = useHistory();
     
+    const [
+        loading, 
+        setLoading
+    ] = useState(false)
+
     const [
         loginMessage, 
         setLoginMessage
@@ -38,7 +44,10 @@ const LoginPage = () => {
 
     const apiUrl = "http://localhost:4000/users/login"
 
-    const loginSubmit = (data) => {        
+    const loginSubmit = (data) => {    
+        setLoading(true)
+        setLoginMessage("")
+        
         axios
         .post(apiUrl, data)
         .then(res => {
@@ -47,6 +56,9 @@ const LoginPage = () => {
         })
         .catch(err => {
             setLoginMessage(err.response.data.message)
+        })
+        .finally(() => {
+            setLoading(false)
         })
     }
 
@@ -100,9 +112,14 @@ const LoginPage = () => {
                                     </small>
 
                                     <div className="d-grid gap-2 mb-2">
-                                        <Button variant="primary" type="submit" size="lg">
-                                            <FiLogIn /> Ingresar
-                                        </Button>
+                                        {
+                                            !loading ?
+                                            <Button variant="primary" type="submit" size="lg">
+                                                <FiLogIn /> Ingresar
+                                            </Button>
+                                            :
+                                            <ButtonSpinner />
+                                        }
                                     </div>
                                     
                                     <small>
@@ -118,7 +135,7 @@ const LoginPage = () => {
                     loginMessage!=="" &&
                     <Row>
                         <Col className="col-md-10 col-lg-3 mx-auto">
-                            <Alert variant="danger">
+                            <Alert variant="danger" className="text-center">
                                 {loginMessage}
                             </Alert>
                         </Col>

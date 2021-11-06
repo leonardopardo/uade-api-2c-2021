@@ -9,13 +9,9 @@ export class UserService {
 
     async findByEmail(email: String){
         try {
-
-            console.log("parametro: " + email)
-
-            const u = await UserModel.findOne({"email": email});
-
-            console.log("en el service:" + u);
             
+            const u = await UserModel.findOne({"email": email});
+           
             if(u === null)
                 return null;
 
@@ -24,6 +20,7 @@ export class UserService {
                 firstName: u.firstname,
                 lastName: u.lastname,
                 username: u.email,
+                password: u.password,
                 age: u.age,
                 identity: u.identity,
                 avatar:u.avatar

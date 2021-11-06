@@ -94,7 +94,6 @@ export class UserController {
             // We first search if there is an existing user with this email and password
             const user: IUser = await service.findByUsername(req.body['username']);
 
-          
             // When the user not exists in database
             if(user===null) 
                 throw new Error("Usuario o contraseña Incorrectos");
