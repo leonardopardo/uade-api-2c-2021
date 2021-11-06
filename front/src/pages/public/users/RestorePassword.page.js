@@ -16,8 +16,14 @@ import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RestorePasswordSchema } from './validations/Restore.validation';
+import ButtonSpinner from '../../../componentes/ButtonSpinner';
 
 const RestorePasswordPage = () => {
+
+    const [
+        loading,
+        setLoading
+    ] = useState(false)
 
     const [
         restoreMessage, 
@@ -36,8 +42,11 @@ const RestorePasswordPage = () => {
     const apiUrl = "http://localhost:4000/users/restore-password"
 
     const restorePasswordSubmit = (data) => {
+
+        setLoading(true)
+
         axios
-        .post(apiUrl)
+        .post(apiUrl, data)
         .then(res => {
             console.log(res)
             setRestoreVariant('success')
@@ -47,6 +56,9 @@ const RestorePasswordPage = () => {
         .catch(err => {
             setRestoreVariant('danger')
             setRestoreMessage(err.response.data.message)
+        })
+        .finally(() => {
+            setLoading(false)
         })
     }
 
@@ -86,9 +98,14 @@ const RestorePasswordPage = () => {
                             </Form.Group>
 
                             <div className="d-grid gap-2 mb-2">
-                                <Button variant="primary" type="submit" size="lg">
-                                    <FiSend /> Enviar Link
-                                </Button>
+                                {
+                                    !loading ?
+                                    <Button variant="primary" type="submit" size="lg">
+                                        <FiSend /> Enviar Link
+                                    </Button>
+                                    :
+                                    <ButtonSpinner />
+                                }
                             </div>
                             
                             <small className="">
