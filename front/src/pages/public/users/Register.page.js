@@ -10,12 +10,29 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RegisterSchema } from './validations/Register.validation'
 
+import ButtonSpinner from '../../../components/ButtonSpinner';
 
 const RegisterPage = () => {
 
-    const [registerMessage, setRegisterMessage] = useState("")
-    const [registerVariant, setRegisterVariant] = useState("")
-    const [registerError, setRegisterError] = useState("")
+    const [
+        loading,
+        setLoading
+    ] = useState("")
+
+    const [
+        registerMessage, 
+        setRegisterMessage
+    ] = useState("")
+
+    const [
+        registerVariant, 
+        setRegisterVariant
+    ] = useState("")
+
+    const [
+        registerError, 
+        setRegisterError
+    ] = useState("")
 
     const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(RegisterSchema)
@@ -24,6 +41,8 @@ const RegisterPage = () => {
     const apiUrl = "http://localhost:4000/users/create"
 
     const registerFormSubmit = (data) => {
+
+        setLoading(true)
 
         axios
             .post(apiUrl, data)
@@ -37,6 +56,9 @@ const RegisterPage = () => {
                 setRegisterVariant("danger")
                 setRegisterMessage(err.response.data.message)
                 setRegisterError(err.response.data.error)
+            })
+            .finally(() => {
+                setLoading(false)
             })
     }
 
@@ -62,7 +84,8 @@ const RegisterPage = () => {
                                 <li><FiCheck /> Consultá el calendario de Vacunas y registrá la fecha de aplicación</li>
                                 <li><FiCheck /> Controlá los percentiles de la talla y el peso</li>
                                 <li><FiCheck /> Registrar los eventos importantes en la vida de tus hijos.</li>
-                            </ul>
+                            </ul>import ButtonSpinner from './../../../componentes/ButtonSpinner';
+
                         </h6>
                     </Col>
                     <Col md={{ span: 10 }} lg={{ span: 5 }} >
@@ -159,9 +182,14 @@ const RegisterPage = () => {
                                     </Form.Group>
 
                                     <div className="d-grid gap-2 mb-2">
+                                    {
+                                        !loading ?
                                         <Button variant="primary" type="submit" size="md">
                                             Registrarme
                                         </Button>
+                                        :
+                                        <ButtonSpinner />
+                                    }
                                     </div>
                                     
                                     <small className="">

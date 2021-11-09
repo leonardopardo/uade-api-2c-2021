@@ -18,7 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema } from './validations/Login.validation'
 
 import axios from 'axios'
-import ButtonSpinner from '../../../componentes/ButtonSpinner'
+import ButtonSpinner from '../../../components/ButtonSpinner'
 
 const LoginPage = () => {
 

@@ -13,6 +13,8 @@ import Calendar from './../../pages/private/calendar/Calendar.page'
 import Controls from '../../pages/private/controles/Controles.page'
 import Percentiles from '../../pages/private/percentiles/percentiles.page'
 import faker from 'faker'
+import AppController from '../../services/UserService';
+import UserService from '../../services/UserService'
 
 
 const AppLayout = () => {
@@ -21,14 +23,14 @@ const AppLayout = () => {
 
     const { handleSubmit } = useForm()
 
-    const token = localStorage.getItem('token')
-    
-    const logout = (e) => {
+    const logout = () => {
         localStorage.setItem("token", null)
         history.push('/')
     }
-    
-    if(token === null ) logout()
+
+    const token = localStorage.getItem('token');
+
+    const user = UserService.findUser()
 
     const user = {
         firstName: faker.name.firstName(),
