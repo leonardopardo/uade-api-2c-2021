@@ -62,7 +62,7 @@ export class UserService {
                 firstname: user.firstName,
                 lastname: user.lastName,
                 email: user.username,
-                password: bcrypt.hashSync(user.password, 8)
+                password: await bcrypt.hashSync(user.password, 8)
             })
             
             await newUser.save();

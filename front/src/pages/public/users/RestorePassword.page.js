@@ -16,7 +16,7 @@ import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RestorePasswordSchema } from './validations/Restore.validation';
-import ButtonSpinner from '../../../componentes/ButtonSpinner';
+import ButtonSpinner from '../../../components/ButtonSpinner';
 
 const RestorePasswordPage = () => {
 

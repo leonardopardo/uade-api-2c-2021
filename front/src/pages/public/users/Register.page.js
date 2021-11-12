@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
 import { FiLogIn, FiCheck, FiLock, FiMail, FiUserCheck } from "react-icons/fi"
@@ -10,34 +9,50 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RegisterSchema } from './validations/Register.validation'
 
+import ButtonSpinner from '../../../components/ButtonSpinner'
+import UserService from '../../../services/UserService'
 
 const RegisterPage = () => {
 
-    const [registerMessage, setRegisterMessage] = useState("")
-    const [registerVariant, setRegisterVariant] = useState("")
-    const [registerError, setRegisterError] = useState("")
+    const [
+        loading,
+        setLoading
+    ] = useState("")
+
+    const [
+        registerMessage, 
+        setRegisterMessage
+    ] = useState("")
+
+    const [
+        registerVariant, 
+        setRegisterVariant
+    ] = useState("")
+
+    const [
+        registerError, 
+        setRegisterError
+    ] = useState("")
 
     const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(RegisterSchema)
     })
 
-    const apiUrl = "http://localhost:4000/users/create"
-
-    const registerFormSubmit = (data) => {
-
-        axios
-            .post(apiUrl, data)
-            .then(res => {
-                setRegisterVariant("success")
-                setRegisterMessage(res.data.message)
-                setRegisterError("")
-                reset()
-            })
-            .catch(err => {
-                setRegisterVariant("danger")
-                setRegisterMessage(err.response.data.message)
-                setRegisterError(err.response.data.error)
-            })
+    const registerFormSubmit = async (data) => {
+        setLoading(true)
+        try{
+            let register = await UserService.createUser(data);
+            setRegisterVariant("success")
+            setRegisterMessage(register.data.message)
+            setRegisterError("")
+            reset()
+        }catch(err){
+            setRegisterVariant("danger")
+            setRegisterMessage(err.response.data.message)
+            setRegisterError(err.response.data.error)
+        }finally{
+            setLoading(false)
+        }
     }
 
     const isValid = (value) => {
@@ -63,6 +78,7 @@ const RegisterPage = () => {
                                 <li><FiCheck /> Controlá los percentiles de la talla y el peso</li>
                                 <li><FiCheck /> Registrar los eventos importantes en la vida de tus hijos.</li>
                             </ul>
+
                         </h6>
                     </Col>
                     <Col md={{ span: 10 }} lg={{ span: 5 }} >
@@ -159,9 +175,14 @@ const RegisterPage = () => {
                                     </Form.Group>
 
                                     <div className="d-grid gap-2 mb-2">
+                                    {
+                                        !loading ?
                                         <Button variant="primary" type="submit" size="md">
                                             Registrarme
                                         </Button>
+                                        :
+                                        <ButtonSpinner />
+                                    }
                                     </div>
                                     
                                     <small className="">
@@ -183,6 +204,5 @@ const RegisterPage = () => {
         </>
     )
 }
-
 
 export default RegisterPage
