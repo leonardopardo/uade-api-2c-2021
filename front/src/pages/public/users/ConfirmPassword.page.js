@@ -20,6 +20,7 @@ import { ConfirmPasswordSchema } from './validations/ConfirmPassword.validation'
 
 // other
 import queryString from 'query-string';
+import ButtonSpinner from '../../../components/ButtonSpinner';
 
 const ConfirmPasswordPage = () => {
 
@@ -133,9 +134,14 @@ const ConfirmPasswordPage = () => {
                             </Form.Group>
 
                             <div className="d-grid gap-2 mb-2">
-                                <Button variant="primary" type="submit" size="lg">
-                                    <FiRefreshCw /> Resetear Contraseña
-                                </Button>
+                                {
+                                    !loading ?
+                                    <Button variant="primary" type="submit" size="lg">
+                                        <FiRefreshCw /> Resetear Contraseña
+                                    </Button>
+                                    :
+                                    <ButtonSpinner />
+                                }
                             </div>
                             
                             <small className="">

@@ -23,6 +23,8 @@ import UserService from '../../../services/UserService'
 const LoginPage = () => {
 
     const history = useHistory();
+
+    console.log(UserService.endpoint)
   
     const [
         loading, 

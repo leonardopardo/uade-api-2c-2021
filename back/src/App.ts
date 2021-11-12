@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
+import * as dotenv from 'dotenv';
 
 import { ChildRoutes } from './routes/ChildRoutes';
 import { ControlRoutes } from './routes/ControlRoutes';
@@ -28,6 +29,8 @@ class App {
         preflightContinue: false,
       };
 
+    public env;
+
     public childRoutes: ChildRoutes =  new ChildRoutes();
     public controlRoutes: ControlRoutes =  new ControlRoutes();
     public userRoutes: UserRoutes =  new UserRoutes();
@@ -43,6 +46,11 @@ class App {
         this.router.use(cors(this.options));
         this.routes();
         this.configureMongo();
+        this.env = dotenv.config({
+            path: `${__dirname}/./../.env`
+        });
+
+        console.log(dotenv.config())
     }
 
     private routes() {
@@ -54,6 +62,7 @@ class App {
     }
 
     private configure() {
+        
     }
 
     private configureMongo() {

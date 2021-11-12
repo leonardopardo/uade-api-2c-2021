@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-
 const UserService = {
-    endpoint: "http://localhost:4000/users",    
+    endpoint: `${process.env.REACT_APP_SERVER_PATH}/users`,    
     async findUser(){
 
     },

@@ -1,5 +1,5 @@
 // Imports
-import React from 'react';
+import React from 'react'
 
 // UI
 import 'bootstrap/dist/css/bootstrap.min.css'
