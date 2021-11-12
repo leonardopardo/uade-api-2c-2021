@@ -17,13 +17,13 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { LoginSchema } from './validations/Login.validation'
 
-import axios from 'axios'
 import ButtonSpinner from '../../../components/ButtonSpinner'
+import UserService from '../../../services/UserService'
 
 const LoginPage = () => {
 
     const history = useHistory();
-    
+  
     const [
         loading, 
         setLoading
@@ -42,24 +42,16 @@ const LoginPage = () => {
         return value ? 'is-invalid' : ''
     }
 
-    const apiUrl = "http://localhost:4000/users/login"
-
-    const loginSubmit = (data) => {    
-        setLoading(true)
-        setLoginMessage("")
-        
-        axios
-        .post(apiUrl, data)
-        .then(res => {
-            localStorage.setItem('token', res.data.token)
+    const loginSubmit = async (data) => {    
+        setLoading(true)        
+        try{
+            await UserService.login(data)
             history.push("/app")
-        })
-        .catch(err => {
+        }catch(err){
             setLoginMessage(err.response.data.message)
-        })
-        .finally(() => {
+        }finally{
             setLoading(false)
-        })
+        }
     }
 
     return(

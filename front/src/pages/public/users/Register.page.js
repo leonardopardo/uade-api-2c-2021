@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
 import { FiLogIn, FiCheck, FiLock, FiMail, FiUserCheck } from "react-icons/fi"
@@ -10,7 +9,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { RegisterSchema } from './validations/Register.validation'
 
-import ButtonSpinner from '../../../components/ButtonSpinner';
+import ButtonSpinner from '../../../components/ButtonSpinner'
+import UserService from '../../../services/UserService'
 
 const RegisterPage = () => {
 
@@ -38,28 +38,21 @@ const RegisterPage = () => {
         resolver: yupResolver(RegisterSchema)
     })
 
-    const apiUrl = "http://localhost:4000/users/create"
-
-    const registerFormSubmit = (data) => {
-
+    const registerFormSubmit = async (data) => {
         setLoading(true)
-
-        axios
-            .post(apiUrl, data)
-            .then(res => {
-                setRegisterVariant("success")
-                setRegisterMessage(res.data.message)
-                setRegisterError("")
-                reset()
-            })
-            .catch(err => {
-                setRegisterVariant("danger")
-                setRegisterMessage(err.response.data.message)
-                setRegisterError(err.response.data.error)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        try{
+            let register = await UserService.createUser(data);
+            setRegisterVariant("success")
+            setRegisterMessage(register.data.message)
+            setRegisterError("")
+            reset()
+        }catch(err){
+            setRegisterVariant("danger")
+            setRegisterMessage(err.response.data.message)
+            setRegisterError(err.response.data.error)
+        }finally{
+            setLoading(false)
+        }
     }
 
     const isValid = (value) => {
@@ -84,7 +77,7 @@ const RegisterPage = () => {
                                 <li><FiCheck /> Consultá el calendario de Vacunas y registrá la fecha de aplicación</li>
                                 <li><FiCheck /> Controlá los percentiles de la talla y el peso</li>
                                 <li><FiCheck /> Registrar los eventos importantes en la vida de tus hijos.</li>
-                            </ul>import ButtonSpinner from './../../../componentes/ButtonSpinner';
+                            </ul>
 
                         </h6>
                     </Col>
@@ -211,6 +204,5 @@ const RegisterPage = () => {
         </>
     )
 }
-
 
 export default RegisterPage

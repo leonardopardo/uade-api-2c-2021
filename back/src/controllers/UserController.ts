@@ -18,7 +18,7 @@ export class UserController {
 
             if(userExist !== null)
                 throw new Error("El email " + req.body["username"] + " ya existe, recupere su contraseña o utilice otra cuenta de email.");
-                
+
             const newUser: IUser = {
                 firstName: req.body["firstName"],
                 lastName: req.body["lastName"],

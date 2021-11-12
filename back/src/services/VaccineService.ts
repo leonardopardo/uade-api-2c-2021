@@ -42,7 +42,6 @@ export class VaccineService {
 
     // This takes the vaccine data structure and populates the database
     async initializeVaccineDB(){
-        console.log("Initializing vaccine database");
         vaccine_data.forEach((element) => {
             const newVaccine: IVaccine = {
                 vaccine_id: element.vaccine_id,
@@ -52,7 +51,6 @@ export class VaccineService {
             };
             this.create(newVaccine);
         })
-        console.log("Finished initializing vaccine database");
     }
 
     // Vaccines are kind of hardcoded in our system, as the calendar should never be updated by users

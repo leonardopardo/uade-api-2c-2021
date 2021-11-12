@@ -16,6 +16,7 @@ import ConfirmPasswordPage from '../pages/public/users/ConfirmPassword.page';
 import AppLayout from './../layout/app/App.layout'
 
 const Routes = () => {
+
     return (
 		<>
 			<Router>			
@@ -35,6 +36,7 @@ const Routes = () => {
 					</Route>
 					
 					{/* Public User Pages */}
+
 					<Route path="/login">
 						<LoginPage />
 					</Route>
