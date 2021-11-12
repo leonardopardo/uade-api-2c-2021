@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import{ SMTPClient, Message } from 'emailjs';
-import { encode } from 'js-base64';
+import { encode, decode } from 'js-base64';
 
 import { Request, Response } from "express";
 import { UserModel, IUser } from '../models/User';
@@ -184,6 +184,46 @@ export class UserController {
             .json({
                 message: e.message
             })
+        }
+    }
+
+    async confirmPassword(req: Request, res: Response){
+        try {
+            const service: UserService = new UserService();
+
+            // Check if the form email and param email is the same
+            if (req.body['email'] != req.body['user'])
+                throw new Error("Se han encontrado inconsistencias de email en el pedido");
+            
+            // We will now search for the email in our database
+            const user: IUser = await service.findByEmail(req.body["email"])
+            // We decode the token we received and compare it with the user token
+            if (req.body['token'] != user.restorePasswordToken)
+                throw new Error("Se han encontrado inconsistencias de token en el pedido")
+
+            console.log("Updating password")
+            // We are in conditions of reseting the password now
+            var hashedPassword = bcrypt.hashSync(req.body['password'], 8);
+            // We then update the password
+            user.password = hashedPassword;
+            user.restorePasswordToken = null;
+
+            await service.update(user);
+
+            console.log("Finished updating")
+
+            return res
+            .status(200)
+            .json({
+                message: 'La contraseña ha sido re-establecida!'
+            })
+
+        } catch (e) {
+            return res
+            .status(400)
+            .json({
+                message: e.message
+            }) 
         }
     }
 }

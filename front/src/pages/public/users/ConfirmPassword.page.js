@@ -1,11 +1,13 @@
 // React
-import React from 'react';
+import React, { useState } from 'react';
 
 // Router
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+
+import axios from 'axios';
 
 // layout design components
-import { Container, Row, Col, Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, FloatingLabel, Alert } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiLock, FiRefreshCw, FiAlertOctagon } from 'react-icons/fi';
 
 // layout self components
@@ -16,14 +18,55 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ConfirmPasswordSchema } from './validations/ConfirmPassword.validation';
 
+// other
+import queryString from 'query-string';
+
 const ConfirmPasswordPage = () => {
 
-    const {register, handleSubmit, formState: {errors} } = useForm({
+    const { search } = useLocation();
+    const values = queryString.parse(search);
+
+    const [
+        loading,
+        setLoading
+    ] = useState(false)
+
+    const [
+        restoreMessage, 
+        setRestoreMessage
+    ] = useState("");
+
+    const [
+        restoreVariant, 
+        setRestoreVariant
+    ] = useState();
+
+    const {register, handleSubmit, formState: {errors}, reset } = useForm({
         resolver: yupResolver(ConfirmPasswordSchema)
     })
 
+    const apiUrl = "http://localhost:4000/users/confirm-password"
+
     const confirmPasswordSubmit = (data) => {
+        data['user'] = values.user;
+        data['token'] = values.token;
         console.log(data)
+
+        axios
+        .post(apiUrl, data)
+        .then(res => {
+            console.log(res)
+            setRestoreVariant('success')
+            setRestoreMessage(res.data.message)
+            reset()
+        })
+        .catch(err => {
+            setRestoreVariant('danger')
+            setRestoreMessage(err.response.data.message)
+        })
+        .finally(() => {
+            setLoading(false)
+        })
     }
 
     const isValid = (value) => {
@@ -48,7 +91,12 @@ const ConfirmPasswordPage = () => {
                             {/* username */}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label><FiMail /> Email</Form.Label>
-                                    <div className="form-control form-control-lg">mail@mail.com</div>
+                                <FloatingLabel label="Ingresar email">
+                                <Form.Control
+                                    {...register("email")} 
+                                    type="text" 
+                                    placeholder="example@example.com" />
+                                </FloatingLabel>
                                 <Form.Text className="text-muted">
                                     Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>
@@ -96,6 +144,17 @@ const ConfirmPasswordPage = () => {
                         </Form>
                     </Col>
                 </Row>
+                {
+                    restoreMessage !== "" &&
+                    <Row>
+                        <Col className="col-md-10 col-lg-6 mx-auto">
+                            <Alert variant={restoreVariant}>
+                                <Alert.Heading>Atención!</Alert.Heading>
+                                {restoreMessage}
+                            </Alert>
+                        </Col>
+                    </Row>
+                }
                 <Row>
                     <Col className="col-md-10 col-lg-3 mx-auto">
                         <p className="text-center">

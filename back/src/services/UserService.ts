@@ -23,7 +23,8 @@ export class UserService {
                 password: u.password,
                 age: u.age,
                 identity: u.identity,
-                avatar:u.avatar
+                avatar: u.avatar,
+                restorePasswordToken: u.restorePasswordToken
             }
 
             return user;
