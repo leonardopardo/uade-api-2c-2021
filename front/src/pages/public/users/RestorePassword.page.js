@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 // router
 import { Link } from 'react-router-dom';
 
-import axios from 'axios';
-
 // layout design components
 import { Container, Row, Col, Form, Button, FloatingLabel, Alert } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiSend } from 'react-icons/fi';
@@ -17,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { RestorePasswordSchema } from './validations/Restore.validation';
 import ButtonSpinner from '../../../components/ButtonSpinner';
+import UserService from '../../../services/UserService'
 
 const RestorePasswordPage = () => {
 
@@ -39,27 +38,21 @@ const RestorePasswordPage = () => {
         resolver: yupResolver(RestorePasswordSchema)
     })
 
-    const apiUrl = "http://localhost:4000/users/restore-password"
-
-    const restorePasswordSubmit = (data) => {
+    const restorePasswordSubmit = async (data) => {
 
         setLoading(true)
-
-        axios
-        .post(apiUrl, data)
-        .then(res => {
-            console.log(res)
+        try {
+            let res = await UserService.restorePassword(data);
             setRestoreVariant('success')
             setRestoreMessage(res.data.message)
             reset()
-        })
-        .catch(err => {
+        } catch (err) {
             setRestoreVariant('danger')
             setRestoreMessage(err.response.data.message)
-        })
-        .finally(() => {
+        } finally {
             setLoading(false)
-        })
+        }
+
     }
 
     const isValid = (value) => {

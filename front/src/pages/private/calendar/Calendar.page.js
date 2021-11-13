@@ -27,7 +27,7 @@ const Calendar = () => {
                     components={animatedComponents}
                     options={childrens} />
                 </Row>
-                <Table bordered className="m-auto table-sm">
+                <Table bordered responsive className="m-auto table-sm">
                     <tbody>
                         <tr>
                             <th></th>

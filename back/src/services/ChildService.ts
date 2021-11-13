@@ -1,9 +1,12 @@
 import { ChildModel, IChild } from "./../models/Child";
+import { VaccineService } from "./VaccineService";
 
 export class ChildService {
+
+    public vaccineService: VaccineService;
     
     constructor(){
-        // Code
+        this.vaccineService = new VaccineService();
     }
 
     async findOneByDniAndParentDni(dni: String, parent_dni: String){
@@ -44,6 +47,7 @@ export class ChildService {
             })
             
             await newChild.save();
+            await this.vaccineService.createChildVaccineTracking(child.dni, child.parent_dni);
             
         } catch(e) {
             throw new Error(e)

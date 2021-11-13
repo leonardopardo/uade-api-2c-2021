@@ -4,10 +4,8 @@ import React, { useState } from 'react';
 // Router
 import { Link, useLocation } from 'react-router-dom';
 
-import axios from 'axios';
-
 // layout design components
-import { Container, Row, Col, Form, Button, FloatingLabel, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, FloatingLabel, Alert, FormControl } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiLock, FiRefreshCw, FiAlertOctagon } from 'react-icons/fi';
 
 // layout self components
@@ -21,6 +19,7 @@ import { ConfirmPasswordSchema } from './validations/ConfirmPassword.validation'
 // other
 import queryString from 'query-string';
 import ButtonSpinner from '../../../components/ButtonSpinner';
+import UserService from '../../../services/UserService'
 
 const ConfirmPasswordPage = () => {
 
@@ -46,28 +45,21 @@ const ConfirmPasswordPage = () => {
         resolver: yupResolver(ConfirmPasswordSchema)
     })
 
-    const apiUrl = "http://localhost:4000/users/confirm-password"
-
-    const confirmPasswordSubmit = (data) => {
+    const confirmPasswordSubmit = async (data) => {
         data['user'] = values.user;
         data['token'] = values.token;
-        console.log(data)
 
-        axios
-        .post(apiUrl, data)
-        .then(res => {
-            console.log(res)
+        try {
+            let res = await UserService.confirmPassword(data);
             setRestoreVariant('success')
             setRestoreMessage(res.data.message)
             reset()
-        })
-        .catch(err => {
+        } catch (err) {
             setRestoreVariant('danger')
             setRestoreMessage(err.response.data.message)
-        })
-        .finally(() => {
+        } finally {
             setLoading(false)
-        })
+        }
     }
 
     const isValid = (value) => {
@@ -92,12 +84,11 @@ const ConfirmPasswordPage = () => {
                             {/* username */}
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label><FiMail /> Email</Form.Label>
-                                <FloatingLabel label="Ingresar email">
+                                <div className='form-control' >{values.user}</div>
                                 <Form.Control
                                     {...register("email")} 
-                                    type="text" 
-                                    placeholder="example@example.com" />
-                                </FloatingLabel>
+                                    type="hidden"
+                                    value={values.user} />
                                 <Form.Text className="text-muted">
                                     Te enviaremos un mail, por favor revisalo.
                                 </Form.Text>

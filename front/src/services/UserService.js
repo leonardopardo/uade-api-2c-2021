@@ -29,8 +29,11 @@ const UserService = {
         localStorage.setItem("token", token)
     },
     async restorePassword(data){
-
-    }, 
+        return await axios.post(`${this.endpoint}/restore-password`, data)
+    },
+    async confirmPassword(data){
+        return await axios.post(`${this.endpoint}/confirm-password`, data)
+    },  
     async changePassword(){
 
     },
