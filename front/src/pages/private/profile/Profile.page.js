@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ProfileSchema } from './validations/Profile.validation'
 
+import UserService from '../../../services/UserService'
+
 
 
 const Profile = ({user}) => {
@@ -20,8 +22,18 @@ const Profile = ({user}) => {
         return value ? 'is-invalid' : ''
     }
 
-    const profileSubmit = (data) => {
-        console.log(data)
+    const profileSubmit = async (data) => {
+        try {
+            let res = await UserService.updateUser(data);
+            console.log(res)
+            //etRestoreVariant('success')
+            //setRestoreMessage(res.data.message)
+            //reset()
+        } catch (err) {
+            console.log(err.message)
+            //setRestoreVariant('danger')
+            //setRestoreMessage(err.response.data.message)
+        }
     }
 
     return(
@@ -30,12 +42,20 @@ const Profile = ({user}) => {
                 <Row>
                     <Col lg={4}>
                         <Card className="shadow">
-                            <Avatar size="100%" src={`/upload/${user.img}`} name={user.fullName()} className="card-img-top rounded-top"/>
+                            {
+                                user.img !== '' ?
+                                <Avatar size="100%" src={`/upload/${user.img}`} name={user.fullName()} className="card-img-top rounded-top"/>
+                                :
+                                <Avatar size="100%" src={`/upload/avatar.jpg`} name={user.fullName()} className="card-img-top rounded-top"/>
+                            }
                             <Card.Body>
                                 <span className="h6 icon-tertiary small">
-                                    <span className="fas fa-medal me-2">
-                                        Edad: 30 años
-                                    </span>
+                                    {
+                                        user.age !== '' ?
+                                        <span className="fas fa-medal me-2"> Edad: {user.age} años</span>
+                                        :
+                                        <span className="fas fa-medal me-2"></span>
+                                    }
                                 </span>
                                 <h3 className="h5 card-title mt-3">
                                     {user.fullName()}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { useHistory } from 'react-router-dom'
@@ -27,33 +27,54 @@ const AppLayout = () => {
     }
 
     const token = localStorage.getItem('token');
-
     if(token === null) logout()
 
-    const user = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        fullName(uppercase) {
-            return !uppercase 
-                ? `${this.firstName} ${this.lastName}`
-                : `${this.firstName.toUpperCase()} ${this.lastName.toUpperCase()}`
-        },
-        email() {
-            return `${this.firstName}@${this.lastName}.com`.toLocaleLowerCase()
-        },
-        phone: faker.phone.phoneNumber('(##) ####-####'),
-        identity: faker.phone.phoneNumber("##.###.###"),
-        age: '1995-06-01',
-        img: 'marie.jpg'
+    const [
+        loading, 
+        setLoading
+    ] = useState(true);
+
+    const [
+        userState, 
+        setUserState
+    ] = useState(null);
+
+    const getUser = async () =>{
+        let profile_data = await UserService.findUser()
+        profile_data = profile_data['data']['data']
+        const user = {
+            firstName: profile_data['firstname'],
+            lastName: profile_data['lastname'],
+            fullName(uppercase) {
+                return !uppercase 
+                    ? `${this.firstName} ${this.lastName}`
+                    : `${this.firstName.toUpperCase()} ${this.lastName.toUpperCase()}`
+            },
+            email() {
+                return profile_data['email']
+            },
+            phone: profile_data['phone'],
+            identity: profile_data['identity'],
+            age: '',
+            img: ''
+        }
+        console.log(user)
+        setUserState(user)
+        setLoading(false)
     }
 
+    useEffect(async () => {
+        await getUser()
+    }, [])
+
+    //{user.firstName.toUpperCase()}
     return (
         <>
             <Container>
                 <Row style={{ marginTop:'3rem' }}>
                     <Col>
                         <h6>
-                            <FcAbout /> Hola {user.firstName.toUpperCase()}
+                            <FcAbout /> Hola!
                         </h6>
                     </Col>
                     <Col className="text-end">
@@ -64,31 +85,34 @@ const AppLayout = () => {
                         </Form>
                     </Col>
                 </Row>
-                <Row className="my-4">
-                    <Col>
-                        <Card>
-                            <Card.Body>
-                                <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
-                                    <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
-                                        <Profile user={user} />
-                                    </Tab>
-                                    <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
-                                    <Childrens />
-                                    </Tab>
-                                    <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
-                                        <Controls />
-                                    </Tab>
-                                    <Tab eventKey="percentiles" title="Percentiles" className="mb-sm-3 mb-md-0">
-                                        <Percentiles />
-                                    </Tab>
-                                    <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
-                                        <Calendar />
-                                    </Tab>
-                                </Tabs>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
+                {
+                    !loading &&
+                    <Row className="my-4">
+                        <Col>
+                            <Card>
+                                <Card.Body>
+                                    <Tabs variant="pills" defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3 nav-fill flex-column flex-md-row">
+                                        <Tab eventKey="profile" title="Mi Perfil" className="mb-sm-3 mb-md-0">  
+                                            <Profile user={userState} />
+                                        </Tab>
+                                        <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
+                                        <Childrens />
+                                        </Tab>
+                                        <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
+                                            <Controls />
+                                        </Tab>
+                                        <Tab eventKey="percentiles" title="Percentiles" className="mb-sm-3 mb-md-0">
+                                            <Percentiles />
+                                        </Tab>
+                                        <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
+                                            <Calendar />
+                                        </Tab>
+                                    </Tabs>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
+                }
             </Container>
             <FooterLayout />
         </>

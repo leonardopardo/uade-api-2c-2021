@@ -131,6 +131,36 @@ const RegisterPage = () => {
                                         </p>
                                     </Form.Group>
 
+                                    <Row>
+                                        <Col>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>DNI</Form.Label>
+                                            <Form.Control 
+                                                {...register("identity")} 
+                                                type="text" 
+                                                placeholder="Ingresa tu DNI" 
+                                                size="md" 
+                                                className={isValid(errors.identity)} />
+                                            <p className="text-danger small">
+                                                {errors.identity && errors.identity.message}
+                                            </p>
+                                        </Form.Group>
+                                        </Col>
+                                        <Col>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Teléfono</Form.Label>
+                                            <Form.Control 
+                                                {...register("phone")} 
+                                                type="text" 
+                                                placeholder="Ingresa tu teléfono" 
+                                                size="md" 
+                                                className={isValid(errors.phone)} />
+                                            <p className="text-danger small">
+                                                {errors.phone && errors.phone.message}
+                                            </p>
+                                        </Form.Group>
+                                        </Col>
+                                    </Row>
 
                                     <Form.Group className="mb-3">
                                         <Form.Label><FiMail /> Email</Form.Label>
@@ -160,6 +190,7 @@ const RegisterPage = () => {
                                             {errors.password && errors.password.message}
                                         </p>
                                     </Form.Group>
+                                    
 
                                     <Form.Group className="mb-3">
                                         <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>

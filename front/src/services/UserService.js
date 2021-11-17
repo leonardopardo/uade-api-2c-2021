@@ -8,8 +8,21 @@ const UserService = {
     async findAllUsers(){
 
     },
-    async updateUser(){
-
+    async findUser(){
+        let config = {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+            }
+          }
+        return await axios.get(`${this.endpoint}/get_user`, config)
+    },
+    async updateUser(body){
+        let config = {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+            }
+          }
+        return await axios.post(`${this.endpoint}/update_profile`, body, config)
     },
     async createUser(body){
         return await axios.post(`${this.endpoint}/create`, body)

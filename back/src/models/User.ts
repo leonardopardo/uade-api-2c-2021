@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     password: {type: String, required: true},
     age: {type: Date, required: false},
     identity: {type: String, required: false},
+    phone: {type: String, required: false},
     avatar: {type: String, required: false},
     restorePasswordToken: {type: String, required: false}
 })
@@ -19,6 +20,7 @@ export interface IUser {
     password?: string,
     age?: Date,
     identity?: string,
+    phone?: string
     avatar?: string,
     restorePasswordToken?: string
 }

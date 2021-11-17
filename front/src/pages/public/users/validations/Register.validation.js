@@ -8,6 +8,12 @@ export const RegisterSchema = yup.object().shape({
     lastName: yup
         .string()
         .required(customMessages.lastName.required),
+        identity: yup
+        .string()
+        .required(customMessages.identity.required),
+    phone: yup
+        .string()
+        .required(customMessages.phone.required),
     username: yup
         .string()
         .email(customMessages.email.email)

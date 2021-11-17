@@ -49,8 +49,6 @@ class App {
         this.env = dotenv.config({
             path: `${__dirname}/./../.env`
         });
-
-        console.log(dotenv.config())
     }
 
     private routes() {

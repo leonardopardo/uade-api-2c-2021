@@ -7,7 +7,14 @@ import { Request, Response } from "express";
 import { UserModel, IUser } from '../models/User';
 import { UserService } from '../services/UserService';
 
+
 export class UserController {
+
+    async getUser(req: Request, res: Response){
+        const service = new UserService();
+        const user = await service.findById(req.body["id"])
+        res.status(200).json({"data": user});
+    }
 
     async create(req: Request, res: Response){
         try{
@@ -19,11 +26,15 @@ export class UserController {
             if(userExist !== null)
                 throw new Error("El email " + req.body["username"] + " ya existe, recupere su contraseña o utilice otra cuenta de email.");
 
+            console.log(req.body)
+
             const newUser: IUser = {
                 firstName: req.body["firstName"],
                 lastName: req.body["lastName"],
                 username: req.body["username"],
-                password: req.body["password"]
+                password: req.body["password"],
+                identity: req.body["identity"],
+                phone: req.body["phone"]
             }
 
             await service.create(newUser);
@@ -56,17 +67,18 @@ export class UserController {
         }
     }
     
-    async change_email(req: Request, res: Response){
+    async update_profile(req: Request, res: Response){
         try{
+            console.log(req.body)
             // We first search if there is an existing user with this email and password
-            const user = await UserModel.findOne({email: req.body['email']});
+            //const user = await UserModel.findOne({email: req.body['email']});
             // We then update the email
-            user.email = req.body['new_email'];
-            await user.save();
-            res.status(200).json("User with email" + req.body['email'] + " updated to email " + req.body['new_email']);
+            //user.email = req.body['new_email'];
+            //await user.save();
+            res.status(200).json("Updated");
         } catch {
             // If an exception is raised, it means that there was no user with that email
-            res.status(400).json('No user exists with email '+ req.body['email']);
+            res.status(401).json("Error");
         }
     }
 

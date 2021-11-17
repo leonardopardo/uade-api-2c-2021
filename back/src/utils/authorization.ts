@@ -6,9 +6,9 @@ export default function Authorize(req: Request, res: Response, next){
         var token = req.headers['x-access-token'];
         //console.log("token",token);
         var msg = {auth: false, message: 'No token provided.'};
-        if (!token)
+        if (!token){
             return res.status(500).json(msg);
-
+        }
         let sec = "secreto";
 
         jwt.verify(token, sec, function (err, decoded) {
