@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 // layout design components
-import { Container, Row, Col, Form, Button, FloatingLabel, Alert, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, FloatingLabel, Alert } from 'react-bootstrap';
 import { FiCheck, FiMail, FiLogIn, FiLock, FiRefreshCw, FiAlertOctagon } from 'react-icons/fi';
 
 // layout self components

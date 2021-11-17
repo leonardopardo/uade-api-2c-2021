@@ -12,7 +12,6 @@ import Childrens from '../../pages/private/childrens/Childrens.page'
 import Calendar from './../../pages/private/calendar/Calendar.page'
 import Controls from '../../pages/private/controles/Controles.page'
 import Percentiles from '../../pages/private/percentiles/percentiles.page'
-import faker from 'faker'
 import UserService from '../../services/UserService'
 
 const AppLayout = () => {
@@ -39,32 +38,15 @@ const AppLayout = () => {
         setUserState
     ] = useState(null);
 
-    const getUser = async () =>{
-        let profile_data = await UserService.findUser()
-        profile_data = profile_data['data']['data']
-        const user = {
-            firstName: profile_data['firstname'],
-            lastName: profile_data['lastname'],
-            fullName(uppercase) {
-                return !uppercase 
-                    ? `${this.firstName} ${this.lastName}`
-                    : `${this.firstName.toUpperCase()} ${this.lastName.toUpperCase()}`
-            },
-            email() {
-                return profile_data['email']
-            },
-            phone: profile_data['phone'],
-            identity: profile_data['identity'],
-            age: '',
-            img: ''
-        }
-        console.log(user)
+    const getUser = async () => {
+        let user = await UserService.findUser()
         setUserState(user)
         setLoading(false)
     }
 
-    useEffect(async () => {
-        await getUser()
+    useEffect(() => {
+        const usr = async () => await getUser()
+        setUserState(usr)
     }, [])
 
     //{user.firstName.toUpperCase()}
