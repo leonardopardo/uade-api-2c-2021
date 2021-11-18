@@ -14,7 +14,7 @@ export class VaccineController {
         try{
             // We first search if there is a child with that vaccine id
             const newApplication: IVaccineApplication = {
-                parent_dni: req.body['parent_dni'],
+                parent_id: req.body['id'],
                 child_dni: req.body['child_dni'],
                 vaccine_id: req.body['vaccine_id'],
                 date: req.body['date'],

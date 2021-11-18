@@ -1,36 +1,36 @@
-import React from 'react'
-import { Col, Row, Card, Button } from 'react-bootstrap'
+import React , { useState } from 'react'
+import { Col, Row, Card } from 'react-bootstrap'
 import ModalChildreAdd from './modals/Modal.add'
+import ModalChildrenView from './modals/Modal.view'
 
 import Avatar from 'react-avatar'
 
-const Childrens = () => {
+const Childrens = ({children}) => {
 
-    const childrens = [
-        {
-            firstName: 'Nicolás',
-            lastName: 'Pardo',
-            age: '2011-10-04',
-            bloodType: '0+',
-            img: '254f508508f16ac32cd23083c53caaf2.jpg',
-            fullName(){
-                return `${this.firstName} ${this.lastName}`.toUpperCase()
-            }
-        }
-    ];
+    const [
+        childrenState
+    ] = useState(children);
 
     const getChildrens = () => {
 
-        let listChildrens = childrens.map( child => {
+        let listChildrens = childrenState.map( child => {
             return(
                 <Col lg={3}>
                     <Card className="shadow">
-                        <Avatar size="100%" src={`/images/${child.img}`} name={child.fullName()} className="card-img-top rounded-top"/>
+                        {
+                            child.img !== '' ?
+                            <Avatar size="100%" src={`/upload/${child.img}`} name={child.fullName()} className="card-img-top rounded-top"/>
+                            :
+                            <Avatar size="100%" src={`/upload/avatar.jpg`} name={child.fullName()} className="card-img-top rounded-top"/>
+                        }
                         <Card.Body>
                             <span className="h6 icon-tertiary small">
-                                <span className="fas fa-medal me-2">
-                                    Edad: 9 años
-                                </span>
+                                {
+                                    child.age !== '' ?
+                                    <span className="fas fa-medal me-2"> { child.age ? `Edad: ${child.age}` : ``} años</span>
+                                    :
+                                    <span className="fas fa-medal me-2"></span>
+                                }
                             </span>
                             <h3 className="h5 card-title mt-3">
                                 {child.fullName()}
@@ -38,7 +38,7 @@ const Childrens = () => {
                             <p className="card-text">
                                 <span className="d-block">{child.bloodType}</span>
                             </p>
-                            <Button variant="outline-primary">Ver Información</Button>
+                            <ModalChildrenView child={child} />
                         </Card.Body>
                     
                     </Card>
@@ -46,7 +46,7 @@ const Childrens = () => {
             )
         })
 
-        return childrens.length === 0
+        return childrenState.length === 0
             ? <h4 className="text-center text-muted fw-light">Todavía no agregaste información</h4>
             : listChildrens
     }
@@ -60,13 +60,7 @@ const Childrens = () => {
                         </Col>
                     </Row>
                     <Row className="my-2">
-                        <Col>
-                            <Card>
-                                <Card.Body>
-                                    {getChildrens()}
-                                </Card.Body>
-                            </Card>
-                        </Col>
+                        {getChildrens()}
                     </Row>
             </section>
         </>

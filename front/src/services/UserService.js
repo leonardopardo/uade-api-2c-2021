@@ -17,6 +17,12 @@ class UserService {
         
         const profile = data.data
 
+        // Age may be null the first time a user logs in, so we handle it separately
+        let birthdate = ''
+        if (profile['age'] !== null){
+            birthdate = profile['age'].split('T')[0]
+        }
+
         return {
             firstName: profile['firstname'],
             lastName: profile['lastname'],
@@ -30,7 +36,7 @@ class UserService {
             },
             phone: profile['phone'],
             identity: profile['identity'],
-            age: profile['age'].split('T')[0],  
+            age: birthdate,  
             img: ''
         }
     }
@@ -39,6 +45,7 @@ class UserService {
         let config = {
             headers: {
                 'x-access-token': localStorage.getItem('token'),
+                //'Content-Type': 'multipart/form-data'
             }
           }
 

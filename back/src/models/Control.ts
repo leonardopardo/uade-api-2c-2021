@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose'
 
 const ControlSchema = new Schema({
     child_dni: {type: String, required: true},
-    parent_dni: {type: String, required: true},
+    parent_id: {type: String, required: true},
     date: {type: Date, required: true},
     weight: {type: Number, required: true},
     height: {type: Number, required: true},
@@ -19,7 +19,7 @@ const ControlSchema = new Schema({
 
 export interface IControl {
     child_dni: String,
-    parent_dni: String,
+    parent_id: String,
     date: Date,
     weight: Number,
     height: Number,

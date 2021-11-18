@@ -13,6 +13,7 @@ import Calendar from './../../pages/private/calendar/Calendar.page'
 import Controls from '../../pages/private/controles/Controles.page'
 import Percentiles from '../../pages/private/percentiles/percentiles.page'
 import UserService from '../../services/UserService'
+import ChildService from '../../services/ChildService'
 
 const AppLayout = () => {
     
@@ -42,12 +43,24 @@ const AppLayout = () => {
     const getUser = async () => {
         let user = await UserService.findUser()
         setUserState(user)
+    }
+
+    const [
+        childrenState, 
+        setChildrenState
+    ] = useState([]);
+
+    const getChildren = async () => {
+        let children = await ChildService.findChildren()
+        setChildrenState(children)
         setLoading(false)
     }
 
     useEffect(() => {
         const usr = async () => await getUser()
         setUserState(usr)
+        const childs = async () => await getChildren()
+        setChildrenState(childs)
     }, [])
 
     return (
@@ -78,7 +91,7 @@ const AppLayout = () => {
                                             <Profile user={userState} />
                                         </Tab>
                                         <Tab eventKey="hijos" title="Hijos" className="mb-sm-3 mb-md-0">
-                                        <Childrens />
+                                            <Childrens children={childrenState}/>
                                         </Tab>
                                         <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
                                             <Controls />

@@ -6,6 +6,7 @@ import { encode, decode } from 'js-base64';
 import { Request, Response } from "express";
 import { UserModel, IUser } from '../models/User';
 import { UserService } from '../services/UserService';
+import uploadAvatar from './../utils/upload';
 
 
 export class UserController {
@@ -26,15 +27,19 @@ export class UserController {
             if(userExist !== null)
                 throw new Error("El email " + req.body["username"] + " ya existe, recupere su contraseña o utilice otra cuenta de email.");
 
-            console.log(req.body)
+            const userIdentityExist = await service.findByIdentity(req.body["identity"])
+
+            if(userIdentityExist !== null)
+                throw new Error("El DNI " + req.body["identity"] + " ya existe, recupere su contraseña del email asociado");
 
             const newUser: IUser = {
-                firstName: req.body["firstName"],
-                lastName: req.body["lastName"],
+                firstname: req.body["firstName"],
+                lastname: req.body["lastName"],
                 username: req.body["username"],
                 password: req.body["password"],
                 identity: req.body["identity"],
-                phone: req.body["phone"]
+                phone: req.body["phone"],
+                age: new Date("0000-00-00")
             }
 
             await service.create(newUser);
@@ -70,6 +75,10 @@ export class UserController {
     async update_profile(req: Request, res: Response){
         try{
             
+            // Image Handle
+            //const sth = await uploadAvatar(req,res)
+            //console.log(sth)
+            
             const service: UserService = new UserService();
             
             const user: IUser = await service.findByEmail(req.body['email'])
@@ -80,8 +89,8 @@ export class UserController {
             if(req.body['identity'] != user.identity)
                 throw new Error("El campo DNI no puede ser modificado.");
 
-            user.firstName = req.body['firstName']
-            user.lastName = req.body['lastName']
+            user.firstname = req.body['firstName']
+            user.lastname = req.body['lastName']
             user.age = req.body['age']
             user.phone = req.body['phone']
             user.username = req.body['email']
@@ -202,7 +211,7 @@ export class UserController {
                 attachment: [
                     { data: `
                         <div style="font-family: Arial, Helvetica, Sans Serif;">
-                            <h3>Estimado ${user.firstName}</h3>
+                            <h3>Estimado ${user.firstname}</h3>
                             <p>
                                 Estás intentando resetear tu contraseña, por favor seguí el link a continuación:<br>
                                 <a href="${path}">${path}</a>
@@ -252,8 +261,7 @@ export class UserController {
             // We decode the token we received and compare it with the user token
             if (req.body['token'] != user.restorePasswordToken)
                 throw new Error("Se han encontrado inconsistencias de token en el pedido")
-
-            console.log("Updating password")
+                
             // We are in conditions of reseting the password now
             var hashedPassword = bcrypt.hashSync(req.body['password'], 8);
             // We then update the password
@@ -261,8 +269,6 @@ export class UserController {
             user.restorePasswordToken = null;
 
             await service.update(user);
-
-            console.log("Finished updating")
 
             return res
             .status(200)

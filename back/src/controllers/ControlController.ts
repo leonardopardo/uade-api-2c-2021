@@ -15,7 +15,7 @@ export class ControlController {
             // We dont really care if a control already exists for the creation
             const newControl: IControl = {
                 child_dni: req.body['child_dni'],
-                parent_dni: req.body['parent_dni'],
+                parent_id: req.body['id'],
                 date: req.body['date'],
                 weight: req.body['weight'],
                 height: req.body['height'],
@@ -50,7 +50,7 @@ export class ControlController {
     async delete(req: Request, res: Response){
         try{
             
-            await this.service.deleteBasedOnDate(req.body['parent_dni'], req.body['child_dni'], req.body['date'])
+            await this.service.deleteBasedOnDate(req.body['id'], req.body['child_dni'], req.body['date'])
 
             return res
                 .status(201)

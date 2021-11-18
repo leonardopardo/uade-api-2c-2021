@@ -15,7 +15,7 @@ export interface IVaccine{
 }
 
 const VaccineApplicationSchema = new Schema({
-    parent_dni: {type: String, required: true},
+    parent_id: {type: String, required: true},
     child_dni: {type: String, required: true},
     vaccine_id: {type: Number, required: true},
     date: Date,
@@ -24,7 +24,7 @@ const VaccineApplicationSchema = new Schema({
 })
 
 export interface IVaccineApplication{
-    parent_dni: String,
+    parent_id: String,
     child_dni: String,
     vaccine_id: Number,
     date: Date,

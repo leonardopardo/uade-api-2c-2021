@@ -9,17 +9,17 @@ export class ChildService {
         this.vaccineService = new VaccineService();
     }
 
-    async findOneByDniAndParentDni(dni: String, parent_dni: String){
+    async findOneByDniAndParentId(dni: String, parent_id: String){
         try {
-            return await ChildModel.findOne({"dni": dni, "parent_dni": parent_dni})
+            return await ChildModel.findOne({"dni": dni, "parent_id": parent_id})
         } catch (e) {
             throw new Error(e)
         }
     }
 
-    async findAllByParentDni(dni: String){
+    async findAllByParentId(id: String){
         try {
-            return await ChildModel.find({"parent_dni": dni})
+            return await ChildModel.find({"parent_id": id})
         } catch (e) {
             throw new Error(e)
         }
@@ -38,16 +38,19 @@ export class ChildService {
 
             const newChild = new ChildModel({
                 dni: child.dni,
-                parent_dni: child.parent_dni,
+                parent_id: child.parent_id,
                 firstname: child.firstname,
                 lastname: child.lastname,
                 birthdate: child.birthdate,
+                bloodtype: child.bloodtype,
                 allergies: child.allergies,
-                diseases: child.diseases
+                diseases: child.diseases,
+                extra_info: child.extra_info,
+                avatar: child.avatar
             })
             
             await newChild.save();
-            await this.vaccineService.createChildVaccineTracking(child.dni, child.parent_dni);
+            await this.vaccineService.createChildVaccineTracking(child.dni, child.parent_id);
             
         } catch(e) {
             throw new Error(e)
@@ -57,14 +60,8 @@ export class ChildService {
     async update(child: IChild){
         try {
             
-            const c = await this.findOneByDniAndParentDni(child.dni, child.parent_dni);
-            c.firstname = child.firstname;
-            c.lastname = child.lastname;
-            c.birthdate = child.birthdate;
-            c.allergies = child.allergies;
-            c.diseases = child.diseases;
-
-            await c.update();
+            const c = await this.findOneByDniAndParentId(child.dni, child.parent_id);
+            await c.updateOne(child);
 
         } catch(e) {
             throw new Error(e)

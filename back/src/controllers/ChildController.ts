@@ -1,35 +1,42 @@
 import { Request, Response } from "express";
 import { ChildService } from "./../services/ChildService";
+import { UserService } from "./../services/UserService";
 import { IChild } from "./../models/Child";
+import { IUser } from "./../models/User";
 
 export class ChildController {
 
-    service: ChildService;
-
-    constructor(){
-        this.service = new ChildService();
+    async getAll(req: Request, res: Response){
+        const childService = new ChildService()
+        const childrens: IChild = await childService.findAllByParentId(req.body['id'])
+        return res.status(200).json({"data": childrens});
     }
 
     // TODO: Ver el tema de crear las vacunas
     async create(req: Request, res: Response){
+        const service = new ChildService()
         try{
             // We first search if there is an existing child with the parent and child DNI
-            const childExists = await this.service.findOneByDniAndParentDni(req.body['dni'], req.body['parent_dni']);
+            const childExists = await service.findOneByDniAndParentId(req.body['identity'], req.body['id']);
 
             if(childExists !== null)
-                throw new Error("Su usuario ya tiene cargado un hijo con DNI " + req.body["dni"]);
+                throw new Error("Su usuario ya tiene cargado un hijo con DNI " + req.body["identity"]);
+
 
             const newChild: IChild = {
-                dni: req.body["dni"],
-                parent_dni: req.body["parent_dni"],
-                firstname: req.body["firstname"],
-                lastname: req.body["lastname"],
-                birthdate: req.body["birthdate"],
-                allergies: req.body["allergies"],
-                diseases: req.body["diseases"]
+                parent_id: req.body["id"],
+                dni: req.body["identity"],
+                firstname: req.body["firstName"],
+                lastname: req.body["lastName"],
+                birthdate: req.body["age"],
+                bloodtype: req.body["blod"],
+                allergies: req.body["allergi"],
+                diseases: req.body["chronic"],
+                extra_info: req.body["information"],
+                avatar: ''
             }
 
-            await this.service.create(newChild);
+            await service.create(newChild);
 
             return res
                 .status(201)
@@ -39,7 +46,7 @@ export class ChildController {
 
         } catch (e){
             return res
-            .status(200)
+            .status(400)
             .json({
                 message: "Ocurrió un error al crear el hijo.",
                 error: e.message
@@ -49,34 +56,39 @@ export class ChildController {
 
     // We will only let users change non-key fields such as name, surname, etc
     async update(req: Request, res: Response){
+        const service = new ChildService()
         try{
             // We first search if there is an existing child with the parent and child DNI
-            const childExists = await this.service.findOneByDniAndParentDni(req.body['dni'], req.body['parent_dni']);
+            const childExists = await service.findOneByDniAndParentId(req.body['identity'], req.body['id']);
 
             if(childExists == null)
-                throw new Error("El hijo con DNI " + req.body["dni"] + " no existe");
+                throw new Error("El hijo con DNI " + req.body["identity"] + " no existe");
 
             const uChild: IChild = {
-                dni: req.body["dni"],
-                parent_dni: req.body["parent_dni"],
-                firstname: req.body["firstname"],
-                lastname: req.body["lastname"],
-                birthdate: req.body["birthdate"],
-                allergies: req.body["allergies"],
-                diseases: req.body["diseases"]
+                parent_id: req.body["id"],
+                dni: req.body["identity"],
+                firstname: req.body["firstName"],
+                lastname: req.body["lastName"],
+                birthdate: req.body["age"],
+                bloodtype: req.body["blod"],
+                allergies: req.body["allergi"],
+                diseases: req.body["chronic"],
+                extra_info: req.body["information"],
+                avatar: ''
             }
 
-            await this.service.update(uChild);
+            console.log(uChild)
+            await service.update(uChild);
 
             return res
                 .status(201)
                 .json({
-                    message: `El hijo con DNI ${childExists.dni} ha sido creado correctamente`
+                    message: `El hijo con DNI ${childExists.dni} ha sido actualizado correctamente`
                 })
 
         } catch (e){
             return res
-            .status(200)
+            .status(400)
             .json({
                 message: "Ocurrió un error al actualizar el hijo.",
                 error: e.message

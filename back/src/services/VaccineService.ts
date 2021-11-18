@@ -8,11 +8,11 @@ export class VaccineService {
 
     // This will create a sort of table for the child, which will track if the child has received
     // the doses or not, the date and the place of application
-    async createChildVaccineTracking(child_dni: String, parent_dni: String){
+    async createChildVaccineTracking(child_dni: String, parent_id: String){
         const vaccines = await VaccineModel.find();
         vaccines.forEach((element) => {
             const newVaccineApplication = new VaccineApplicationModel({
-                parent_dni: parent_dni,
+                parent_id: parent_id,
                 child_dni: child_dni,
                 vaccine_id: element.vaccine_id,
                 date: null,
@@ -26,7 +26,7 @@ export class VaccineService {
     async applyVaccine(vaccineApplication: IVaccineApplication){
         try{
             const v = await VaccineApplicationModel.findOne({
-                "parent_dni": vaccineApplication.parent_dni,
+                "parent_id": vaccineApplication.parent_id,
                 "child_dni": vaccineApplication.child_dni,
                 "vaccine_id": vaccineApplication.vaccine_id
             })

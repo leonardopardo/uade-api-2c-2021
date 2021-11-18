@@ -9,17 +9,17 @@ import makeAnimated from 'react-select/animated'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { AddChildSchema } from './../validations/AddChild.validation'
+import { ViewChildSchema } from './../validations/ViewChild.validation'
 import ChildService from '../../../../services/ChildService'
 
 
-const ModalChildreAdd = () => {
+const ModalChildrenView = ({child}) => {
 
     const [show, setShow] = useState(false);
 
-    const [selectedChronicOption, setSelectedChronicOption] = useState([]);
+    const [selectedChronicOption, setSelectedChronicOption] = useState(child.diseases);
 
-    const [selectedAllergiOption, setSelectedAllergiOption] = useState([]);
+    const [selectedAllergiOption, setSelectedAllergiOption] = useState(child.allergies);
 
     const [
         errorModalMessage,
@@ -40,15 +40,16 @@ const ModalChildreAdd = () => {
     const handleShow = () => setShow(true);
 
     const {register, handleSubmit, formState:{errors}} = useForm({
-        resolver: yupResolver(AddChildSchema)
+        resolver: yupResolver(ViewChildSchema)
     })
 
     const addChildrenSubmit = async (data) => {
         data['allergi'] = selectedAllergiOption
         data['chronic'] = selectedChronicOption
+        data['identity'] = child.identity
     
         try {
-            const res = await ChildService.addChildren(data);
+            const res = await ChildService.updateChildren(data);
             setVariantModal("success")
             setModalMessage(res.message)
         } catch (err) {
@@ -86,7 +87,7 @@ const ModalChildreAdd = () => {
     return(
         <>
             <Button variant="outline-primary" onClick={handleShow}>
-                <FiPlus /> Agregar
+                <FiPlus /> Ver Informacion
             </Button>
 
             <Modal
@@ -108,7 +109,8 @@ const ModalChildreAdd = () => {
                                     <Form.Control 
                                         {...register("firstName")} 
                                         type="text" 
-                                        placeholder="Ingresa el nombre" 
+                                        placeholder="Ingresa el nombre"
+                                        defaultValue={child.firstName} 
                                         size="md" 
                                         className={isValid(errors.firstName)} />
                                     <p className="text-danger small">
@@ -122,7 +124,8 @@ const ModalChildreAdd = () => {
                                     <Form.Control 
                                         {...register("lastName")} 
                                         type="text" 
-                                        placeholder="Ingresa el apellido" 
+                                        placeholder="Ingresa el apellido"
+                                        defaultValue={child.lastName}  
                                         size="md" 
                                         className={isValid(errors.lastName)} />
                                     <p className="text-danger small">
@@ -137,7 +140,9 @@ const ModalChildreAdd = () => {
                                         {...register("identity")}
                                         size="md"
                                         type="text"
-                                        placeholder="Ingresa el DNI" />
+                                        defaultValue={child.identity}
+                                        placeholder="Ingresa el DNI"
+                                        disabled />
                                     <p className="text-danger small">
                                         { errors?.identity?.message }
                                     </p>
@@ -151,7 +156,8 @@ const ModalChildreAdd = () => {
                                     <Form.Control 
                                         {...register("age")} 
                                         type="date" 
-                                        size="md" 
+                                        size="md"
+                                        defaultValue={child.age} 
                                         className={isValid(errors.age)} />
                                     <p className="text-danger small">
                                         {errors.age && errors.age.message}
@@ -164,7 +170,8 @@ const ModalChildreAdd = () => {
                                     <Form.Select
                                         {...register("blod")} 
                                         type="text" 
-                                        size="md" 
+                                        size="md"
+                                        defaultValue={child.bloodType}  
                                         className={isValid(errors.age)}>
                                             <option>Seleccione tipo</option>
                                             <option value="0-positivo">o+</option>
@@ -242,7 +249,8 @@ const ModalChildreAdd = () => {
                                     <Form.Control
                                         {...register("information")} 
                                         as="textarea" 
-                                        type="text" 
+                                        type="text"
+                                        defaultValue={child.extra_info}  
                                         rows={4} />
                                 </Form.Group>
                             </Col>
@@ -254,7 +262,7 @@ const ModalChildreAdd = () => {
                     <FiX /> Cerrar
                 </Button>
                 <Button variant="outline-primary" type="submit" form="newChildForm">
-                    <FiSave /> Guardar
+                    <FiSave /> Actualizar
                 </Button>
                 </Modal.Footer>
                 {
@@ -276,7 +284,7 @@ const ModalChildreAdd = () => {
     )
 }
 
-export default ModalChildreAdd
+export default ModalChildrenView
 
 // información de los niños a controlar 
 /**

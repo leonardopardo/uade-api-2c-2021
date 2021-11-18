@@ -7,9 +7,9 @@ export class ControlService {
     }
 
     // TODO: Add offset and limit with pagination?
-    async findAllFromParentAndChildDNI(dni: String, parent_dni: String){
+    async findAllFromParentIdAndChildDNI(dni: String, parent_id: String){
         try {
-            return await ControlModel.find({"child_dni": dni, "parent_dni": parent_dni})
+            return await ControlModel.find({"child_dni": dni, "parent_id": parent_id})
         } catch (e) {
             throw new Error(e)
         }
@@ -28,7 +28,7 @@ export class ControlService {
 
             const newControl = new ControlModel({
                 child_dni: control.child_dni,
-                parent_dni: control.parent_dni,
+                parent_id: control.parent_id,
                 date: control.date,
                 weight: control.weight,
                 height: control.height,
@@ -50,18 +50,18 @@ export class ControlService {
         }
     }
 
-    async deleteBasedOnDate(parent_dni: String, child_dni: String, date: Date){
+    async deleteBasedOnDate(parent_id: String, child_dni: String, date: Date){
         try {
-            return await ControlModel.deleteOne({"parent_dni": parent_dni, "child_dni": child_dni, "date": date});
+            return await ControlModel.deleteOne({"parent_id": parent_id, "child_dni": child_dni, "date": date});
         } catch (e) {
             throw new Error (e);
         }
     }
 
     // Delete everything related to a child control, probably used on child deletion
-    async deleteAllFromParentAndChildDNI(parent_dni: String, child_dni: String){
+    async deleteAllFromParentIdAndChildDNI(parent_id: String, child_dni: String){
         try {
-            return await ControlModel.deleteMany({"parent_dni": parent_dni, "child_dni": child_dni});
+            return await ControlModel.deleteMany({"parent_id": parent_id, "child_dni": child_dni});
         } catch (e) {
             throw new Error (e);
         }

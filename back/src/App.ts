@@ -36,19 +36,17 @@ class App {
     public userRoutes: UserRoutes =  new UserRoutes();
     public vaccineRoutes: VaccineRoutes =  new VaccineRoutes();
 
-    // TODO: Find a way of using environment variables here
-    public mongoUrl: string = 'mongodb+srv://dbAdmin:*4Jd271Y0oVc@apidb.ol8kb.mongodb.net/appdb?retryWrites=true&w=majority';
-
     constructor(){
         this.app = express();
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
         this.router.use(cors(this.options));
         this.routes();
-        this.configureMongo();
         this.env = dotenv.config({
             path: `${__dirname}/./../.env`
         });
+        // Careful, mongo config should be after we get the env variables
+        this.configureMongo();
     }
 
     private routes() {
@@ -64,7 +62,7 @@ class App {
     }
 
     private configureMongo() {
-        mongoose.connect(this.mongoUrl, {useNewUrlParser: true, useUnifiedTopology: true});
+        mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true});
         const service = new VaccineService();
         service.initializeVaccineDB();
     }

@@ -1,8 +1,8 @@
 import { Schema, model, ObjectId } from 'mongoose'
 
 const UserSchema = new Schema({
-    firstname:{type: String, required: true},
-    lastname:{type: String, required: true},
+    firstname:{type: String, required: false},
+    lastname:{type: String, required: false},
     email: {type: String, required: true},
     password: {type: String, required: true},
     age: {type: Date, required: false},
@@ -15,8 +15,8 @@ const UserSchema = new Schema({
 export interface IUser {
     id?: ObjectId,
     username: string,
-    firstName?: string,
-    lastName?: string,
+    firstname?: string,
+    lastname?: string,
     password?: string,
     age?: Date,
     identity?: string,

@@ -17,8 +17,35 @@ export class UserService {
 
             const user: IUser = {
                 id: u._id,
-                firstName: u.firstname,
-                lastName: u.lastname,
+                firstname: u.firstname,
+                lastname: u.lastname,
+                username: u.email,
+                password: u.password,
+                age: u.age,
+                identity: u.identity,
+                avatar: u.avatar,
+                restorePasswordToken: u.restorePasswordToken
+            }
+
+            return user;
+
+        } catch(e) {
+            throw new Error(e);
+        }
+    }
+
+    async findByIdentity(identity: String){
+        try {
+            
+            const u = await UserModel.findOne({"identity": identity});
+           
+            if(u === null)
+                return null;
+
+            const user: IUser = {
+                id: u._id,
+                firstname: u.firstname,
+                lastname: u.lastname,
                 username: u.email,
                 password: u.password,
                 age: u.age,
@@ -59,8 +86,8 @@ export class UserService {
         try {
 
             const newUser = new UserModel({
-                firstname: user.firstName,
-                lastname: user.lastName,
+                firstname: user.firstname,
+                lastname: user.lastname,
                 email: user.username,
                 password: await bcrypt.hashSync(user.password, 8),
                 identity: user.identity,
@@ -81,8 +108,9 @@ export class UserService {
         
             const u = await UserModel.findOne({"email": user.username})
 
-            u.firstname = user.firstName;
-            u.lastname = user.lastName;
+            // Todo esto se puede sacar por que usamos updateOne me parece
+            u.firstname = user.firstname;
+            u.lastname = user.lastname;
             u.identity = user.identity;
             u.age = user.age;
             u.email = user.username;
