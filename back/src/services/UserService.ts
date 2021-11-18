@@ -101,7 +101,7 @@ export class UserService {
             const u = await UserModel.findOne({"email": user.username})
             u.password = user.password;
 
-            await u.update();
+            await u.updateOne(user);
 
         } catch (e) {
             throw new Error(e)

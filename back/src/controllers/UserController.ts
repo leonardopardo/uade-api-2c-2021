@@ -69,32 +69,68 @@ export class UserController {
     
     async update_profile(req: Request, res: Response){
         try{
-            console.log(req.body)
-            // We first search if there is an existing user with this email and password
-            //const user = await UserModel.findOne({email: req.body['email']});
-            // We then update the email
-            //user.email = req.body['new_email'];
-            //await user.save();
-            res.status(200).json("Updated");
-        } catch {
+            
+            const service: UserService = new UserService();
+            
+            const user: IUser = await service.findByEmail(req.body['email'])
+
+            if(user === null)
+                throw new Error("El email ingresado no es encuentra en nuestra base de datos.");
+
+            user.firstName = req.body['firstName']
+            user.lastName = req.body['lastName']
+            user.age = req.body['age']
+            user.phone = req.body['phone']
+            user.username = req.body['email']
+
+            await service.update(user)
+
+            res
+                .status(200)
+                .json({
+                message: `Los datos del usuario ${user.username} se actualizaron correctament.`
+            });
+        } catch(e) {
             // If an exception is raised, it means that there was no user with that email
-            res.status(401).json("Error");
+            res
+                .status(401)
+                .json({
+                    message:"Ocurrió un error al actualizar los datos.",
+                    error: e.message
+                });
         }
     }
 
     // Guarda que esta el change y el recovery
     async change_password(req: Request, res: Response){
+
         try{
-            // We first search if there is an existing user with this email and password
-            const user = await UserModel.findOne({email: req.body['email']});
-            var hashedPassword = bcrypt.hashSync(req.body['new_password'], 8);
-            // We then update the password
+            const service: UserService = new UserService();
+            
+            const user: IUser = await service.findByEmail(req.body['email']);
+
+            if(user === null)
+                throw new Error("El email ingresado no es encuentra en nuestra base de datos.");
+            
+            var hashedPassword = bcrypt.hashSync(req.body['password'], 8);
+            
             user.password = hashedPassword;
-            await user.save();
-            res.status(200).json("Password updated for user " + user.email);
-        } catch {
-            // If an exception is raised, it means that there was no user with that email
-            res.status(400).json('No user exists with email '+ req.body['email']);
+            
+            await service.updatePassword(user)
+            
+            res
+                .status(200)
+                .json({
+                    message: "La contraseña se actualizó correctamente."
+                });
+
+        } catch (e) {
+            res
+                .status(400)
+                .json({
+                    message: "Ocurrió un error al intentar modificar la contraseña.",
+                    error: e.message
+                });
         }
     }
 

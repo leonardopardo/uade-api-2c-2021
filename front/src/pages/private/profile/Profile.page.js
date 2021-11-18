@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { Col, Row, Form, Button, Card } from 'react-bootstrap'
+import { Col, Row, Form, Button, Card, Alert } from 'react-bootstrap'
 import { FiCheck, FiMail, FiLock, FiCalendar, FiPhone, FiSave, FiInfo, FiImage } from 'react-icons/fi'
 import Avatar from 'react-avatar'
 
@@ -9,13 +9,52 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { ProfileSchema } from './validations/Profile.validation'
 
 import UserService from '../../../services/UserService'
-
-
+import ButtonSpinner from './../../../components/ButtonSpinner';
+import { ConfirmPasswordSchema } from './../../public/users/validations/ConfirmPassword.validation';
 
 const Profile = ({user}) => {
 
-    const {register, handleSubmit, formState: { errors }} = useForm({
+    const [
+        loadingFormProfile,
+        setLoadingFromProfile
+    ] = useState(false);
+
+    const [
+        loadingFormPass,
+        setLoadingFromPass
+    ] = useState(false);
+
+    const [
+        errorPasswordMessage,
+        setErrorPasswordMessage
+    ] = useState("")
+
+    const [
+        passwordMessage,
+        setPasswordMessage
+    ] = useState("")
+
+    const [
+        variantPassword,
+        setVariantPassword
+    ] = useState("")
+
+    const {
+        register, 
+        handleSubmit, 
+        formState: { errors },
+        reset: resetProfile
+    } = useForm({
         resolver: yupResolver(ProfileSchema)
+    })
+
+    const {
+        register: registerPass, 
+        handleSubmit: handleSubmitPass, 
+        formState: { errors: errorsPass },
+        reset: passwordReset
+    } = useForm({
+        resolver: yupResolver(ConfirmPasswordSchema)
     })
 
     const isValid = (value) => {
@@ -23,16 +62,33 @@ const Profile = ({user}) => {
     }
 
     const profileSubmit = async (data) => {
+        
+        setLoadingFromProfile(true)
+
         try {
-            let res = await UserService.updateUser(data);
+            const res = await UserService.updateUser(data);
             console.log(res)
-            //etRestoreVariant('success')
-            //setRestoreMessage(res.data.message)
-            //reset()
         } catch (err) {
-            console.log(err.message)
-            //setRestoreVariant('danger')
-            //setRestoreMessage(err.response.data.message)
+            console.log(err)
+        } finally {
+            setLoadingFromProfile(false)
+            resetProfile()
+        }
+    }
+
+    const passwordSubmit = async (data) => {
+        setLoadingFromPass(true)
+        try {
+            const res = await UserService.changePassword(data);
+            setVariantPassword("success")
+            setPasswordMessage(res.message)
+        } catch (err) {
+            setVariantPassword("danger")
+            setPasswordMessage(err.response.data.message)
+            setErrorPasswordMessage(err.response.data.error)
+        } finally {
+            setLoadingFromPass(false)
+            passwordReset()
         }
     }
 
@@ -52,31 +108,28 @@ const Profile = ({user}) => {
                                 <span className="h6 icon-tertiary small">
                                     {
                                         user.age !== '' ?
-                                        <span className="fas fa-medal me-2"> Edad: {user.age} años</span>
+                                        <span className="fas fa-medal me-2"> { user.age ? `Edad: ${user.age}` : ``} años</span>
                                         :
                                         <span className="fas fa-medal me-2"></span>
                                     }
                                 </span>
                                 <h3 className="h5 card-title mt-3">
-                                    {user.fullName()}
+                                    { user.fullName() }
                                 </h3>
                                 <p className="card-text">
-                                    <span className="d-block">{user.email()}</span>
-                                    <span className="d-block">{user.phone}</span>
-                                    <span className="d-block">DNI {user.identity}</span>
+                                    <span className="d-block"> { user.email() }</span>
+                                    <span className="d-block"> { user.phone ? `Teléfono: ${user.phone}` : '' }</span>
+                                    <span className="d-block"> { user.identity ? `DNI: ${user.identity}` : '' }</span>
                                 </p>
-                                
                             </Card.Body>
-                        
                         </Card>
                     </Col>
                     <Col lg={8}> 
                         <Card className="">
                             <Card.Body>
+                                {/* Actualizar Perfil */}
                                 <Form onSubmit={handleSubmit(profileSubmit)}>
-
                                     <Row>
-                                        
                                         {/* firstName */}
                                         <Col>
                                             <Form.Group>
@@ -176,48 +229,7 @@ const Profile = ({user}) => {
                                             </Form.Group>
                                         </Col>
                                     </Row>
-                                    {/* email */}
-
-
-                                    <Row>
-                                        
-                                        {/* password */}
-                                        <Col md={6}>
-                                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                                <Form.Label><FiLock /> Nueva Contraseña</Form.Label>
-                                                
-                                                <Form.Control 
-                                                    {...register("password")} 
-                                                    type="password" 
-                                                    placeholder="Password" 
-                                                    size="md"
-                                                    className={isValid(errors.password)} />
-                                                
-                                                <p className="text-danger small">
-                                                    { errors?.password?.message }
-                                                </p>
-                                            </Form.Group>
-                                        </Col>
-
-                                        {/* confirm password */}
-                                        <Col md={6}>
-                                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                                <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>
-                                                
-                                                <Form.Control 
-                                                        {...register("confirmPassword")} 
-                                                        type="password" 
-                                                        placeholder="Password"
-                                                        size="md"
-                                                        className={isValid(errors.confirmPassword)} />
-                                                
-                                                <p className="text-danger small">
-                                                    { errors?.confirmPassword?.message }
-                                                </p>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-
+                                    
                                     <Row>
                                         <Col md={6}>
                                             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -237,8 +249,83 @@ const Profile = ({user}) => {
                                     </Row>
 
                                     <div className="d-grid gap-2">
-                                    <Button variant="outline-primary" type="submit" size="md" className="my-4"><FiSave /> Actualizar Información</Button>
+                                        {
+                                            !loadingFormProfile
+                                            ? <Button variant="outline-primary" type="submit" size="md" className="my-4"><FiSave /> Actualizar Información</Button>
+                                            : <ButtonSpinner />
+                                        }
                                     </div>
+                                </Form>
+                                
+
+                                {/* Actualizar Contraseña */}
+                                <Form onSubmit={handleSubmitPass(passwordSubmit)}>
+                                    {/* hidden value */}
+                                    <Form.Control
+                                        {...registerPass("email")}
+                                        type="hidden"
+                                        value={user.email()}
+                                     />
+                                    <Row>
+                                        {/* password */}
+                                        <Col md={6}>
+                                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                                <Form.Label><FiLock /> Nueva Contraseña</Form.Label>
+                                                
+                                                <Form.Control 
+                                                    {...registerPass("password")} 
+                                                    type="password" 
+                                                    placeholder="Password" 
+                                                    size="md"
+                                                    className={isValid(errorsPass.password)} />
+                                                
+                                                <p className="text-danger small">
+                                                    { errorsPass?.password?.message }
+                                                </p>
+                                            </Form.Group>
+                                        </Col>
+
+                                        {/* confirm password */}
+                                        <Col md={6}>
+                                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                                <Form.Label><FiCheck /> Confirmar Contraseña</Form.Label>
+                                                
+                                                <Form.Control 
+                                                        {...registerPass("confirmPassword")} 
+                                                        type="password" 
+                                                        placeholder="Password"
+                                                        size="md"
+                                                        className={isValid(errorsPass.confirmPassword)} />
+                                                
+                                                <p className="text-danger small">
+                                                    { errorsPass?.confirmPassword?.message }
+                                                </p>
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    {
+                                        !loadingFormPass
+                                        ? <Button variant="outline-primary" type="submit" size="md" className="my-4"><FiSave /> Modificar Contraseña</Button>
+                                        : <ButtonSpinner />
+                                    }
+                                    <Row>
+                                        <Col md={12}>
+                                            {
+                                                variantPassword === "success" &&
+                                                <Alert variant={variantPassword}>
+                                                    <Alert.Heading>Excelente!</Alert.Heading>
+                                                    <p>{passwordMessage}</p>
+                                                </Alert>
+                                            }
+                                            {
+                                                variantPassword === "danger" &&
+                                                <Alert variant={variantPassword}>
+                                                    <Alert.Heading>{passwordMessage}</Alert.Heading>
+                                                    <p>{errorPasswordMessage}</p>
+                                                </Alert>
+                                            }
+                                        </Col>
+                                    </Row>
                                 </Form>
                             </Card.Body>
                         </Card>

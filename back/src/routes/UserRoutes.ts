@@ -7,8 +7,8 @@ export class UserRoutes {
     public path: string = '/users';
     public create: string = '/create';
     public delete: string = '/delete';
-    public update_profile: string = '/update_profile';
-    public change_password: string = '/change_password';
+    public update_profile: string = '/update-profile';
+    public change_password: string = '/change-password';
     public login: string = '/login';
     public restore_password = '/restore-password';
     public confirm_password = '/confirm-password';

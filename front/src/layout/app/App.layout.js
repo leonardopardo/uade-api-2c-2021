@@ -26,6 +26,7 @@ const AppLayout = () => {
     }
 
     const token = localStorage.getItem('token');
+    
     if(token === null) logout()
 
     const [
@@ -49,7 +50,6 @@ const AppLayout = () => {
         setUserState(usr)
     }, [])
 
-    //{user.firstName.toUpperCase()}
     return (
         <>
             <Container>

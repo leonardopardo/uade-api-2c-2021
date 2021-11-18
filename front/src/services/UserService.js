@@ -30,7 +30,7 @@ class UserService {
             },
             phone: profile['phone'],
             identity: profile['identity'],
-            age: '',
+            age: profile['age'],
             img: ''
         }
     }
@@ -41,7 +41,7 @@ class UserService {
                 'x-access-token': localStorage.getItem('token'),
             }
           }
-        return await axios.post(`${this.endpoint}/update_profile`, body, config)
+        return await axios.post(`${this.endpoint}/update-profile`, body, config)
     }
 
     async createUser(body){
@@ -70,8 +70,16 @@ class UserService {
         return await axios.post(`${this.endpoint}/confirm-password`, data)
     }
 
-    async changePassword(){
+    async changePassword(body){
+        let config = {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+            }
+          }
 
+        const { data } = await axios.post(`${this.endpoint}/change-password`, body, config)
+
+        return data
     }
 }
 
