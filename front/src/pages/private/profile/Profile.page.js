@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Col, Row, Form, Button, Card, Alert } from 'react-bootstrap'
 import { FiCheck, FiMail, FiLock, FiCalendar, FiPhone, FiSave, FiInfo, FiImage } from 'react-icons/fi'
@@ -18,6 +18,21 @@ const Profile = ({user}) => {
         loadingFormProfile,
         setLoadingFromProfile
     ] = useState(false);
+
+    const [
+        errorProfileMessage,
+        setErrorProfileMessage
+    ] = useState("");
+
+    const [
+        profileMessage,
+        setProfileMessage
+    ] = useState("")
+
+    const [
+        variantProfile,
+        setVariantProfile
+    ] = useState("")
 
     const [
         loadingFormPass,
@@ -43,7 +58,7 @@ const Profile = ({user}) => {
         register, 
         handleSubmit, 
         formState: { errors },
-        reset: resetProfile
+        reset
     } = useForm({
         resolver: yupResolver(ProfileSchema)
     })
@@ -64,20 +79,25 @@ const Profile = ({user}) => {
     const profileSubmit = async (data) => {
         
         setLoadingFromProfile(true)
-
+    
         try {
             const res = await UserService.updateUser(data);
-            console.log(res)
+            setVariantProfile("success")
+            setProfileMessage(res.message)
         } catch (err) {
-            console.log(err)
+            setVariantProfile("danger")
+            setProfileMessage(err.response.data.message)
+            setErrorProfileMessage(err.response.data.error)
+            reset()
         } finally {
             setLoadingFromProfile(false)
-            resetProfile()
         }
     }
 
     const passwordSubmit = async (data) => {
+        
         setLoadingFromPass(true)
+        
         try {
             const res = await UserService.changePassword(data);
             setVariantPassword("success")
@@ -91,6 +111,10 @@ const Profile = ({user}) => {
             passwordReset()
         }
     }
+
+    useEffect(() => {
+        
+    }, []);
 
     return(
         <>
@@ -255,6 +279,21 @@ const Profile = ({user}) => {
                                             : <ButtonSpinner />
                                         }
                                     </div>
+
+                                    {
+                                        variantProfile === "success" &&
+                                        <Alert variant={variantProfile}>
+                                            <Alert.Heading>Excelente!</Alert.Heading>
+                                            <p>{profileMessage}</p>
+                                        </Alert>
+                                    }
+                                    {
+                                        variantProfile === "danger" &&
+                                        <Alert variant={variantProfile}>
+                                            <Alert.Heading>{profileMessage}</Alert.Heading>
+                                            <p>{errorProfileMessage}</p>
+                                        </Alert>
+                                    }
                                 </Form>
                                 
 

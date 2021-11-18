@@ -77,6 +77,9 @@ export class UserController {
             if(user === null)
                 throw new Error("El email ingresado no es encuentra en nuestra base de datos.");
 
+            if(req.body['identity'] != user.identity)
+                throw new Error("El campo DNI no puede ser modificado.");
+
             user.firstName = req.body['firstName']
             user.lastName = req.body['lastName']
             user.age = req.body['age']
@@ -88,10 +91,11 @@ export class UserController {
             res
                 .status(200)
                 .json({
-                message: `Los datos del usuario ${user.username} se actualizaron correctament.`
+                message: `Los datos del usuario se actualizaron correctamente.`
             });
+            
         } catch(e) {
-            // If an exception is raised, it means that there was no user with that email
+            
             res
                 .status(401)
                 .json({

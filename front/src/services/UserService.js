@@ -26,11 +26,11 @@ class UserService {
                     : `${this.firstName.toUpperCase()} ${this.lastName.toUpperCase()}`
             },
             email() {
-                return profile['email']
+                return profile['email'].toLowerCase()
             },
             phone: profile['phone'],
             identity: profile['identity'],
-            age: profile['age'],
+            age: profile['age'].split('T')[0],  
             img: ''
         }
     }
@@ -41,7 +41,10 @@ class UserService {
                 'x-access-token': localStorage.getItem('token'),
             }
           }
-        return await axios.post(`${this.endpoint}/update-profile`, body, config)
+
+        let {data} = await axios.post(`${this.endpoint}/update-profile`, body, config)
+
+        return data
     }
 
     async createUser(body){
