@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap'
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiPlus, FiX, FiSave } from 'react-icons/fi'
 
 import { useForm } from 'react-hook-form'
@@ -10,6 +10,7 @@ import { NewControlSchema } from '../validations/NewControl.validation'
 
 import ControlService from '../../../../services/ControlService'
 
+import toast from 'react-hot-toast';
 
 const ModalControlAdd = ({children}) => {
 
@@ -27,35 +28,19 @@ const ModalControlAdd = ({children}) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const {register, handleSubmit, formState:{errors}} = useForm({
+    const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(NewControlSchema)
     })
-
-    const [
-        errorModalMessage,
-        setErrorModalMessage
-    ] = useState("");
-
-    const [
-        modalMessage,
-        setModalMessage
-    ] = useState("")
-    
-    const [
-        variantModal,
-        setVariantModal
-    ] = useState("")
 
     const addControlSubmit = async (data) => {
         data['meds_checked'] = showMed
         try {
             const res = await ControlService.create(data);
-            setVariantModal("success")
-            setModalMessage(res.message)
+            toast.success(res.message)
+            setShow(false)
+            reset()
         } catch (err) {
-            setVariantModal("danger")
-            setModalMessage(err.response.data.message)
-            setErrorModalMessage(err.response.data.error)
+            toast.error(err.response.data.error)
         }
     }
 
@@ -266,20 +251,6 @@ const ModalControlAdd = ({children}) => {
                         <FiSave /> Guardar
                     </Button>
                 </Modal.Footer>
-                    {
-                        variantModal === "success" &&
-                        <Alert variant={variantModal}>
-                            <Alert.Heading>Excelente!</Alert.Heading>
-                            <p>{modalMessage}</p>
-                        </Alert>
-                    }
-                    {
-                        variantModal === "danger" &&
-                        <Alert variant={variantModal}>
-                            <Alert.Heading>{modalMessage}</Alert.Heading>
-                            <p>{errorModalMessage}</p>
-                        </Alert>
-                    }
             </Modal>
         </>
     )

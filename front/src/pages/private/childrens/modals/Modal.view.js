@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap'
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiPlus, FiX, FiSave, FiImage, FiInfo } from 'react-icons/fi'
 
 import Select from 'react-select'
@@ -12,20 +12,23 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { ViewChildSchema } from './../validations/ViewChild.validation'
 import ChildService from '../../../../services/ChildService'
 
-import { ToastContainer, toast } from 'react-toastify'
+import toast from 'react-hot-toast';
 
 const ModalChildrenView = (props) => {
 
     const [child, setChild] = useState(props.child)
 
-    console.log(child)
-
     const [show, setShow] = useState(false);
 
     const [selectedChronicOption, setSelectedChronicOption] = useState(child.diseases);
-
+    
     const [selectedAllergiOption, setSelectedAllergiOption] = useState(child.allergies);
-
+    
+    const [
+        selectedFile,
+        setSelectedFile
+    ] = useState()
+    
     const handleClose = () => setShow(false);
     
     const handleShow = () => setShow(true);
@@ -35,19 +38,26 @@ const ModalChildrenView = (props) => {
     })
 
     const addChildrenSubmit = async (data) => {
-        data['allergi'] = selectedAllergiOption
-        data['chronic'] = selectedChronicOption
-        data['identity'] = child.identity
-    
+        
         try {
+            const uploadImage = await ChildService.uploadImage(selectedFile) 
+
+            data['allergi'] = selectedAllergiOption
+            data['chronic'] = selectedChronicOption
+            data['identity'] = child.identity
+            data['avatar'] = uploadImage
+            
             const res = await ChildService.updateChildren(data);
             setChild(res.child)
             toast.success(res.data.message)
             setShow(false)
-            console.log(child)
         } catch (err) {
             toast.error(err.response.data.error)
         }
+    }
+
+    const changeHandler = (event) => {
+        setSelectedFile(event.target.files[0])
     }
 
     const isValid = (value) => {
@@ -77,18 +87,6 @@ const ModalChildrenView = (props) => {
 
     return(
         <>
-            {/* TOAST */}
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover /><ToastContainer />
-
             <Button variant="outline-primary" onClick={handleShow}>
                 <FiPlus /> Ver Informacion
             </Button>
@@ -236,7 +234,7 @@ const ModalChildrenView = (props) => {
                                             {...register("avatar")} 
                                             type="file" 
                                             size="md"
-                                            className={isValid(errors.avatar)} />
+                                            className={isValid(errors.avatar)} onChange={changeHandler} />
                                     
                                     <p className="text-danger small">
                                         { errors?.avatar?.message }
@@ -273,13 +271,3 @@ const ModalChildrenView = (props) => {
 }
 
 export default ModalChildrenView
-
-// información de los niños a controlar 
-/**
- * nombre, 
- * fecha de nacimiento, 
- * grupo sanguíneo, 
- * alergias, 
- * enfermedades crónicas (celiaquía, intolerancia lactosa, diabetes, etc.)
- */
-

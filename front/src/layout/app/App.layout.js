@@ -15,6 +15,8 @@ import Percentiles from '../../pages/private/percentiles/percentiles.page'
 import UserService from '../../services/UserService'
 import ChildService from '../../services/ChildService'
 
+import { Toaster } from 'react-hot-toast'
+
 const AppLayout = () => {
     
     const history = useHistory()
@@ -65,6 +67,7 @@ const AppLayout = () => {
 
     return (
         <>
+            <Toaster position="top-right" />
             <Container>
                 <Row style={{ marginTop:'3rem' }}>
                     <Col>

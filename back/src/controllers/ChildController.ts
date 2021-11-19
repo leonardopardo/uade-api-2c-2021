@@ -33,7 +33,7 @@ export class ChildController {
                 allergies: req.body["allergi"],
                 diseases: req.body["chronic"],
                 extra_info: req.body["information"],
-                avatar: ''
+                avatar: req.body["avatar"]
             }
 
             await service.create(newChild);
@@ -74,10 +74,9 @@ export class ChildController {
                 allergies: req.body["allergi"],
                 diseases: req.body["chronic"],
                 extra_info: req.body["information"],
-                avatar: ''
+                avatar: req.body["avatar"]
             }
 
-            console.log(uChild)
             await service.update(uChild);
 
             return res

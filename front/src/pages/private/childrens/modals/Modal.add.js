@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap'
+import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiPlus, FiX, FiSave, FiImage, FiInfo } from 'react-icons/fi'
 
 import Select from 'react-select'
@@ -11,8 +11,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { AddChildSchema } from './../validations/AddChild.validation'
 import ChildService from '../../../../services/ChildService'
-import { toast } from 'react-toastify';
 
+import toast from 'react-hot-toast';
 
 const ModalChildreAdd = () => {
 
@@ -22,24 +22,40 @@ const ModalChildreAdd = () => {
 
     const [selectedAllergiOption, setSelectedAllergiOption] = useState([]);
 
+    const [
+        selectedFile,
+        setSelectedFile
+    ] = useState()
+
     const handleClose = () => setShow(false);
     
     const handleShow = () => setShow(true);
 
-    const {register, handleSubmit, formState:{errors}} = useForm({
+    const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(AddChildSchema)
     })
 
     const addChildrenSubmit = async (data) => {
-        data['allergi'] = selectedAllergiOption
-        data['chronic'] = selectedChronicOption
-    
+        
         try {
+
+            let uploadImage = await ChildService.uploadImage(selectedFile)
+
+            data['avatar'] = uploadImage
+            data['allergi'] = selectedAllergiOption
+            data['chronic'] = selectedChronicOption
+            
             const res = await ChildService.addChildren(data);
             toast.success(res.message)
+            setShow(false)
+            reset()
         } catch (err) {
             toast.error(err.response.data.error)
         }
+    }
+
+    const changeHandler = (event) => {
+        setSelectedFile(event.target.files[0])
     }
 
     const isValid = (value) => {
@@ -211,7 +227,7 @@ const ModalChildreAdd = () => {
                                             {...register("avatar")} 
                                             type="file" 
                                             size="md"
-                                            className={isValid(errors.avatar)} />
+                                            className={isValid(errors.avatar)} onChange={changeHandler} />
                                     
                                     <p className="text-danger small">
                                         { errors?.avatar?.message }

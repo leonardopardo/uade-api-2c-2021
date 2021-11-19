@@ -35,6 +35,7 @@ class ChildService {
         });
         return children_data
     }
+
     async addChildren(child){
         let config = {
             headers: {
@@ -56,11 +57,32 @@ class ChildService {
         let childrens = await this.findChildren()
         let child = null
         childrens.forEach((entry) => {
-            if(body['identity'] == entry['identity'])
+            if(body['identity'] === entry['identity'])
                 child = entry
         })
         
         return {child, data}
+    }
+
+    async uploadImage(selectedFile){
+        try{
+            let body = new FormData()
+            body.set('key', '9350b1ffb18c46f36b7ce04aa8930884')
+            body.append('image', selectedFile)
+    
+            const request = { 
+                method: 'post', 
+                url: 'https://api.imgbb.com/1/upload', 
+                data: body
+            }
+    
+            const { data } = await axios(request)
+
+            return data.data.image.url
+
+        } catch (err) {
+            return err.message
+        }
     }
 }
 

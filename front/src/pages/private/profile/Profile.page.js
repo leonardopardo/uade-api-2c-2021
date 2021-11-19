@@ -12,8 +12,7 @@ import ButtonSpinner from './../../../components/ButtonSpinner';
 import { ConfirmPasswordSchema } from './../../public/users/validations/ConfirmPassword.validation';
 import CalcularEdad from './../../../utils/DateHelper';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 
 import { AvatarSchema } from './validations/Avatar.validation';
 
@@ -108,8 +107,7 @@ const Profile = (props) => {
         setLoadingFormAvatar(true)
         try{
             
-            if(!selectedFile)
-                throw "Debe seleccionar una imagen"
+            if(!selectedFile) throw "Debe seleccionar una imagen"
 
             const {user, res} = await UserService.uploadImage(selectedFile, data['email'])
             setUser(user)
@@ -131,18 +129,6 @@ const Profile = (props) => {
 
     return(
         <>
-            {/* TOAST */}
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover /><ToastContainer />
-
             <section>
                 <Row>
                     <Col lg={4}>

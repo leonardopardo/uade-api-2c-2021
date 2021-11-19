@@ -3,13 +3,12 @@ import { Col, Row, Card } from 'react-bootstrap'
 import ModalChildreAdd from './modals/Modal.add'
 import ModalChildrenView from './modals/Modal.view'
 
-import Avatar from 'react-avatar'
-
-const Childrens = ({children}) => {
+const Childrens = (props) => {
 
     const [
-        childrenState
-    ] = useState(children);
+        childrenState,
+        setChildrenState
+    ] = useState(props.children);
 
     const getChildrens = () => {
 
@@ -19,10 +18,9 @@ const Childrens = ({children}) => {
                 <Col key={`child-${index}`} lg={4}>
                     <Card className="shadow">
                         {
-                            child.img !== '' ?
-                            <Avatar size="100%" src={`/upload/${child.img}`} name={child.fullName()} className="card-img-top rounded-top"/>
-                            :
-                            <Avatar size="100%" src={`/upload/avatar.jpg`} name={child.fullName()} className="card-img-top rounded-top"/>
+                            child.img !== '' 
+                            ? <Card.Img variant="top" src={child.img}></Card.Img>
+                            : <Card.Img variant="top" src={`/upload/avatar.jpg`}></Card.Img>
                         }
                         <Card.Body>
                             <span className="h6 icon-tertiary small">
