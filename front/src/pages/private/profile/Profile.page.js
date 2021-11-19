@@ -106,6 +106,10 @@ const Profile = (props) => {
         
         setLoadingFormAvatar(true)
         try{
+            
+            if(!selectedFile)
+                throw "Debe seleccionar una imagen"
+
             const {user, res} = await UserService.uploadImage(selectedFile, data['email'])
             setUser(user)
             toast.success(res.message)
