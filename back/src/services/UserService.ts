@@ -114,6 +114,7 @@ export class UserService {
             u.identity = user.identity;
             u.age = user.age;
             u.email = user.username;
+            u.avatar = user.avatar;
             u.restorePasswordToken = user.restorePasswordToken;
 
             await u.updateOne(user);

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { Col, Row, Form, Button, Card, Alert } from 'react-bootstrap'
+import { Col, Row, Form, Button, Card } from 'react-bootstrap'
 import { FiCheck, FiMail, FiLock, FiCalendar, FiPhone, FiSave, FiInfo, FiImage } from 'react-icons/fi'
-import Avatar from 'react-avatar'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -13,47 +12,33 @@ import ButtonSpinner from './../../../components/ButtonSpinner';
 import { ConfirmPasswordSchema } from './../../public/users/validations/ConfirmPassword.validation';
 import CalcularEdad from './../../../utils/DateHelper';
 
-const Profile = ({user}) => {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AvatarSchema } from './validations/Avatar.validation';
+
+const Profile = (props) => {
+
+    const [user, setUser] = useState(props.user)
 
     const [
         loadingFormProfile,
-        setLoadingFromProfile
+        setLoadingFormProfile
     ] = useState(false);
-
-    const [
-        errorProfileMessage,
-        setErrorProfileMessage
-    ] = useState("");
-
-    const [
-        profileMessage,
-        setProfileMessage
-    ] = useState("")
-
-    const [
-        variantProfile,
-        setVariantProfile
-    ] = useState("")
 
     const [
         loadingFormPass,
-        setLoadingFromPass
+        setLoadingFormPass
     ] = useState(false);
 
     const [
-        errorPasswordMessage,
-        setErrorPasswordMessage
-    ] = useState("")
+        loadingFormAvatar,
+        setLoadingFormAvatar
+    ] = useState(false);
 
     const [
-        passwordMessage,
-        setPasswordMessage
-    ] = useState("")
-
-    const [
-        variantPassword,
-        setVariantPassword
-    ] = useState("")
+        selectedFile, 
+        setSelectedFile
+    ] = useState();
 
     const {
         register, 
@@ -73,62 +58,96 @@ const Profile = ({user}) => {
         resolver: yupResolver(ConfirmPasswordSchema)
     })
 
+    const {
+        register: registerAvatar, 
+        handleSubmit: handleSubmitAvatar, 
+        formState: { errors: errorsAvatar },
+        reset: avatarReset
+    } = useForm({
+        resolver: yupResolver(AvatarSchema)
+    })
+
     const isValid = (value) => {
         return value ? 'is-invalid' : ''
     }
-
+  
     const profileSubmit = async (data) => {
         
-        setLoadingFromProfile(true)
+        setLoadingFormProfile(true)
     
-        try {
+        try { 
             const res = await UserService.updateUser(data);
-            setVariantProfile("success")
-            setProfileMessage(res.message)
+            setUser(res.user)
+            toast.success(res.data.message)
         } catch (err) {
-            setVariantProfile("danger")
-            setProfileMessage(err.response.data.message)
-            setErrorProfileMessage(err.response.data.error)
+            toast.error(err)
             reset()
         } finally {
-            setLoadingFromProfile(false)
+            setLoadingFormProfile(false)
         }
     }
 
     const passwordSubmit = async (data) => {
         
-        setLoadingFromPass(true)
+        setLoadingFormPass(true)
         
         try {
             const res = await UserService.changePassword(data);
-            setVariantPassword("success")
-            setPasswordMessage(res.message)
+            toast.success(res.message)
         } catch (err) {
-            setVariantPassword("danger")
-            setPasswordMessage(err.response.data.message)
-            setErrorPasswordMessage(err.response.data.error)
+            toast.error(err.response.data.error)
         } finally {
-            setLoadingFromPass(false)
+            setLoadingFormPass(false)
             passwordReset()
         }
     }
 
-    useEffect(() => {
+    const avatarSubmit = async (data) => {
         
+        setLoadingFormAvatar(true)
+        try{
+            const {user, res} = await UserService.uploadImage(selectedFile, data['email'])
+            setUser(user)
+            toast.success(res.message)
+        }catch(err){
+            toast.error(err)
+        }finally{
+            setLoadingFormAvatar(false)
+            avatarReset()
+        }
+    }
+
+    const changeHandler = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    useEffect(() => {
     }, []);
 
     return(
         <>
+            {/* TOAST */}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover /><ToastContainer />
+
             <section>
                 <Row>
                     <Col lg={4}>
                         <Card className="shadow">
-                            {
-                                user.img !== '' ?
-                                <Avatar size="100%" src={`/upload/${user.img}`} name={user.fullName()} className="card-img-top rounded-top"/>
-                                :
-                                <Avatar size="100%" src={`/upload/avatar.jpg`} name={user.fullName()} className="card-img-top rounded-top"/>
-                            }
+                                {
+                                    user.img !== '' ?
+                                    <Card.Img variant="top" src={user.img}></Card.Img>
+                                    :
+                                    <Card.Img variant="top" src={`/upload/avatar.jpg`}></Card.Img>
+                                }
                             <Card.Body>
                                 <span className="h6 icon-tertiary small">
                                     {
@@ -139,13 +158,44 @@ const Profile = ({user}) => {
                                     }
                                 </span>
                                 <h3 className="h5 card-title mt-3">
-                                    { user.fullName() }
+                                    { user.fullName }
                                 </h3>
                                 <p className="card-text">
-                                    <span className="d-block"> { user.email() }</span>
+                                    <span className="d-block"> { user.email }</span>
                                     <span className="d-block"> { user.phone ? `Teléfono: ${user.phone}` : '' }</span>
                                     <span className="d-block"> { user.identity ? `DNI: ${user.identity}` : '' }</span>
                                 </p>
+                                <Form onSubmit={handleSubmitAvatar(avatarSubmit)}>
+                                    {/* hidden value */}
+                                    <Form.Control
+                                        {...registerAvatar("email")}
+                                        type="hidden"
+                                        value={user.email}
+                                     />
+                                    <Row>
+                                        <Col md={12}>
+                                            <Form.Group className="mb-3" controlId="formBasicPassword">
+                                                <Form.Label><FiImage /> Avatar</Form.Label>
+                                                
+                                                <Form.Control 
+                                                        {...registerAvatar("avatar")} 
+                                                        type="file" 
+                                                        size="md"
+                                                        className={isValid(errorsAvatar.avatar)} onChange={changeHandler} />
+                                                <p className="text-danger small">
+                                                    { errors?.avatar?.message }
+                                                </p>
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <div className="d-grid gap-2">
+                                        {
+                                            !loadingFormAvatar 
+                                            ? <Button variant="outline-primary" type="submit">Cambiar Imagen</Button>
+                                            : <ButtonSpinner />
+                                        }
+                                    </div>
+                                </Form>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -229,7 +279,7 @@ const Profile = ({user}) => {
                                                 <Form.Control
                                                     {...register('email')}
                                                     className={isValid(errors.email)}
-                                                    defaultValue={user.email()}
+                                                    defaultValue={user.email}
                                                     type="email" 
                                                     size="md" />
                                                 <p className="text-danger small">
@@ -255,24 +305,6 @@ const Profile = ({user}) => {
                                         </Col>
                                     </Row>
                                     
-                                    <Row>
-                                        <Col md={6}>
-                                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                                <Form.Label><FiImage /> Avatar</Form.Label>
-                                                
-                                                <Form.Control 
-                                                        {...register("avatar")} 
-                                                        type="file" 
-                                                        size="md"
-                                                        className={isValid(errors.avatar)} />
-                                                
-                                                <p className="text-danger small">
-                                                    { errors?.avatar?.message }
-                                                </p>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-
                                     <div className="d-grid gap-2">
                                         {
                                             !loadingFormProfile
@@ -280,21 +312,6 @@ const Profile = ({user}) => {
                                             : <ButtonSpinner />
                                         }
                                     </div>
-
-                                    {
-                                        variantProfile === "success" &&
-                                        <Alert variant={variantProfile}>
-                                            <Alert.Heading>Excelente!</Alert.Heading>
-                                            <p>{profileMessage}</p>
-                                        </Alert>
-                                    }
-                                    {
-                                        variantProfile === "danger" &&
-                                        <Alert variant={variantProfile}>
-                                            <Alert.Heading>{profileMessage}</Alert.Heading>
-                                            <p>{errorProfileMessage}</p>
-                                        </Alert>
-                                    }
                                 </Form>
                                 
 
@@ -304,7 +321,7 @@ const Profile = ({user}) => {
                                     <Form.Control
                                         {...registerPass("email")}
                                         type="hidden"
-                                        value={user.email()}
+                                        value={user.email}
                                      />
                                     <Row>
                                         {/* password */}
@@ -348,24 +365,6 @@ const Profile = ({user}) => {
                                         ? <Button variant="outline-primary" type="submit" size="md" className="my-4"><FiSave /> Modificar Contraseña</Button>
                                         : <ButtonSpinner />
                                     }
-                                    <Row>
-                                        <Col md={12}>
-                                            {
-                                                variantPassword === "success" &&
-                                                <Alert variant={variantPassword}>
-                                                    <Alert.Heading>Excelente!</Alert.Heading>
-                                                    <p>{passwordMessage}</p>
-                                                </Alert>
-                                            }
-                                            {
-                                                variantPassword === "danger" &&
-                                                <Alert variant={variantPassword}>
-                                                    <Alert.Heading>{passwordMessage}</Alert.Heading>
-                                                    <p>{errorPasswordMessage}</p>
-                                                </Alert>
-                                            }
-                                        </Col>
-                                    </Row>
                                 </Form>
                             </Card.Body>
                         </Card>

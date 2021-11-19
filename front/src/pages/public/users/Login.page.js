@@ -24,8 +24,9 @@ const LoginPage = () => {
 
     const history = useHistory();
 
-    console.log(UserService.endpoint)
-  
+    if(UserService.isValid())
+        history.push("/app")
+        
     const [
         loading, 
         setLoading

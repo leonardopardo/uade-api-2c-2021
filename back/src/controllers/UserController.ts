@@ -74,11 +74,7 @@ export class UserController {
     
     async update_profile(req: Request, res: Response){
         try{
-            
-            // Image Handle
-            //const sth = await uploadAvatar(req,res)
-            //console.log(sth)
-            
+                       
             const service: UserService = new UserService();
             
             const user: IUser = await service.findByEmail(req.body['email'])
@@ -86,7 +82,7 @@ export class UserController {
             if(user === null)
                 throw new Error("El email ingresado no es encuentra en nuestra base de datos.");
 
-            if(req.body['identity'] != user.identity)
+            if(req.body['identity'] !== user.identity)
                 throw new Error("El campo DNI no puede ser modificado.");
 
             user.firstname = req.body['firstName']
@@ -94,13 +90,44 @@ export class UserController {
             user.age = req.body['age']
             user.phone = req.body['phone']
             user.username = req.body['email']
-
+            
             await service.update(user)
 
             res
                 .status(200)
                 .json({
                 message: `Los datos del usuario se actualizaron correctamente.`
+            });
+            
+        } catch(e) {
+            
+            res
+                .status(401)
+                .json({
+                    message:"Ocurrió un error al actualizar los datos.",
+                    error: e.message
+                });
+        }
+    }
+
+    async updateAvatar(req: Request, res: Response){
+        try{
+                       
+            const service: UserService = new UserService();
+            
+            const user: IUser = await service.findByEmail(req.body['email'])
+
+            if(user === null)
+                throw new Error("El email ingresado no es encuentra en nuestra base de datos.");
+
+            user.avatar = req.body['avatar']
+           
+            await service.update(user)
+
+            res
+                .status(200)
+                .json({
+                message: `La foto de perfil se modificó correctamente`
             });
             
         } catch(e) {

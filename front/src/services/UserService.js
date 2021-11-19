@@ -26,18 +26,12 @@ class UserService {
         return {
             firstName: profile['firstname'],
             lastName: profile['lastname'],
-            fullName(uppercase) {
-                return !uppercase 
-                    ? `${this.firstName} ${this.lastName}`
-                    : `${this.firstName.toUpperCase()} ${this.lastName.toUpperCase()}`
-            },
-            email() {
-                return profile['email'].toLowerCase()
-            },
+            fullName: `${profile['firstname']} ${profile['lastname']}`,
+            email:profile['email'].toLowerCase(),
             phone: profile['phone'],
             identity: profile['identity'],
             age: birthdate,  
-            img: ''
+            img: profile['avatar']
         }
     }
 
@@ -45,11 +39,24 @@ class UserService {
         let config = {
             headers: {
                 'x-access-token': localStorage.getItem('token'),
-                //'Content-Type': 'multipart/form-data'
             }
           }
 
-        let {data} = await axios.post(`${this.endpoint}/update-profile`, body, config)
+        let { data } = await axios.post(`${this.endpoint}/update-profile`, body, config)
+
+        let user = await this.findUser()
+
+        return { user, data }
+    }
+
+    async updateAvatar(body) {
+        let config = {
+            headers: {
+                'x-access-token': localStorage.getItem('token'),
+            }
+          }
+
+        let { data } = await axios.post(`${this.endpoint}/update-avatar`, body, config)
 
         return data
     }
@@ -90,6 +97,45 @@ class UserService {
         const { data } = await axios.post(`${this.endpoint}/change-password`, body, config)
 
         return data
+    }
+
+    async uploadImage(selectedFile, username){
+
+        try{
+
+            let body = new FormData()
+            body.set('key', '9350b1ffb18c46f36b7ce04aa8930884')
+            body.append('image', selectedFile)
+    
+            const request = { 
+                method: 'post', 
+                url: 'https://api.imgbb.com/1/upload', 
+                data: body
+            }
+    
+            const { data } = await axios(request)
+
+            let x = {
+                email: username,
+                avatar: data.data.image.url
+            }
+            
+            const res = await this.updateAvatar(x)
+
+            let user = await this.findUser()
+
+            return {
+                user,
+                res
+            }
+
+        }catch(err){
+            return err.response.data.error
+        }
+    }
+
+    isValid(){
+        return localStorage.getItem('token') !== null;
     }
 }
 

@@ -8,6 +8,7 @@ export class UserRoutes {
     public create: string = '/create';
     public delete: string = '/delete';
     public update_profile: string = '/update-profile';
+    public update_avatar: string = '/update-avatar';
     public change_password: string = '/change-password';
     public login: string = '/login';
     public restore_password = '/restore-password';
@@ -20,6 +21,7 @@ export class UserRoutes {
             .post(this.path+this.create, this.userController.create)
             .post(this.path+this.delete, Authorize, this.userController.delete)
             .post(this.path+this.update_profile, Authorize, this.userController.update_profile)
+            .post(this.path+this.update_avatar, Authorize, this.userController.updateAvatar)
             .post(this.path+this.change_password, Authorize, this.userController.change_password)
             .post(this.path+this.login, this.userController.login)
             .post(this.path+this.restore_password, this.userController.restorePassword)

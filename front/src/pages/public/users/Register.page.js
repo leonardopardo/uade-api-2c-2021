@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap'
 import { FiLogIn, FiCheck, FiLock, FiMail, FiUserCheck } from "react-icons/fi"
@@ -13,6 +13,11 @@ import ButtonSpinner from '../../../components/ButtonSpinner'
 import UserService from '../../../services/UserService'
 
 const RegisterPage = () => {
+
+    const history = useHistory()
+    
+    if(UserService.isValid())
+        history.push("/app")
 
     const [
         loading,
