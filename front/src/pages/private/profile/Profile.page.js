@@ -11,6 +11,7 @@ import { ProfileSchema } from './validations/Profile.validation'
 import UserService from '../../../services/UserService'
 import ButtonSpinner from './../../../components/ButtonSpinner';
 import { ConfirmPasswordSchema } from './../../public/users/validations/ConfirmPassword.validation';
+import CalcularEdad from './../../../utils/DateHelper';
 
 const Profile = ({user}) => {
 
@@ -132,7 +133,7 @@ const Profile = ({user}) => {
                                 <span className="h6 icon-tertiary small">
                                     {
                                         user.age !== '' ?
-                                        <span className="fas fa-medal me-2"> { user.age ? `Edad: ${user.age}` : ``} años</span>
+                                        <span className="fas fa-medal me-2"> { user.age ? `Edad: ${CalcularEdad(user.age)}` : ``} años</span>
                                         :
                                         <span className="fas fa-medal me-2"></span>
                                     }
