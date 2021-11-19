@@ -47,7 +47,7 @@ export default function NavLayout(props) {
                                 user === null ?
                                 <Nav.Link active={setActivePage("/register")} href="/register"><FiUserPlus /> Registro</Nav.Link>
                                 :
-                                <Nav.Link onClick={logout}><FiUser />{user.email}</Nav.Link>
+                                <Nav.Link href="/app"><FiUser />{user.email}</Nav.Link>
                             }
                             {
                                 user === null ?
