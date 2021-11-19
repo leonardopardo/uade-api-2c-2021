@@ -5,18 +5,17 @@ class VaccineService{
         this.endpoint = `${process.env.REACT_APP_SERVER_PATH}/vaccines`
     }
     async getVaccines(child){
-        let data = {}
-        data['child'] = child
+        let info = {}
+        info['child'] = child
 
         let config = {
             headers: {
                 'x-access-token': localStorage.getItem('token'),
             }
           }
-        const {res} = await axios.post(`${this.endpoint}/get`, child, config)
-        console.log(res)
-
-        return data
+        const {data} = await axios.post(`${this.endpoint}/get`, child, config)
+        info['vaccines'] = data
+        return info
     }
     async apply(body){
         let config = {
@@ -26,7 +25,6 @@ class VaccineService{
           }
         
         const {data} = await axios.post(`${this.endpoint}/apply`, body, config)
-        console.log(data)
         return data
     }
 }

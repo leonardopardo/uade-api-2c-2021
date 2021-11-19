@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiCheck, FiMinus } from 'react-icons/fi';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -12,9 +12,16 @@ import { ApplyVaccineSchema } from './validations/Vaccine.validator'
 
 // Buen link para sacar mas ifo, a futuro https://www.argentina.gob.ar/salud/vacunas
 
-const CalendarButton = ({color, nombreVacuna, vaccine_id, child_info}) => {
+const CalendarButton = ({color, nombreVacuna, vaccine_id, info, applied}) => {
     const isValid = (value) => {
         return value ? 'is-invalid' : ''
+    }
+
+    const [completada, setCompletada] = useState(false);
+
+    const marcarCompletada = () => {
+        setCompletada(true);
+        handleClose();
     }
 
     const [show, setShow] = useState(false);
@@ -76,14 +83,13 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, child_info}) => {
             : <FiMinus className="text-white"/>
     }
 
-
-
     const {register, handleSubmit, formState:{errors}, reset} = useForm({
         resolver: yupResolver(ApplyVaccineSchema)
     })
 
     const addVaccineSubmit = async (data) => {
-        data['identity'] = child_info['obj']['identity']
+        marcarCompletada()
+        data['identity'] = info['child']['obj']['identity']
         data['vaccine_id'] = vaccine_id
         try {
             const res = await VaccineService.apply(data);
@@ -91,7 +97,6 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, child_info}) => {
             reset()
             handleClose()
         } catch (err) {
-            console.log(err.response.data.error)
             toast.error(err.response.data.error)
         }
     }
@@ -99,7 +104,7 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, child_info}) => {
     return(
         <>
 
-            <Button variant="outline-primary" onClick={handleShow} style={{backgroundColor: color}}>{setIcon(false)}</Button>
+            <Button variant="outline-primary" onClick={handleShow} style={{backgroundColor: color}}>{setIcon(completada)}</Button>
 
             <Modal
                 show={show}

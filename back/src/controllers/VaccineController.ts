@@ -12,14 +12,10 @@ export class VaccineController {
         const service = new VaccineService();
         try{
             const vaccines = await service.getApplications(req.body['obj']['identity'], req.body['id'])
-            vaccines.forEach((vaccine) => {
-                let vaccine_info = service.findVaccineById(vaccine.vaccine_id)
-                console.log("vaccine_info")
-            })
             return res
                 .status(200)
                 .json({
-                    data: ""
+                    "data": vaccines
                 })
         } catch (e){
             return res

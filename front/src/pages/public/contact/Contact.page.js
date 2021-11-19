@@ -18,7 +18,7 @@ const ContactPage = () => {
     })
 
     const contactFormSubmit = (data) => {
-        console.log(data)
+        //console.log(data)
     }
 
     const isValid = (value) => {

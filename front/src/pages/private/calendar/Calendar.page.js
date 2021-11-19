@@ -48,10 +48,20 @@ const Calendar = ({children}) => {
         let childVaccines = await VaccineService.getVaccines(child)
         setChildrenVaccinesState(childVaccines)
         setChildrenVaccinesLoadingState(false)
-        console.log(childrenVaccinesState)
     }
 
     const animatedComponents = makeAnimated();
+
+    const checkVaccineStatus = (id) => {
+        childrenVaccinesState['vaccines']['data'].map( item => {
+            if(item.vaccine_id == id){
+                if(item.applied)
+                    return true
+                return false
+            }
+            return false
+        })
+    }
 
     return(
         <>
@@ -89,9 +99,9 @@ const Calendar = ({children}) => {
                             <tr>
                                 <th style={{fontSize: "12px"}}>RECIÉN NACIDO</th>
                                 {/*BCG*/}
-                                <th><CalendarButton vaccine_id="1" child_info={childrenVaccinesState['child']} color="darkblue" nombreVacuna="BCG"/></th>
+                                <th><CalendarButton vaccine_id="1" info={childrenVaccinesState} color="darkblue" nombreVacuna="BCG"/></th>
                                 {/*HEPATITIS B*/}
-                                <th><CalendarButton vaccine_id="2" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="HEPATITIS B"/></th>
+                                <th><CalendarButton vaccine_id="2" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="HEPATITIS B"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -111,14 +121,14 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*PENTAVALENTE*/}
-                                <th><CalendarButton vaccine_id="3" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="PENTAVALENTE"/></th>
+                                <th><CalendarButton vaccine_id="3" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="PENTAVALENTE"/></th>
                                 {/*ROTAVIRUS*/}
-                                <th><CalendarButton vaccine_id="4" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="ROTAVIRUS"/></th>
+                                <th><CalendarButton vaccine_id="4" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="ROTAVIRUS"/></th>
                                 <th></th>
                                 {/*SALK*/}
-                                <th><CalendarButton vaccine_id="5" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="SALK"/></th>
+                                <th><CalendarButton vaccine_id="5" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="SALK"/></th>
                                 {/*NEUMOCOCO CONJUGADA*/}
-                                <th><CalendarButton vaccine_id="6" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
+                                <th><CalendarButton vaccine_id="6" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -139,7 +149,7 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*MENINGOCOCO*/}
-                                <th><CalendarButton vaccine_id="7" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="MENINGOCOCO"/></th>
+                                <th><CalendarButton vaccine_id="7" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="MENINGOCOCO"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -152,14 +162,14 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*PENTAVALENTE*/}
-                                <th><CalendarButton vaccine_id="8" child_info={childrenVaccinesState['child']} color="hotpink" nombreVacuna="PENTAVALENTE"/></th>
+                                <th><CalendarButton vaccine_id="8" info={childrenVaccinesState} color="hotpink" nombreVacuna="PENTAVALENTE"/></th>
                                 {/*ROTAVIRUS*/}
-                                <th><CalendarButton vaccine_id="9" child_info={childrenVaccinesState['child']} color="hotpink" nombreVacuna="ROTAVIRUS"/></th>
+                                <th><CalendarButton vaccine_id="9" info={childrenVaccinesState} color="hotpink" nombreVacuna="ROTAVIRUS"/></th>
                                 <th></th>
                                 {/*SALK*/}
-                                <th><CalendarButton vaccine_id="10" child_info={childrenVaccinesState['child']} color="hotpink" nombreVacuna="SALK"/></th>
+                                <th><CalendarButton vaccine_id="10" info={childrenVaccinesState} color="hotpink" nombreVacuna="SALK"/></th>
                                 {/*NEUMOCOCO CONJUGADA*/}
-                                <th><CalendarButton vaccine_id="11" child_info={childrenVaccinesState['child']} color="hotpink" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
+                                <th><CalendarButton vaccine_id="11" info={childrenVaccinesState} color="hotpink" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -180,7 +190,7 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*MENINGOCOCO*/}
-                                <th><CalendarButton vaccine_id="12" child_info={childrenVaccinesState['child']} color="hotpink" nombreVacuna="MENINGOCOCO"/></th>
+                                <th><CalendarButton vaccine_id="12" info={childrenVaccinesState} color="hotpink" nombreVacuna="MENINGOCOCO"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -193,14 +203,14 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*PENTAVALENTE*/}
-                                <th><CalendarButton vaccine_id="13" child_info={childrenVaccinesState['child']} color='limegreen' nombreVacuna="PENTAVALENTE"/></th>
+                                <th><CalendarButton vaccine_id="13" info={childrenVaccinesState} color='limegreen' nombreVacuna="PENTAVALENTE"/></th>
                                 <th></th>
                                 <th></th>
                                 {/*SALK*/}
-                                <th><CalendarButton vaccine_id="14" child_info={childrenVaccinesState['child']} color='limegreen' nombreVacuna="SALK"/></th>
+                                <th><CalendarButton vaccine_id="14" info={childrenVaccinesState} color='limegreen' nombreVacuna="SALK"/></th>
                                 <th></th>
                                 {/*GRIPE*/}
-                                <th><CalendarButton vaccine_id="15" child_info={childrenVaccinesState['child']} color="pink" nombreVacuna="GRIPE"/></th>
+                                <th><CalendarButton vaccine_id="15" info={childrenVaccinesState} color="pink" nombreVacuna="GRIPE"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -218,14 +228,14 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*NEUMOCOCO CONJUGADA*/}
-                                <th><CalendarButton vaccine_id="16" child_info={childrenVaccinesState['child']} color="cornflowerblue" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
+                                <th><CalendarButton vaccine_id="16" info={childrenVaccinesState} color="cornflowerblue" nombreVacuna="NEUMOCOCO CONJUGADA"/></th>
                                 {/*GRIPE*/}
-                                <th><CalendarButton vaccine_id="17" child_info={childrenVaccinesState['child']} color="pink" nombreVacuna="GRIPE"/></th>
+                                <th><CalendarButton vaccine_id="17" info={childrenVaccinesState} color="pink" nombreVacuna="GRIPE"/></th>
                                 <th></th>
                                 {/*TRIPLE VIRAL*/}
-                                <th><CalendarButton vaccine_id="18" child_info={childrenVaccinesState['child']} color="deepskyblue" nombreVacuna="TRIPLE VIRAL"/></th>
+                                <th><CalendarButton vaccine_id="18" info={childrenVaccinesState} color="deepskyblue" nombreVacuna="TRIPLE VIRAL"/></th>
                                 {/*HEPATITIS A*/}
-                                <th><CalendarButton vaccine_id="19" child_info={childrenVaccinesState['child']} color="darkblue" nombreVacuna="HEPATITIS A"/></th>
+                                <th><CalendarButton vaccine_id="19" info={childrenVaccinesState} color="darkblue" nombreVacuna="HEPATITIS A"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -241,13 +251,13 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*GRIPE*/}
-                                <th><CalendarButton vaccine_id="20" child_info={childrenVaccinesState['child']} color="pink"  nombreVacuna="GRIPE"/></th>
+                                <th><CalendarButton vaccine_id="20" info={childrenVaccinesState} color="pink"  nombreVacuna="GRIPE"/></th>
                                 {/*MENINGOCOCO*/}
-                                <th><CalendarButton vaccine_id="21" child_info={childrenVaccinesState['child']} color="cornflowerblue"  nombreVacuna="MENINGOCOCO"/></th>
+                                <th><CalendarButton vaccine_id="21" info={childrenVaccinesState} color="cornflowerblue"  nombreVacuna="MENINGOCOCO"/></th>
                                 <th></th>
                                 <th></th>
                                 {/*VARICELA*/}
-                                <th><CalendarButton vaccine_id="22" child_info={childrenVaccinesState['child']} color="darkblue"  nombreVacuna="VARICELA"/></th>
+                                <th><CalendarButton vaccine_id="22" info={childrenVaccinesState} color="darkblue"  nombreVacuna="VARICELA"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -259,11 +269,11 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*CUÁDRUPLE O PENTAVALENTE*/}
-                                <th><CalendarButton vaccine_id="23" child_info={childrenVaccinesState['child']} color="cornflowerblue" nombreVacuna="CUADRUPLE O PENTAVALENTE"/></th>
+                                <th><CalendarButton vaccine_id="23" info={childrenVaccinesState} color="cornflowerblue" nombreVacuna="CUADRUPLE O PENTAVALENTE"/></th>
                                 <th></th>
                                 <th></th>
                                 {/*GRIPE*/}
-                                <th><CalendarButton vaccine_id="24" child_info={childrenVaccinesState['child']} color="pink" nombreVacuna="GRIPE"/></th>
+                                <th><CalendarButton vaccine_id="24" info={childrenVaccinesState} color="pink" nombreVacuna="GRIPE"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -282,7 +292,7 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*GRIPE*/}
-                                <th><CalendarButton vaccine_id="25" child_info={childrenVaccinesState['child']} color="pink" nombreVacuna="GRIPE"/></th>
+                                <th><CalendarButton vaccine_id="25" info={childrenVaccinesState} color="pink" nombreVacuna="GRIPE"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -299,16 +309,16 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*SALK*/}
-                                <th><CalendarButton vaccine_id="26" child_info={childrenVaccinesState['child']} color="cornflowerblue" nombreVacuna="SALK"/></th>
+                                <th><CalendarButton vaccine_id="26" info={childrenVaccinesState} color="cornflowerblue" nombreVacuna="SALK"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
                                 {/*TRIPLE VIRAL*/}
-                                <th><CalendarButton vaccine_id="27" child_info={childrenVaccinesState['child']} color="hotpink" nombreVacuna="TRIPLE VIRAL"/></th>
+                                <th><CalendarButton vaccine_id="27" info={childrenVaccinesState} color="hotpink" nombreVacuna="TRIPLE VIRAL"/></th>
                                 <th></th>
                                 <th></th>
                                 {/*TRIPLE BACTERIANA CELULAR*/}
-                                <th><CalendarButton vaccine_id="28" child_info={childrenVaccinesState['child']} color="cornflowerblue" nombreVacuna="TRIPLE BACTERIANA CELULAR"/></th>
+                                <th><CalendarButton vaccine_id="28" info={childrenVaccinesState} color="cornflowerblue" nombreVacuna="TRIPLE BACTERIANA CELULAR"/></th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -316,7 +326,7 @@ const Calendar = ({children}) => {
                                 <th style={{fontSize: "12px"}}>11 AÑOS</th>
                                 <th></th>
                                 {/*HEPATITIS B*/}
-                                <th><CalendarButton vaccine_id="29" child_info={childrenVaccinesState['child']} color="mediumorchid" nombreVacuna="HEPATITIS B"/></th>
+                                <th><CalendarButton vaccine_id="29" info={childrenVaccinesState} color="mediumorchid" nombreVacuna="HEPATITIS B"/></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>
@@ -324,15 +334,15 @@ const Calendar = ({children}) => {
                                 <th></th>
                                 <th></th>
                                 {/*MENINGOCOCO*/}
-                                <th><CalendarButton vaccine_id="30" child_info={childrenVaccinesState['child']} color="cornflowerblue" nombreVacuna="MENINGOCOCO"/></th>
+                                <th><CalendarButton vaccine_id="30" info={childrenVaccinesState} color="cornflowerblue" nombreVacuna="MENINGOCOCO"/></th>
                                 {/*TRIPLE VIRAL*/}
-                                <th><CalendarButton vaccine_id="31" child_info={childrenVaccinesState['child']} color="mediumorchid" nombreVacuna="TRIPLE VIRAL"/></th>
+                                <th><CalendarButton vaccine_id="31" info={childrenVaccinesState} color="mediumorchid" nombreVacuna="TRIPLE VIRAL"/></th>
                                 <th></th>
                                 <th></th>
                                 {/*TRIPLE BACTERIANA CELULAR*/}
-                                <th><CalendarButton vaccine_id="32" child_info={childrenVaccinesState['child']} color="cornflowerblue" nombreVacuna="TRIPLE BACTERIANA CELULAR"/></th>
+                                <th><CalendarButton vaccine_id="32" info={childrenVaccinesState} color="cornflowerblue" nombreVacuna="TRIPLE BACTERIANA CELULAR"/></th>
                                 {/*HPV*/}
-                                <th><CalendarButton vaccine_id="33" child_info={childrenVaccinesState['child']} color="mediumorchid" nombreVacuna="HPV"/></th>
+                                <th><CalendarButton vaccine_id="33" info={childrenVaccinesState} color="mediumorchid" nombreVacuna="HPV"/></th>
                                 <th></th>
                             </tr>
                         </tbody>
