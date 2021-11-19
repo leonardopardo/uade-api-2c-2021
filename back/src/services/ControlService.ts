@@ -34,11 +34,7 @@ export class ControlService {
                 height: control.height,
                 head_diam: control.head_diam,
                 observations: control.observations,
-                meds: {
-                    med_name: control.meds.med_name,
-                    dosage: control.meds.dosage,
-                    take_until: control.meds.take_until
-                },
+                meds: control.meds,
                 studies: control.studies,
                 results: control.results
             })

@@ -1,6 +1,8 @@
 import { ControlController } from "../controllers/ControlController";
 import { Router } from "express";
 
+import Authorize from "./../utils/authorization";
+
 export class ControlRoutes {
     public controlController: ControlController = new ControlController();
     public path: string = '/controls';
@@ -9,7 +11,7 @@ export class ControlRoutes {
 
     public routes(router: Router): void {
         router
-            .post(this.path + this.create, this.controlController.create)
-            .post(this.path + this.delete, this.controlController.delete);
+            .post(this.path + this.create, Authorize, this.controlController.create)
+            .post(this.path + this.delete, Authorize, this.controlController.delete);
     }
 }

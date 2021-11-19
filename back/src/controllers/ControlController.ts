@@ -4,42 +4,43 @@ import { IControl } from "./../models/Control";
 
 export class ControlController {
 
-    service: ControlService
-
-    constructor(){
-        this.service = new ControlService();
-    }
-
     async create(req: Request, res: Response){
+        console.log(req.body)
+        const service = new ControlService();
         try{
+            // Meds may be empty
+            let meds = null
+            if(req.body['meds_checked']){
+                meds = {
+                    "med_name": req.body['med_name'],
+                    "dosage": req.body['dosage'],
+                    "take_until": req.body['take_until']
+                }
+            }
             // We dont really care if a control already exists for the creation
             const newControl: IControl = {
-                child_dni: req.body['child_dni'],
+                child_dni: req.body['identity'],
                 parent_id: req.body['id'],
                 date: req.body['date'],
                 weight: req.body['weight'],
                 height: req.body['height'],
-                head_diam: req.body['head_diam'],
+                head_diam: req.body['diameter'],
                 observations: req.body['observations'],
-                meds: {
-
-                    med_name: req.body['meds']['med_name'],
-                    dosage: req.body['meds']['dosage'],
-                    take_until: req.body['meds']['take_until']
-                },
+                meds: meds,
                 studies: req.body['studies'],
                 results: req.body['results']
             };
-            await this.service.create(newControl)
+
+            await service.create(newControl)
 
             return res
                 .status(201)
                 .json({
-                    message: `Se creo un nuevo control para hijo con DNI ${req.body['child_dni']}`
+                    message: `Se creo un nuevo control para hijo con DNI ${req.body['identity']}`
                 })
         } catch (e){
             return res
-                .status(200)
+                .status(400)
                 .json({
                     message: "Ocurrió un error al crear el control.",
                     error: e.message
@@ -48,9 +49,10 @@ export class ControlController {
     }
 
     async delete(req: Request, res: Response){
+        const service = new ControlService();
         try{
             
-            await this.service.deleteBasedOnDate(req.body['id'], req.body['child_dni'], req.body['date'])
+            await service.deleteBasedOnDate(req.body['id'], req.body['child_dni'], req.body['date'])
 
             return res
                 .status(201)

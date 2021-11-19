@@ -31,6 +31,15 @@ const customMessages = {
         required: "El campo es requerido", // eslint-disable-next-line
         min: "El campo debe contener por lo menos ${min} caracteres", // eslint-disable-next-line
         max: "El campo no pude tener más de ${max} caracteres"
+    },
+    weight:{
+        required: "El peso es requerido"
+    },
+    height:{
+        required: "La altura es requerida"
+    },
+    diameter:{
+        required: "El diametro craneal es requerido"
     }
 }
 

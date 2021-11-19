@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Col, Row, Table, Form, Pagination } from 'react-bootstrap'
 import { FiEye } from 'react-icons/fi';
 
@@ -7,8 +7,31 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 
 
-const Controls = () => {
+const Controls = ({children}) => {
 
+    const [
+        childrenState
+    ] = useState(children);
+
+    const [
+        availableChildrenState,
+        setAvailableChildrenState
+    ] = useState([]);
+
+    const getChildrenNames = async () => {
+        let children_names = []
+        childrenState.forEach((child) => {
+            children_names.push({'value': child['identity'], 'label': child['firstName']})
+        })
+        setAvailableChildrenState(children_names)
+    }
+
+    useEffect(() => {
+        const children_names = async () => await getChildrenNames()
+        setAvailableChildrenState(children_names)
+    }, [])
+
+    //Comment
     const controls = [
         {
             fecha: "24/09/21",
@@ -39,10 +62,6 @@ const Controls = () => {
         }
         return <Form.Check disabled type="checkbox"/>
     }
-
-    const childrens = [
-        {value: '1', label:'Nicolás'}
-    ];
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -93,7 +112,7 @@ const Controls = () => {
             <section>
                     <Row className="my-2">
                         <Col>
-                            <ModalControlAdd children={childrens} />
+                            <ModalControlAdd children={availableChildrenState} />
                         </Col>
                     </Row>
                     <Row className="my-4">
@@ -102,7 +121,7 @@ const Controls = () => {
                         onChange={setSelectedOption}
                         closeMenuOnSelect={false}
                         components={animatedComponents}
-                        options={childrens} />
+                        options={availableChildrenState} />
                     </Row>
                     <Table responsive>
                         <thead>

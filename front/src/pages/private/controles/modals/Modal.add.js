@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 
-import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
+import { Modal, Button, Form, Row, Col, Alert } from 'react-bootstrap'
 import { FiPlus, FiX, FiSave } from 'react-icons/fi'
 
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+
+import { NewControlSchema } from '../validations/NewControl.validation'
+
+import ControlService from '../../../../services/ControlService'
 
 
 const ModalControlAdd = ({children}) => {
@@ -24,11 +28,35 @@ const ModalControlAdd = ({children}) => {
     const handleShow = () => setShow(true);
 
     const {register, handleSubmit, formState:{errors}} = useForm({
-        resolver: yupResolver()
+        resolver: yupResolver(NewControlSchema)
     })
 
-    const addControlSubmit = (data) => {
-        console.log(data)
+    const [
+        errorModalMessage,
+        setErrorModalMessage
+    ] = useState("");
+
+    const [
+        modalMessage,
+        setModalMessage
+    ] = useState("")
+    
+    const [
+        variantModal,
+        setVariantModal
+    ] = useState("")
+
+    const addControlSubmit = async (data) => {
+        data['meds_checked'] = showMed
+        try {
+            const res = await ControlService.create(data);
+            setVariantModal("success")
+            setModalMessage(res.message)
+        } catch (err) {
+            setVariantModal("danger")
+            setModalMessage(err.response.data.message)
+            setErrorModalMessage(err.response.data.error)
+        }
     }
 
     const isValid = (value) => {
@@ -52,18 +80,18 @@ const ModalControlAdd = ({children}) => {
                 <Modal.Title>Agregar Control</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={handleSubmit(addControlSubmit)}>
+                    <Form id="newControlForm" onSubmit={handleSubmit(addControlSubmit)}>
                         <Row>
                             <Col>
                                 <Form.Group className="mb-4">
                                     <Form.Label>Niño</Form.Label>
                                     <Form.Select
-                                        {...register("blod")} 
+                                        {...register("identity")} 
                                         type="text" 
                                         size="md" 
                                         className={isValid(errors.age)}>
                                             {
-                                                children.map((item) => <option value={item}>{item.label}</option>)
+                                                children.map((item) => <option value={item.value}>{item.label}</option>)
                                             }
                                     </Form.Select>
                                 </Form.Group>
@@ -72,8 +100,13 @@ const ModalControlAdd = ({children}) => {
                                 <Form.Group className="mb-4">
                                     <Form.Label>Fecha</Form.Label>
                                     <Form.Control 
+                                        {...register("date")} 
+                                        type="date" 
                                         size="md"
-                                        type="date" />
+                                        className={isValid(errors.age)} />
+                                    <p className="text-danger small">
+                                        {errors.age && errors.age.message}
+                                    </p>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -81,20 +114,44 @@ const ModalControlAdd = ({children}) => {
                         <Row>
                             <Col>
                                 <Form.Group className="mb-4">
-                                    <Form.Label>Peso</Form.Label>
-                                    <Form.Control type="text" placeholder="15kg"></Form.Control>
+                                    <Form.Label>Peso (kg)</Form.Label>
+                                    <Form.Control 
+                                        {...register("weight")} 
+                                        type="text"   
+                                        size="md"
+                                        placeholder="Ej: 30" 
+                                        className={isValid(errors.lastName)} />
+                                    <p className="text-danger small">
+                                        {errors.lastName && errors.lastName.message}
+                                    </p>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group className="mb-4">
-                                    <Form.Label>Altura</Form.Label>
-                                    <Form.Control type="text" placeholder="1.32m"></Form.Control>
+                                    <Form.Label>Altura (m)</Form.Label>
+                                    <Form.Control 
+                                        {...register("height")} 
+                                        type="text"   
+                                        size="md"
+                                        placeholder="Ej: 1.32" 
+                                        className={isValid(errors.lastName)} />
+                                    <p className="text-danger small">
+                                        {errors.lastName && errors.lastName.message}
+                                    </p>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group className="mb-4">
-                                    <Form.Label>Diametro Cabeza</Form.Label>
-                                    <Form.Control type="text" placeholder=".30m"></Form.Control>
+                                    <Form.Label>Diametro Cabeza (cm)</Form.Label>
+                                    <Form.Control 
+                                        {...register("diameter")} 
+                                        type="text"  
+                                        size="md"
+                                        placeholder="Ej: 20" 
+                                        className={isValid(errors.lastName)} />
+                                    <p className="text-danger small">
+                                        {errors.lastName && errors.lastName.message}
+                                    </p>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -102,7 +159,15 @@ const ModalControlAdd = ({children}) => {
                             <Col>
                                 <Form.Group className="mb-4">
                                     <Form.Label>Observaciones</Form.Label>
-                                    <Form.Control type="textfield" placeholder="-"></Form.Control>
+                                    <Form.Control 
+                                        {...register("observations")} 
+                                        type="text"  
+                                        size="md"
+                                        placeholder="-" 
+                                        className={isValid(errors.lastName)} />
+                                    <p className="text-danger small">
+                                        {errors.lastName && errors.lastName.message}
+                                    </p>
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -119,34 +184,73 @@ const ModalControlAdd = ({children}) => {
                                 <Col>
                                     <Form.Group className="mb-4">
                                         <Form.Label>Medicamento</Form.Label>
-                                        <Form.Control type="textfield" placeholder="N/A"></Form.Control>
+                                        <Form.Control 
+                                            {...register("med_name")} 
+                                            type="text"  
+                                            size="md"
+                                            defaultValue="N/A"
+                                            className={isValid(errors.lastName)} />
+                                        <p className="text-danger small">
+                                            {errors.lastName && errors.lastName.message}
+                                        </p>
                                     </Form.Group>
                                 </Col>
                             </Row><Row>
                                     <Col>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Dosis</Form.Label>
-                                            <Form.Control type="textfield" placeholder="N/A"></Form.Control>
+                                            <Form.Control 
+                                                {...register("dosage")} 
+                                                type="text"  
+                                                size="md"
+                                                defaultValue="N/A"
+                                                className={isValid(errors.lastName)} />
+                                            <p className="text-danger small">
+                                                {errors.lastName && errors.lastName.message}
+                                            </p>
                                         </Form.Group>
                                     </Col>
                                     <Col>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Periodo</Form.Label>
-                                            <Form.Control type="textfield" placeholder="N/A"></Form.Control>
+                                            <Form.Control 
+                                                {...register("take_until")} 
+                                                type="date"  
+                                                size="md"
+                                                className={isValid(errors.lastName)} />
+                                            <p className="text-danger small">
+                                                {errors.lastName && errors.lastName.message}
+                                            </p>
                                         </Form.Group>
                                     </Col>
                                 </Row><Row>
                                     <Col>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Estudios realizados</Form.Label>
-                                            <Form.Control type="textfield" placeholder="N/A"></Form.Control>
+                                            <Form.Control 
+                                                {...register("studies")} 
+                                                type="text"  
+                                                size="md"
+                                                defaultValue="N/A"
+                                                className={isValid(errors.lastName)} />
+                                            <p className="text-danger small">
+                                                {errors.lastName && errors.lastName.message}
+                                            </p>
                                         </Form.Group>
                                     </Col>
                                 </Row><Row>
                                     <Col>
                                         <Form.Group className="mb-4">
                                             <Form.Label>Resultados</Form.Label>
-                                            <Form.Control type="textfield" placeholder="N/A"></Form.Control>
+                                            <Form.Control 
+                                                {...register("results")} 
+                                                type="text"  
+                                                size="md"
+                                                defaultValue="N/A"
+                                                className={isValid(errors.lastName)} />
+                                            <p className="text-danger small">
+                                                {errors.lastName && errors.lastName.message}
+                                            </p>
                                         </Form.Group>
                                     </Col>
                                 </Row></>     
@@ -158,10 +262,24 @@ const ModalControlAdd = ({children}) => {
                     <Button variant="outline-secondary" onClick={handleClose}>
                         <FiX /> Cerrar
                     </Button>
-                    <Button variant="outline-primary">
+                    <Button variant="outline-primary" type="submit" form="newControlForm">
                         <FiSave /> Guardar
                     </Button>
                 </Modal.Footer>
+                    {
+                        variantModal === "success" &&
+                        <Alert variant={variantModal}>
+                            <Alert.Heading>Excelente!</Alert.Heading>
+                            <p>{modalMessage}</p>
+                        </Alert>
+                    }
+                    {
+                        variantModal === "danger" &&
+                        <Alert variant={variantModal}>
+                            <Alert.Heading>{modalMessage}</Alert.Heading>
+                            <p>{errorModalMessage}</p>
+                        </Alert>
+                    }
             </Modal>
         </>
     )

@@ -94,7 +94,7 @@ const AppLayout = () => {
                                             <Childrens children={childrenState}/>
                                         </Tab>
                                         <Tab eventKey="controles" title="Controles" className="mb-sm-3 mb-md-0">
-                                            <Controls />
+                                            <Controls children={childrenState}/>
                                         </Tab>
                                         <Tab eventKey="percentiles" title="Percentiles" className="mb-sm-3 mb-md-0">
                                             <Percentiles />

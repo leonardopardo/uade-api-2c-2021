@@ -10,7 +10,7 @@ const ControlSchema = new Schema({
     observations: String,
     meds: {
         med_name: String,
-        dosage: Number,
+        dosage: String,
         take_until: Date
     },
     studies: String,
@@ -27,7 +27,7 @@ export interface IControl {
     observations: String,
     meds: {
         med_name: String,
-        dosage: Number,
+        dosage: String,
         take_until: Date
     },
     studies: String,

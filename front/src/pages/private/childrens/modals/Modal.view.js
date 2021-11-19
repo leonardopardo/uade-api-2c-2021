@@ -31,7 +31,8 @@ const ModalChildrenView = ({child}) => {
         setModalMessage
     ] = useState("")
     
-    const [variantModal,
+    const [
+        variantModal,
         setVariantModal
     ] = useState("")
 
@@ -101,7 +102,7 @@ const ModalChildrenView = ({child}) => {
                 <Modal.Title>Agregar Hijo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form id="newChildForm" onSubmit={handleSubmit(addChildrenSubmit)}>
+                    <Form id="updateChildForm" onSubmit={handleSubmit(addChildrenSubmit)}>
                         <Row>
                             <Col>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -261,7 +262,7 @@ const ModalChildrenView = ({child}) => {
                 <Button variant="outline-secondary" onClick={handleClose}>
                     <FiX /> Cerrar
                 </Button>
-                <Button variant="outline-primary" type="submit" form="newChildForm">
+                <Button variant="outline-primary" type="submit" form="updateChildForm">
                     <FiSave /> Actualizar
                 </Button>
                 </Modal.Footer>
