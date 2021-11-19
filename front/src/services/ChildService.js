@@ -53,6 +53,7 @@ class ChildService {
             }
           }
         let {data} = await axios.post(`${this.endpoint}/update`, body, config)
+        debugger
 
         let childrens = await this.findChildren()
         let child = null

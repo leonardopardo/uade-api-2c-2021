@@ -40,12 +40,15 @@ const ModalChildrenView = (props) => {
     const addChildrenSubmit = async (data) => {
         
         try {
-            const uploadImage = await ChildService.uploadImage(selectedFile) 
+            
+            if(selectedFile){
+                const uploadImage = await ChildService.uploadImage(selectedFile) 
+                data['avatar'] = uploadImage
+            }
 
             data['allergi'] = selectedAllergiOption
             data['chronic'] = selectedChronicOption
             data['identity'] = child.identity
-            data['avatar'] = uploadImage
             
             const res = await ChildService.updateChildren(data);
             setChild(res.child)

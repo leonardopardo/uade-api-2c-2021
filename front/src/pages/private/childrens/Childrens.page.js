@@ -2,6 +2,7 @@ import React , { useState } from 'react'
 import { Col, Row, Card } from 'react-bootstrap'
 import ModalChildreAdd from './modals/Modal.add'
 import ModalChildrenView from './modals/Modal.view'
+import CalcularEdad from './../../../utils/DateHelper';
 
 const Childrens = (props) => {
 
@@ -26,7 +27,7 @@ const Childrens = (props) => {
                             <span className="h6 icon-tertiary small">
                                 {
                                     child.age !== '' ?
-                                    <span className="fas fa-medal me-2"> { child.age ? `Edad: ${child.age}` : ``} años</span>
+                                    <span className="fas fa-medal me-2"> { child.age ? `Edad: ${CalcularEdad(child.age)}` : ``} años</span>
                                     :
                                     <span className="fas fa-medal me-2"></span>
                                 }
