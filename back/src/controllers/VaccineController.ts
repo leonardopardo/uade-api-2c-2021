@@ -39,7 +39,8 @@ export class VaccineController {
                 location: req.body['place'],
                 applied: true
             }
-            service.applyVaccine(newApplication);
+            console.log(newApplication)
+            await service.applyVaccine(newApplication);
 
             return res
                 .status(201)
