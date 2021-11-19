@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiEye } from 'react-icons/fi'
 
 
 const ModalControlView = ({control}) => {
-
-    const [showMed, setShowMed] = useState(control.meds);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -89,7 +87,7 @@ const ModalControlView = ({control}) => {
                         </Row>
                         <hr></hr>
                         {
-                            showMed !== null &&
+                            control.meds !== null &&
                             <><Row>
                                 <Col>
                                     <Form.Group className="mb-4">
