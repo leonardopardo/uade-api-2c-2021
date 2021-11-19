@@ -53,7 +53,7 @@ export default function NavLayout(props) {
                                 user === null ?
                                 <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Login</Nav.Link>
                                 :
-                                <Nav.Link onClick={logout}><FiLogOut />Logout</Nav.Link>
+                                <Nav.Link onClick={logout}><FiLogOut />Salir</Nav.Link>
                             }
                         </Nav>
                     </Navbar.Collapse>
