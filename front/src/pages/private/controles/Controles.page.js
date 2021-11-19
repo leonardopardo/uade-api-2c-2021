@@ -57,7 +57,7 @@ const Controls = ({children}) => {
     }
 
     const animatedComponents = makeAnimated();
-
+    //
     const getControls = () => {
 
         let listControls = childrenControlsState.map( element => {

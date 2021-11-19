@@ -6,7 +6,6 @@ class ControlService {
     }
 
     async create(body){
-        console.log(body)
         let config = {
             headers: {
                 'x-access-token': localStorage.getItem('token')
@@ -48,6 +47,38 @@ class ControlService {
             })
         })
         return controls
+    }
+
+    // Same as get controls but more heavily parsed
+    async getPercentiles(child){
+        const body = {'identity': child['value']}
+        
+        let config = {
+            headers: {
+                'x-access-token': localStorage.getItem('token')
+            }
+          }
+
+        let {data} = await axios.post(`${this.endpoint}/get_controls`, body, config)
+        if (data['data'].length === 0)
+          return {}
+        
+        let weight = []
+        let height = []
+        let diameter = []
+
+        data['data'].forEach((control) => {
+            weight.push(control['weight'])
+            height.push(control['height'])
+            diameter.push(control['head_diam'])
+        })
+        let percentiles = {
+            'child': child,
+            'weight': weight,
+            'height': height,
+            'diameter': diameter,
+        }
+        return percentiles
     }
 }
 
