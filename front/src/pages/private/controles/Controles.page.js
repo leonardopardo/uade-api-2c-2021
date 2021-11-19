@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { Col, Row, Table, Form, Pagination } from 'react-bootstrap'
-import { FiEye } from 'react-icons/fi';
 
 import ModalControlAdd from './modals/Modal.add';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+
+import ControlService from '../../../services/ControlService';
+import ModalControlView from './modals/Moda.view';
 
 
 const Controls = ({children}) => {
@@ -26,35 +28,26 @@ const Controls = ({children}) => {
         setAvailableChildrenState(children_names)
     }
 
+    const [
+        childrenControlsState,
+        setChildrenControlsState
+    ] = useState([]);
+
+    const [
+        childrenControlsLoadingState,
+        setChildrenControlsLoadingState
+    ] = useState(true);
+
+    const handleChildSelect = async (child) => {
+        let child_controls = await ControlService.getControls(child)
+        setChildrenControlsState(child_controls)
+        setChildrenControlsLoadingState(false)
+    }
+
     useEffect(() => {
         const children_names = async () => await getChildrenNames()
         setAvailableChildrenState(children_names)
     }, [])
-
-    //Comment
-    const controls = [
-        {
-            fecha: "24/09/21",
-            peso: "14kg",
-            altura: "89cm",
-            diametro: "40cm",
-            medicamento: true
-        },
-        {
-            fecha: "23/08/21",
-            peso: "13kg",
-            altura: "85cm",
-            diametro: "40cm",
-            medicamento: false
-        },
-        {
-            fecha: "22/07/21",
-            peso: "12kg",
-            altura: "80cm",
-            diametro: "40cm",
-            medicamento: true
-        }
-    ];
 
     const getCheckbox = (checked) => {
         if (checked){
@@ -63,30 +56,27 @@ const Controls = ({children}) => {
         return <Form.Check disabled type="checkbox"/>
     }
 
-    const [selectedOption, setSelectedOption] = useState(null);
-
     const animatedComponents = makeAnimated();
-
 
     const getControls = () => {
 
-        let listControls = controls.map( element => {
+        let listControls = childrenControlsState.map( element => {
             return( 
                 <tr>
-                    <th> {element.fecha} </th>
-                    <th> {element.peso} </th>
-                    <th> {element.altura} </th>
-                    <th> {element.diametro} </th>
+                    <th> {element.date} </th>
+                    <th> {element.weight} </th>
+                    <th> {element.height} </th>
+                    <th> {element.head_diam} </th>
                     <th> <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                            {getCheckbox(element.medicamento)}
+                            {getCheckbox(element.meds)}
                         </Form.Group>     
                     </th>
-                    <th> <FiEye/> </th>
+                    <th> <ModalControlView control={element}/> </th>
                 </tr>
             )
         })
 
-        return controls.length === 0
+        return childrenControlsState.length === 0
             ? <h4 className="text-center text-muted fw-light">Todavía no agregaste información</h4>
             : listControls
     }
@@ -117,27 +107,30 @@ const Controls = ({children}) => {
                     </Row>
                     <Row className="my-4">
                         <Select
-                        defaultValue={selectedOption}
-                        onChange={setSelectedOption}
-                        closeMenuOnSelect={false}
+                        defaultValue="null"
+                        onChange={handleChildSelect}
+                        closeMenuOnSelect={true}
                         components={animatedComponents}
                         options={availableChildrenState} />
                     </Row>
-                    <Table responsive>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Peso</th>
-                                <th>Altura</th>
-                                <th>Diámetro Craneal</th>
-                                <th>Medicamentos</th>
-                                <th>Más Información</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {getControls()}
-                        </tbody>
-                    </Table>
+                    {
+                        !childrenControlsLoadingState &&
+                        <Table responsive>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Peso</th>
+                                    <th>Altura</th>
+                                    <th>Diámetro Craneal</th>
+                                    <th>Medicamentos</th>
+                                    <th>Más Información</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {getControls()}
+                            </tbody>
+                        </Table>
+                    }
                     {paginationBasic}
             </section>
         </>

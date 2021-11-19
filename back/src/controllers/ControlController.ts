@@ -4,8 +4,17 @@ import { IControl } from "./../models/Control";
 
 export class ControlController {
 
+    async get_controls(req: Request, res: Response){
+        const service = new ControlService();
+        const data = await service.findAllFromParentIdAndChildDNI(req.body['identity'], req.body['id'])
+        return res
+                .status(201)
+                .json({
+                    data: data
+                })
+    }
+
     async create(req: Request, res: Response){
-        console.log(req.body)
         const service = new ControlService();
         try{
             // Meds may be empty
