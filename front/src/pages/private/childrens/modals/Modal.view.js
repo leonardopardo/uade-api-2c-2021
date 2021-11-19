@@ -18,6 +18,8 @@ const ModalChildrenView = (props) => {
 
     const [child, setChild] = useState(props.child)
 
+    console.log(child)
+
     const [show, setShow] = useState(false);
 
     const [selectedChronicOption, setSelectedChronicOption] = useState(child.diseases);
@@ -42,6 +44,7 @@ const ModalChildrenView = (props) => {
             setChild(res.child)
             toast.success(res.data.message)
             setShow(false)
+            console.log(child)
         } catch (err) {
             toast.error(err.response.data.error)
         }
@@ -140,9 +143,8 @@ const ModalChildrenView = (props) => {
                                         {...register("identity")}
                                         size="md"
                                         type="text"
-                                        defaultValue={child.identity}
-                                        placeholder="Ingresa el DNI"
-                                        disabled />
+                                        value={child.identity}
+                                        placeholder="Ingresa el DNI" />
                                     <p className="text-danger small">
                                         { errors?.identity?.message }
                                     </p>

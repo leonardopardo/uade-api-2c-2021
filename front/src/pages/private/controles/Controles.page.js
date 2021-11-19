@@ -131,7 +131,6 @@ const Controls = ({children}) => {
                             </tbody>
                         </Table>
                     }
-                    {paginationBasic}
             </section>
         </>
     )

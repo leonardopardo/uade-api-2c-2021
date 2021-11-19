@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Row, Table, Container} from 'react-bootstrap'
 
 import Select from 'react-select'
@@ -6,13 +6,48 @@ import makeAnimated from 'react-select/animated'
 
 import CalendarButton from './Calendar.button'
 
-const Calendar = () => {
+const Calendar = ({children}) => {
 
-    const childrens = [
-        {value: '1', label:'Nicolás'}
-    ];
+    const [
+        childrenState
+    ] = useState(children);
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    // For loading children names
+    const [
+        availableChildrenState,
+        setAvailableChildrenState
+    ] = useState([]);
+
+    const getChildrenNames = async () => {
+        let children_names = []
+        childrenState.forEach((child) => {
+            children_names.push({'value': child['identity'], 'label': child['firstName'], 'obj': child})
+        })
+        setAvailableChildrenState(children_names)
+    }
+
+    useEffect(() => {
+        const children_names = async () => await getChildrenNames()
+        setAvailableChildrenState(children_names)
+    }, [])
+
+    // For loading the vaccine data
+    const [
+        childrenControlsState,
+        setChildrenControlsState
+    ] = useState({});
+
+    const [
+        childrenControlsLoadingState,
+        setChildrenControlsLoadingState
+    ] = useState(true);
+
+    const handleChildSelect = async (child) => {
+        console.log(child)
+        //let child_percentiles = await ControlService.getPercentiles(child)
+        //setChildrenControlsState(child_percentiles)
+        //setChildrenControlsLoadingState(false)
+    }
 
     const animatedComponents = makeAnimated();
 
@@ -21,11 +56,11 @@ const Calendar = () => {
             <Container className="justify-content-center">
                 <Row className="my-4">
                 <Select
-                    defaultValue={selectedOption}
-                    onChange={setSelectedOption}
+                    defaultValue="null"
+                    onChange={handleChildSelect}
                     closeMenuOnSelect={false}
                     components={animatedComponents}
-                    options={childrens} />
+                    options={availableChildrenState} />
                 </Row>
                 <Table bordered responsive className="m-auto table-sm">
                     <tbody>

@@ -100,7 +100,7 @@ const AppLayout = () => {
                                             <Percentiles children={childrenState}/>
                                         </Tab>
                                         <Tab eventKey="vacunas" title="Vacunas" className="mb-sm-3 mb-md-0">
-                                            <Calendar />
+                                            <Calendar children={childrenState}/>
                                         </Tab>
                                     </Tabs>
                                 </Card.Body>

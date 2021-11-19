@@ -53,7 +53,12 @@ class ChildService {
           }
         let {data} = await axios.post(`${this.endpoint}/update`, body, config)
 
-        let child = await this.findChildren()
+        let childrens = await this.findChildren()
+        let child = null
+        childrens.forEach((entry) => {
+            if(body['identity'] == entry['identity'])
+                child = entry
+        })
         
         return {child, data}
     }
