@@ -12,29 +12,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { ViewChildSchema } from './../validations/ViewChild.validation'
 import ChildService from '../../../../services/ChildService'
 
+import { ToastContainer, toast } from 'react-toastify'
 
-const ModalChildrenView = ({child}) => {
+const ModalChildrenView = (props) => {
+
+    const [child, setChild] = useState(props.child)
 
     const [show, setShow] = useState(false);
 
     const [selectedChronicOption, setSelectedChronicOption] = useState(child.diseases);
 
     const [selectedAllergiOption, setSelectedAllergiOption] = useState(child.allergies);
-
-    const [
-        errorModalMessage,
-        setErrorModalMessage
-    ] = useState("");
-
-    const [
-        modalMessage,
-        setModalMessage
-    ] = useState("")
-    
-    const [
-        variantModal,
-        setVariantModal
-    ] = useState("")
 
     const handleClose = () => setShow(false);
     
@@ -51,12 +39,11 @@ const ModalChildrenView = ({child}) => {
     
         try {
             const res = await ChildService.updateChildren(data);
-            setVariantModal("success")
-            setModalMessage(res.message)
+            setChild(res.child)
+            toast.success(res.data.message)
+            setShow(false)
         } catch (err) {
-            setVariantModal("danger")
-            setModalMessage(err.response.data.message)
-            setErrorModalMessage(err.response.data.error)
+            toast.error(err.response.data.error)
         }
     }
 
@@ -87,6 +74,18 @@ const ModalChildrenView = ({child}) => {
 
     return(
         <>
+            {/* TOAST */}
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover /><ToastContainer />
+
             <Button variant="outline-primary" onClick={handleShow}>
                 <FiPlus /> Ver Informacion
             </Button>
@@ -266,20 +265,6 @@ const ModalChildrenView = ({child}) => {
                     <FiSave /> Actualizar
                 </Button>
                 </Modal.Footer>
-                {
-                    variantModal === "success" &&
-                    <Alert variant={variantModal}>
-                        <Alert.Heading>Excelente!</Alert.Heading>
-                        <p>{modalMessage}</p>
-                    </Alert>
-                }
-                {
-                    variantModal === "danger" &&
-                    <Alert variant={variantModal}>
-                        <Alert.Heading>{modalMessage}</Alert.Heading>
-                        <p>{errorModalMessage}</p>
-                    </Alert>
-                }
             </Modal>
         </>
     )

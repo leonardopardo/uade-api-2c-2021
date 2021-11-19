@@ -11,6 +11,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { AddChildSchema } from './../validations/AddChild.validation'
 import ChildService from '../../../../services/ChildService'
+import { toast } from 'react-toastify';
 
 
 const ModalChildreAdd = () => {
@@ -20,20 +21,6 @@ const ModalChildreAdd = () => {
     const [selectedChronicOption, setSelectedChronicOption] = useState([]);
 
     const [selectedAllergiOption, setSelectedAllergiOption] = useState([]);
-
-    const [
-        errorModalMessage,
-        setErrorModalMessage
-    ] = useState("");
-
-    const [
-        modalMessage,
-        setModalMessage
-    ] = useState("")
-    
-    const [variantModal,
-        setVariantModal
-    ] = useState("")
 
     const handleClose = () => setShow(false);
     
@@ -49,12 +36,9 @@ const ModalChildreAdd = () => {
     
         try {
             const res = await ChildService.addChildren(data);
-            setVariantModal("success")
-            setModalMessage(res.message)
+            toast.success(res.message)
         } catch (err) {
-            setVariantModal("danger")
-            setModalMessage(err.response.data.message)
-            setErrorModalMessage(err.response.data.error)
+            toast.error(err.response.data.error)
         }
     }
 
@@ -257,20 +241,6 @@ const ModalChildreAdd = () => {
                     <FiSave /> Guardar
                 </Button>
                 </Modal.Footer>
-                {
-                    variantModal === "success" &&
-                    <Alert variant={variantModal}>
-                        <Alert.Heading>Excelente!</Alert.Heading>
-                        <p>{modalMessage}</p>
-                    </Alert>
-                }
-                {
-                    variantModal === "danger" &&
-                    <Alert variant={variantModal}>
-                        <Alert.Heading>{modalMessage}</Alert.Heading>
-                        <p>{errorModalMessage}</p>
-                    </Alert>
-                }
             </Modal>
         </>
     )

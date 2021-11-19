@@ -13,9 +13,10 @@ const Childrens = ({children}) => {
 
     const getChildrens = () => {
 
-        let listChildrens = childrenState.map( child => {
+        let listChildrens = childrenState.map( (child, index) => {
+           
             return(
-                <Col lg={3}>
+                <Col key={`child-${index}`} lg={4}>
                     <Card className="shadow">
                         {
                             child.img !== '' ?

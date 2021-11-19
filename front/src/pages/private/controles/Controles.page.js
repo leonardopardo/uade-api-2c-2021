@@ -60,9 +60,9 @@ const Controls = ({children}) => {
     //
     const getControls = () => {
 
-        let listControls = childrenControlsState.map( element => {
+        let listControls = childrenControlsState.map( (element, index) => {
             return( 
-                <tr>
+                <tr key={`control-${index}`}>
                     <th> {element.date} </th>
                     <th> {element.weight} </th>
                     <th> {element.height} </th>

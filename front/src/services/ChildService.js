@@ -45,14 +45,17 @@ class ChildService {
         return data
     }
 
-    async updateChildren(child){
+    async updateChildren(body){
         let config = {
             headers: {
                 'x-access-token': localStorage.getItem('token'),
             }
           }
-        let {data} = await axios.post(`${this.endpoint}/update`, child, config)
-        return data
+        let {data} = await axios.post(`${this.endpoint}/update`, body, config)
+
+        let child = await this.findChildren()
+        
+        return {child, data}
     }
 }
 

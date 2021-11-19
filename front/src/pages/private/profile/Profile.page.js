@@ -14,6 +14,7 @@ import CalcularEdad from './../../../utils/DateHelper';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 import { AvatarSchema } from './validations/Avatar.validation';
 
 const Profile = (props) => {
