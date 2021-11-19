@@ -5,7 +5,10 @@ export class VaccineService {
     constructor(){
         //code here...
     }
-
+    async getApplications(child_dni: String, parent_id: String){
+        const applications = await VaccineApplicationModel.find({"child_dni": child_dni, "parent_id": parent_id})
+        return applications
+    }
     // This will create a sort of table for the child, which will track if the child has received
     // the doses or not, the date and the place of application
     async createChildVaccineTracking(child_dni: String, parent_id: String){
@@ -30,10 +33,10 @@ export class VaccineService {
                 "child_dni": vaccineApplication.child_dni,
                 "vaccine_id": vaccineApplication.vaccine_id
             })
-            v.date = vaccineApplication.date;
-            v.location = vaccineApplication.location;
-            v.applied = true;
-            await v.update();
+            if(v == null){
+                throw new Error("There seems to be some inconsistencies in vaccine tracking")
+            }
+            await v.updateOne(vaccineApplication);
         }
         catch (e){
             throw new Error(e);

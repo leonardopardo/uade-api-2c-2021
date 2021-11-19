@@ -4,23 +4,46 @@ import { VaccineService } from "./../services/VaccineService"
 
 export class VaccineController {
 
-    service: VaccineService;
-
     constructor(){
-        this.service = new VaccineService();
+        
+    }
+
+    async get(req: Request, res: Response){
+        const service = new VaccineService();
+        try{
+            const vaccines = await service.getApplications(req.body['obj']['identity'], req.body['id'])
+            vaccines.forEach((vaccine) => {
+                let vaccine_info = service.findVaccineById(vaccine.vaccine_id)
+                console.log("vaccine_info")
+            })
+            return res
+                .status(200)
+                .json({
+                    data: ""
+                })
+        } catch (e){
+            return res
+                .status(400)
+                .json({
+                    message: `Ocurrio un error al cargar las vacunas`,
+                    error: e.message
+                })
+        }
     }
 
     async apply(req: Request, res: Response){
+        const service = new VaccineService();
         try{
             // We first search if there is a child with that vaccine id
             const newApplication: IVaccineApplication = {
                 parent_id: req.body['id'],
-                child_dni: req.body['child_dni'],
+                child_dni: req.body['identity'],
                 vaccine_id: req.body['vaccine_id'],
                 date: req.body['date'],
-                location: req.body['location']
+                location: req.body['place'],
+                applied: true
             }
-            this.service.applyVaccine(newApplication);
+            service.applyVaccine(newApplication);
 
             return res
                 .status(201)
@@ -29,7 +52,7 @@ export class VaccineController {
                 })
         } catch (e){
             return res
-                .status(200)
+                .status(400)
                 .json({
                     message: `Ocurrio un error al aplicar la vacuna`,
                     error: e.message

@@ -28,7 +28,8 @@ export interface IVaccineApplication{
     child_dni: String,
     vaccine_id: Number,
     date: Date,
-    location: String
+    location: String,
+    applied: Boolean
 }
 
 export const VaccineApplicationModel = model('VaccineApplication', VaccineApplicationSchema);

@@ -2,17 +2,26 @@ import React, { useState } from 'react'
 
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap'
 import { FiCheck, FiMinus } from 'react-icons/fi';
+import { toast, ToastContainer } from 'react-toastify';
+
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+import VaccineService from '../../../services/VaccineService'
+import { ApplyVaccineSchema } from './validations/Vaccine.validator'
 
 // Buen link para sacar mas ifo, a futuro https://www.argentina.gob.ar/salud/vacunas
 
-const CalendarButton = ({color, nombreVacuna}) => {
-
-    const [completada, setCompletada] = useState(false);
-
-    const marcarCompletada = () => {
-        setCompletada(true);
-        handleClose();
+const CalendarButton = ({color, nombreVacuna, vaccine_id, child_info}) => {
+    const isValid = (value) => {
+        return value ? 'is-invalid' : ''
     }
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    
+    const handleShow = () => setShow(true);
 
     const vaccineInfo = [
         {key: "BCG", value: "La vacuna BCG se aplica para proteger de las formas graves de tuberculosis en los niños, por ejemplo: meningitis u osteomielitis."},
@@ -43,22 +52,14 @@ const CalendarButton = ({color, nombreVacuna}) => {
         {key: "mediumorchid", value: "Iniciar o Completar esquemas"}
     ]
 
-    const setIcon = (status) => {
-        return status 
-            ? <FiCheck className="text-white"/>
-            : <FiMinus className="text-white"/>
-    }
-
     const vaccineInfoView = vaccineInfo.map(item => {
         if(item.key === nombreVacuna) {
             return(
                 <p key={ item.key }>{ item.value }</p>
             )
         }
-        
         return ''
     })
-
 
     const calendarInfoView = calendarInfo.map( item => { 
         if(item.key === color){
@@ -66,19 +67,39 @@ const CalendarButton = ({color, nombreVacuna}) => {
                 <p key={ item.key }>{ item.value }</p>
             )
         }
-        
         return ''
     })
 
-    const [show, setShow] = useState(false);
+    const setIcon = (status) => {
+        return status 
+            ? <FiCheck className="text-white"/>
+            : <FiMinus className="text-white"/>
+    }
 
-    const handleClose = () => setShow(false);
-    
-    const handleShow = () => setShow(true);
+
+
+    const {register, handleSubmit, formState:{errors}, reset} = useForm({
+        resolver: yupResolver(ApplyVaccineSchema)
+    })
+
+    const addVaccineSubmit = async (data) => {
+        data['identity'] = child_info['obj']['identity']
+        data['vaccine_id'] = vaccine_id
+        try {
+            const res = await VaccineService.apply(data);
+            toast.success(res.message)
+            reset()
+            handleClose()
+        } catch (err) {
+            console.log(err.response.data.error)
+            toast.error(err.response.data.error)
+        }
+    }
 
     return(
         <>
-            <Button variant="outline-primary" onClick={handleShow} style={{backgroundColor: color}}>{setIcon(completada)}</Button>
+
+            <Button variant="outline-primary" onClick={handleShow} style={{backgroundColor: color}}>{setIcon(false)}</Button>
 
             <Modal
                 show={show}
@@ -100,21 +121,31 @@ const CalendarButton = ({color, nombreVacuna}) => {
                         <Col>
                             <Form.Group className="mb-4">
                                 <Form.Label>Fecha de aplicación</Form.Label>
-                                <Form.Control 
+                                <Form.Control
+                                    {...register("date")} 
                                     size="md"
-                                    type="date" />
+                                    type="date"
+                                    className={isValid(errors.firstName)} />
+                                    <p className="text-danger small">
+                                        {errors.firstName && errors.firstName.message}
+                                    </p>
                             </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group className="mb-4">
                                 <Form.Label>Lugar de aplicación</Form.Label>
-                                <Form.Control 
+                                <Form.Control
+                                    {...register("place")}
                                     size="md"
-                                    type="text" />
+                                    type="text"
+                                    className={isValid(errors.firstName)} />
+                                    <p className="text-danger small">
+                                        {errors.firstName && errors.firstName.message}
+                                    </p>
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Button variant="outline-primary" onClick={marcarCompletada}> Marcar como completada </Button>
+                    <Button variant="outline-primary" type="submit"onClick={handleSubmit(addVaccineSubmit)}> Marcar como completada </Button>
                 </Modal.Body>
             </Modal>
         </>

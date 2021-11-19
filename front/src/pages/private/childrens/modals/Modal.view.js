@@ -18,8 +18,6 @@ const ModalChildrenView = (props) => {
 
     const [child, setChild] = useState(props.child)
 
-    console.log(child)
-
     const [show, setShow] = useState(false);
 
     const [selectedChronicOption, setSelectedChronicOption] = useState(child.diseases);
@@ -44,7 +42,6 @@ const ModalChildrenView = (props) => {
             setChild(res.child)
             toast.success(res.data.message)
             setShow(false)
-            console.log(child)
         } catch (err) {
             toast.error(err.response.data.error)
         }
