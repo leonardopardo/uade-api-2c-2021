@@ -1,16 +1,36 @@
-import React from 'react';
-import { useLocation } from 'react-router';
+import React, {useState, useEffect} from 'react';
+import { useLocation, useHistory } from 'react-router';
 
 import { Container, Navbar, Nav } from 'react-bootstrap';
-import { FiHome, FiMessageCircle, FiUserPlus, FiLogIn } from 'react-icons/fi';
+import { FiHome, FiMessageCircle, FiUserPlus, FiLogIn, FiLogOut, FiUser } from 'react-icons/fi';
+import UserService from '../../services/UserService';
 
 export default function NavLayout(props) {
+
+    const history = useHistory()
+
+    const[user, setUser] = useState(null)
+
+    const getUser = async () => {
+        let user = await UserService.findUser()
+        setUser(user)
+    }
+
+    const logout = () => {
+        UserService.logout()
+        setUser(null)
+        history.push("/")
+    }
 
     const pathName = useLocation().pathname
 
     const setActivePage = (value) => {
         return pathName === value
     }
+
+    useEffect(() => {
+        getUser()
+    }, [])
 
     return(
         <>
@@ -23,8 +43,18 @@ export default function NavLayout(props) {
                         <Nav>
                             <Nav.Link active={setActivePage("/")} href="/"><FiHome /> Home</Nav.Link>
                             <Nav.Link active={setActivePage("/contact")} href="/contact"><FiMessageCircle /> Contacto</Nav.Link>
-                            <Nav.Link active={setActivePage("/register")} href="/register"><FiUserPlus /> Registro</Nav.Link>
-                            <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Login</Nav.Link>
+                            {
+                                user === null ?
+                                <Nav.Link active={setActivePage("/register")} href="/register"><FiUserPlus /> Registro</Nav.Link>
+                                :
+                                <Nav.Link onClick={logout}><FiUser />{user.email}</Nav.Link>
+                            }
+                            {
+                                user === null ?
+                                <Nav.Link active={setActivePage("/login")} href="/login"><FiLogIn /> Login</Nav.Link>
+                                :
+                                <Nav.Link onClick={logout}><FiLogOut />Logout</Nav.Link>
+                            }
                         </Nav>
                     </Navbar.Collapse>
                     </Container>
