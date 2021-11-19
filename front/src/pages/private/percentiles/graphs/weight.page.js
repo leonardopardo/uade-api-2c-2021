@@ -1,66 +1,115 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import { Line } from 'react-chartjs-2';
 
+import ReactEcharts from 'echarts-for-react'
 
 const WeightChart = ({values, child}) => {
+	
+	var child_age = child['obj']['age'].split('-')
+	var birthdate = new Date(child_age[0], child_age[1], child_age[2])
+	var dataP97 = [
+		[birthdate, 4.41],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+2,	birthdate.getDay()), 7.78],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+5,	birthdate.getDay()), 9.90],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+8,	birthdate.getDay()), 11.43],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth(),	birthdate.getDay()), 12.51],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth()+5, birthdate.getDay()), 13.92],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth(),	birthdate.getDay()), 15.55],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth()+5, birthdate.getDay()), 16.70],
+		[new Date(birthdate.getFullYear()+3,birthdate.getMonth(), 	birthdate.getDay()), 18.25],
+		[new Date(birthdate.getFullYear()+3,birthdate.getMonth()+5, birthdate.getDay()), 19.95],
+		[new Date(birthdate.getFullYear()+4,birthdate.getMonth(), 	birthdate.getDay()), 20.79],
+		[new Date(birthdate.getFullYear()+4,birthdate.getMonth()+5, birthdate.getDay()), 22.07],
+		[new Date(birthdate.getFullYear()+5,birthdate.getMonth(), 	birthdate.getDay()), 23.44],
+		[new Date(birthdate.getFullYear()+5,birthdate.getMonth()+5, birthdate.getDay()), 25.36],
+		[new Date(birthdate.getFullYear()+6,birthdate.getMonth(), 	birthdate.getDay()), 27.78],
+	];
 
-    const data = {
-		labels: ['0', '0.25', '0.5', '0.75', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6'],
-		datasets: [
-			{
-				label: 'P97',
-				data: [4.41 ,7.78 ,9.90 ,11.43 ,12.51 ,13.92 ,15.55 ,16.70,18.25,19.95,20.79,22.07,23.44,25.36,27.78],
-				borderDash: [10,5],
-				fill: false,
-				backgroundColor: 'rgb(128, 128, 128)',
-				borderColor: 'rgba(128, 128, 128, 0.2)',
-			},
-		  	{
-				label: 'P50',
-				data: [3.47 ,6.26 ,8.02 ,9.24 ,10.15 ,11.45 ,12.70 ,13.84 ,14.84 ,15.92 ,16.90 ,17.95 ,19.06 ,20.24 ,21.40],
-				fill: false,
-				backgroundColor: 'rgb(0, 0, 0)',
-				borderColor: 'rgba(0, 0, 0, 0.2)',
-		  	},
-			{
-				label: 'P3',
-				data: [2.73 ,5.04 ,6.50 ,7.47 ,8.23 ,9.42 ,10.37 ,11.47 ,12.07 ,12.70 ,13.00 ,13.16 ,13.55 ,13.86 ,14.14],
-				borderDash: [10,5],
-				fill: false,
-				backgroundColor: 'rgb(160, 160, 160)',
-				borderColor: 'rgba(160, 160, 160, 0.2)',
-		  	},
-			{
-				label: child['label'],
-				data: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-				fill: false,
-				backgroundColor: 'rgb(255, 153, 153)',
-				borderColor: 'rgba(255, 153, 153, 0.2)',
-		  	},  
-		]
-	}
+	var dataP50 = [
+		[birthdate, 3.47],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+2,	birthdate.getDay()), 6.26],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+5,	birthdate.getDay()), 8.02],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+8,	birthdate.getDay()), 9.24],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth(),	birthdate.getDay()), 10.15],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth()+5, birthdate.getDay()), 11.45],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth(),	birthdate.getDay()), 12.70],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth()+5, birthdate.getDay()), 13.84],
+		[new Date(birthdate.getFullYear()+3,birthdate.getMonth(), 	birthdate.getDay()), 14.84],
+		[new Date(birthdate.getFullYear()+3,birthdate.getMonth()+5, birthdate.getDay()), 15.92],
+		[new Date(birthdate.getFullYear()+4,birthdate.getMonth(), 	birthdate.getDay()), 16.90],
+		[new Date(birthdate.getFullYear()+4,birthdate.getMonth()+5, birthdate.getDay()), 17.95],
+		[new Date(birthdate.getFullYear()+5,birthdate.getMonth(), 	birthdate.getDay()), 19.06],
+		[new Date(birthdate.getFullYear()+5,birthdate.getMonth()+5, birthdate.getDay()), 20.24],
+		[new Date(birthdate.getFullYear()+6,birthdate.getMonth(), 	birthdate.getDay()), 21.40],
+	];
+
+	var dataP3 = [
+		[birthdate, 3.47],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+2,	birthdate.getDay()), 5.04],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+5,	birthdate.getDay()), 6.50],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+8,	birthdate.getDay()), 7.47],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth(),	birthdate.getDay()), 8.23],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth()+5, birthdate.getDay()), 9.42],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth(),	birthdate.getDay()), 10.37],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth()+5, birthdate.getDay()), 11.47],
+		[new Date(birthdate.getFullYear()+3,birthdate.getMonth(), 	birthdate.getDay()), 12.07],
+		[new Date(birthdate.getFullYear()+3,birthdate.getMonth()+5, birthdate.getDay()), 12.70],
+		[new Date(birthdate.getFullYear()+4,birthdate.getMonth(), 	birthdate.getDay()), 13.00],
+		[new Date(birthdate.getFullYear()+4,birthdate.getMonth()+5, birthdate.getDay()), 13.16],
+		[new Date(birthdate.getFullYear()+5,birthdate.getMonth(), 	birthdate.getDay()), 13.55],
+		[new Date(birthdate.getFullYear()+5,birthdate.getMonth()+5, birthdate.getDay()), 13.86],
+		[new Date(birthdate.getFullYear()+6,birthdate.getMonth(), 	birthdate.getDay()), 14.14],
+	];
 	  
 	const options = {
-		scales: {
-			yAxes: [
-				{
-					ticks: {
-						beginAtZero: true,
-					},
-				},
-			],
+		tooltip: {
+			trigger: 'axis',
+			position: function (pt) {
+			  return [pt[0], '10%'];
+			}
 		},
+		legend: {
+			data: ['P97', 'P50', 'P3', child['label']]
+		},
+		xAxis: {
+			type: 'time'
+		},
+		yAxis: {
+			type: 'value',
+			min: 3
+		},
+		series: [
+		{
+			name: "P97",
+			data: dataP97,
+			type: 'line'
+		},
+		{
+			name: "P50",
+			data: dataP50,
+			type: 'line'
+		},
+		{
+			name: "P3",
+			data: dataP3,
+			type: 'line'
+		},
+		{
+			name: child['label'],
+			data: values,
+			type: 'line'
+		}
+		]
 	};
-    
+
+
     return(
         <>
             <Container>
                 <h2>Tabla de peso (kg)</h2>
-                <Line
-                    data={data}
-                    options={options}
-                />
+                <ReactEcharts
+					option={options}
+				/>
             </Container>
         </>
     )

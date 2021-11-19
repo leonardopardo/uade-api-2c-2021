@@ -1,66 +1,91 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import { Line } from 'react-chartjs-2';
+
+import ReactEcharts from 'echarts-for-react'
 
 
 const HeadCircumferenceChart = ({values, child}) => {
 
-    const data = {
-		labels: ['0', '0.25', '0.5', '0.75', '1', '1.5', '2'],
-		datasets: [
-			{
-				label: 'P97',
-				data: [37.11,43.37,46.30,48.18,49.47,51.09,52.00],
-				borderDash: [10,5],
-				fill: false,
-				backgroundColor: 'rgb(128, 128, 128)',
-				borderColor: 'rgba(128, 128, 128, 0.2)',
-			},
-		  	{
-				label: 'P50',
-				data: [34.84 ,41.2 ,44.15 ,46.02 ,47.31 ,48.7 ,49.59],
-				fill: false,
-				backgroundColor: 'rgb(0, 0, 0)',
-				borderColor: 'rgba(0, 0, 0, 0.2)',
-		  	},
-			{
-				label: 'P3',
-				data: [32.57 ,38.93 ,42.01 ,43.86 ,45.14 ,46.32 ,47.20],
-				borderDash: [10,5],
-				fill: false,
-				backgroundColor: 'rgb(160, 160, 160)',
-				borderColor: 'rgba(160, 160, 160, 0.2)',
-		  	},
-			{
-				label: child['label'],
-				data: [0,0,0,0,0,0,0],
-				fill: false,
-				backgroundColor: 'rgb(255, 153, 153)',
-				borderColor: 'rgba(255, 153, 153, 0.2)',
-		  	},
-		]
-	}
+	var child_age = child['obj']['age'].split('-')
+	var birthdate = new Date(child_age[0], child_age[1], child_age[2])
+	var dataP97 = [
+		[birthdate, 37.11],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+2,	birthdate.getDay()), 43.37],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+5,	birthdate.getDay()), 46.30],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+8,	birthdate.getDay()), 48.18],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth(),	birthdate.getDay()), 49.47],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth()+5, birthdate.getDay()), 51.09],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth(),	birthdate.getDay()), 52.00]
+	];
+
+	var dataP50 = [
+		[birthdate, 34.84],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+2,	birthdate.getDay()), 41.2 ],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+5,	birthdate.getDay()), 44.15],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+8,	birthdate.getDay()), 46.02],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth(),	birthdate.getDay()), 47.31],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth()+5, birthdate.getDay()), 48.7 ],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth(),	birthdate.getDay()), 49.59]
+	];
+
+	var dataP3 = [
+		[birthdate, 32.57],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+2,	birthdate.getDay()), 38.93],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+5,	birthdate.getDay()), 42.01],
+		[new Date(birthdate.getFullYear(), 	birthdate.getMonth()+8,	birthdate.getDay()), 43.86],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth(),	birthdate.getDay()), 45.14],
+		[new Date(birthdate.getFullYear()+1,birthdate.getMonth()+5, birthdate.getDay()), 46.32],
+		[new Date(birthdate.getFullYear()+2,birthdate.getMonth(),	birthdate.getDay()), 47.20]
+	];
 	  
 	const options = {
-		scales: {
-			yAxes: [
-				{
-					ticks: {
-						beginAtZero: true,
-					},
-				},
-			],
+		tooltip: {
+			trigger: 'axis',
+			position: function (pt) {
+			  return [pt[0], '10%'];
+			}
 		},
+		legend: {
+			data: ['P97', 'P50', 'P3', child['label']]
+		},
+		xAxis: {
+			type: 'time',
+		},
+		yAxis: {
+			type: 'value',
+			min: 30
+		},
+		series: [
+		{
+			name: "P97",
+			data: dataP97,
+			type: 'line'
+		},
+		{
+			name: "P50",
+			data: dataP50,
+			type: 'line'
+		},
+		{
+			name: "P3",
+			data: dataP3,
+			type: 'line'
+		},
+		{
+			name: child['label'],
+			data: values,
+			type: 'line'
+		}
+		]
 	};
     
     return(
         <>
             <Container>
                 <h2>Tabla de Perímetro Cefálico (cm)</h2>
-                <Line
-                    data={data}
-                    options={options}
-                />
+					<ReactEcharts
+						option={options}
+					/>
             </Container>
         </>
     )

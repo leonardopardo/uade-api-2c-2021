@@ -11,6 +11,7 @@ import ControlService from '../../../services/ControlService';
 
 const Percentiles = ({children}) => {
 
+
     const [
         childrenState
     ] = useState(children);
@@ -24,7 +25,7 @@ const Percentiles = ({children}) => {
     const getChildrenNames = async () => {
         let children_names = []
         childrenState.forEach((child) => {
-            children_names.push({'value': child['identity'], 'label': child['firstName']})
+            children_names.push({'value': child['identity'], 'label': child['firstName'], 'obj': child})
         })
         setAvailableChildrenState(children_names)
     }

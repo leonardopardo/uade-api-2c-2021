@@ -59,19 +59,20 @@ class ControlService {
             }
           }
 
-        let {data} = await axios.post(`${this.endpoint}/get_controls`, body, config)
-        if (data['data'].length === 0)
-          return {}
-        
         let weight = []
         let height = []
         let diameter = []
 
-        data['data'].forEach((control) => {
-            weight.push(control['weight'])
-            height.push(control['height'])
-            diameter.push(control['head_diam'])
-        })
+        let {data} = await axios.post(`${this.endpoint}/get_controls`, body, config)
+        
+        if (data['data'].length !== 0){
+            data['data'].forEach((control) => {
+                let date = control['date'].split('T')[0].split('-')
+                weight.push([new Date(date[0], date[1], date[2]), control['weight']])
+                height.push([new Date(date[0], date[1], date[2]), control['height']])
+                diameter.push([new Date(date[0], date[1], date[2]), control['head_diam']])
+            })
+        }
         let percentiles = {
             'child': child,
             'weight': weight,
