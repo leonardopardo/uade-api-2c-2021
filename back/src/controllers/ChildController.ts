@@ -64,6 +64,11 @@ export class ChildController {
             if(childExists == null)
                 throw new Error("El hijo con DNI " + req.body["identity"] + " no existe");
 
+            let avatar = req.body['avatar'];
+
+            if(Object.entries(avatar).length === 0)
+                avatar = childExists.avatar
+
             const uChild: IChild = {
                 parent_id: req.body["id"],
                 dni: req.body["identity"],
@@ -74,7 +79,7 @@ export class ChildController {
                 allergies: req.body["allergi"],
                 diseases: req.body["chronic"],
                 extra_info: req.body["information"],
-                avatar: req.body["avatar"]
+                avatar: avatar
             }
 
             await service.update(uChild);
