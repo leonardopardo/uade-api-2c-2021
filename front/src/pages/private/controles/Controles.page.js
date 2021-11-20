@@ -106,6 +106,7 @@ const Controls = ({children}) => {
                         </Col>
                     </Row>
                     <Row className="my-4">
+                        <label>Seleccione Hija/o</label>
                         <Select
                         defaultValue="null"
                         onChange={handleChildSelect}

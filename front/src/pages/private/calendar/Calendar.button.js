@@ -12,15 +12,27 @@ import { ApplyVaccineSchema } from './validations/Vaccine.validator'
 
 // Buen link para sacar mas ifo, a futuro https://www.argentina.gob.ar/salud/vacunas
 
-const CalendarButton = ({color, nombreVacuna, vaccine_id, info, applied}) => {
+const CalendarButton = ({color, nombreVacuna, vaccine_id, info, vaccine}) => {
+
     const isValid = (value) => {
         return value ? 'is-invalid' : ''
     }
 
-    const [completada, setCompletada] = useState(false);
+    const [
+        applied,
+        setApplied
+    ] = useState(vaccine.applied)
+
+    const[
+        dateApplied
+    ] = useState(vaccine.date)
+
+    const[
+        placeApplied        
+    ] = useState(vaccine.location)
 
     const marcarCompletada = () => {
-        setCompletada(true);
+        setApplied(true);
         handleClose();
     }
 
@@ -88,14 +100,24 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, info, applied}) => {
     })
 
     const addVaccineSubmit = async (data) => {
-        marcarCompletada()
-        data['identity'] = info['child']['obj']['identity']
-        data['vaccine_id'] = vaccine_id
         try {
+
+            debugger
+
+            data['identity'] = info['child']['obj']['identity']
+            
+            data['vaccine_id'] = vaccine_id
+
             const res = await VaccineService.apply(data);
+            
             toast.success(res.message)
+            
             reset()
+            
             handleClose()
+            
+            marcarCompletada()
+
         } catch (err) {
             toast.error(err.response.data.error)
         }
@@ -103,9 +125,11 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, info, applied}) => {
 
     return(
         <>
-
-            <Button variant="outline-primary" onClick={handleShow} style={{backgroundColor: color}}>{setIcon(completada)}</Button>
-
+            <Button 
+                variant="outline-primary" 
+                onClick={handleShow} 
+                style={{backgroundColor: color}}>{setIcon(applied)}</Button>
+            
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -130,9 +154,10 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, info, applied}) => {
                                     {...register("date")} 
                                     size="md"
                                     type="date"
-                                    className={isValid(errors.firstName)} />
+                                    value={dateApplied ? dateApplied.split("T")[0] : null}
+                                    className={isValid(errors.date)} />
                                     <p className="text-danger small">
-                                        {errors.firstName && errors.firstName.message}
+                                        {errors?.date?.message}
                                     </p>
                             </Form.Group>
                         </Col>
@@ -143,14 +168,18 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, info, applied}) => {
                                     {...register("place")}
                                     size="md"
                                     type="text"
-                                    className={isValid(errors.firstName)} />
+                                    value={placeApplied ? placeApplied : null}
+                                    className={isValid(errors.place)} />
                                     <p className="text-danger small">
-                                        {errors.firstName && errors.firstName.message}
+                                        {errors?.place?.message}
                                     </p>
                             </Form.Group>
                         </Col>
                     </Row>
-                    <Button variant="outline-primary" type="submit"onClick={handleSubmit(addVaccineSubmit)}> Marcar como completada </Button>
+                    {
+                        !applied &&
+                        <Button variant="outline-primary" type="submit"onClick={handleSubmit(addVaccineSubmit)}> Marcar como completada </Button>
+                    }
                 </Modal.Body>
             </Modal>
         </>

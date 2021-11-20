@@ -174,7 +174,7 @@ const Profile = (props) => {
                                                         size="md"
                                                         className={isValid(errorsAvatar.avatar)} onChange={changeHandler} />
                                                 <p className="text-danger small">
-                                                    { errors?.avatar?.message }
+                                                    { errorsAvatar?.avatar?.message }
                                                 </p>
                                             </Form.Group>
                                         </Col>
