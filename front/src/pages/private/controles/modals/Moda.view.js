@@ -54,7 +54,7 @@ const ModalControlView = ({control}) => {
                             </Col>
                             <Col>
                                 <Form.Group className="mb-4">
-                                    <Form.Label>Altura (m)</Form.Label>
+                                    <Form.Label>Altura (cm)</Form.Label>
                                     <Form.Control
                                         type="text"   
                                         size="md"

@@ -113,12 +113,12 @@ const ModalControlAdd = ({children}) => {
                             </Col>
                             <Col>
                                 <Form.Group className="mb-4">
-                                    <Form.Label>Altura (m)</Form.Label>
+                                    <Form.Label>Altura (cm)</Form.Label>
                                     <Form.Control 
                                         {...register("height")} 
                                         type="text"   
                                         size="md"
-                                        placeholder="Ej: 1.32" 
+                                        placeholder="Ej: 132" 
                                         className={isValid(errors.lastName)} />
                                     <p className="text-danger small">
                                         {errors.lastName && errors.lastName.message}
