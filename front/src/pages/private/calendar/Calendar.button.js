@@ -21,15 +21,15 @@ const CalendarButton = ({color, nombreVacuna, vaccine_id, info, vaccine}) => {
     const [
         applied,
         setApplied
-    ] = useState(vaccine.applied)
+    ] = useState(vaccine?.applied)
 
     const[
         dateApplied
-    ] = useState(vaccine.date)
+    ] = useState(vaccine?.date)
 
     const[
         placeApplied        
-    ] = useState(vaccine.location)
+    ] = useState(vaccine?.location)
 
     const marcarCompletada = () => {
         setApplied(true);
